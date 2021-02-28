@@ -16,8 +16,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('amount', models.IntegerField(default=0)),
-                ('owner', models.ForeignKey(on_delete='Cascade', related_name='resistances', to='sheet.Character')),
-                ('type', models.ForeignKey(on_delete='Cascade', to='rulebook.DamageType')),
+                ('owner', models.ForeignKey(on_delete=models.CASCADE, related_name='resistances', to='sheet.Character')),
+                ('type', models.ForeignKey(on_delete=models.CASCADE, to='rulebook.DamageType')),
             ],
         ),
     ]

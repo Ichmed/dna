@@ -13,16 +13,16 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='abilityinstance',
             name='base',
-            field=models.ForeignKey(blank=True, null=True, on_delete='Cascade', to='rulebook.Ability'),
+            field=models.ForeignKey(blank=True, null=True, on_delete=models.CASCADE, to='rulebook.Ability'),
         ),
         migrations.AlterField(
             model_name='inventoryitem',
             name='base',
-            field=models.ForeignKey(blank=True, null=True, on_delete='Cascade', to='rulebook.Item'),
+            field=models.ForeignKey(blank=True, null=True, on_delete=models.CASCADE, to='rulebook.Item'),
         ),
         migrations.AlterField(
             model_name='skillinstance',
             name='base',
-            field=models.ForeignKey(blank=True, null=True, on_delete='Cascade', to='rulebook.Skill'),
+            field=models.ForeignKey(blank=True, null=True, on_delete=models.CASCADE, to='rulebook.Skill'),
         ),
     ]

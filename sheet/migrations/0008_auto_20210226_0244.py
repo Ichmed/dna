@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='inventoryitem',
             name='owner',
-            field=models.ForeignKey(blank=True, null=True, on_delete='Cascade', related_name='inventory', to='sheet.Character'),
+            field=models.ForeignKey(blank=True, null=True, on_delete=models.CASCADE, related_name='inventory', to='sheet.Character'),
         ),
         migrations.AlterField(
             model_name='inventoryitem',

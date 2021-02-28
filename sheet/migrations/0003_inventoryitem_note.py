@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('text', models.CharField(max_length=2000)),
                 ('expiration', models.IntegerField()),
-                ('owner', models.ForeignKey(on_delete='Cascade', related_name='notes', to='sheet.Character')),
+                ('owner', models.ForeignKey(on_delete=models.CASCADE, related_name='notes', to='sheet.Character')),
             ],
         ),
         migrations.CreateModel(
@@ -27,9 +27,9 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=255)),
                 ('weight', models.IntegerField()),
                 ('amount', models.IntegerField()),
-                ('base', models.ForeignKey(blank=True, on_delete='Cascade', to='rulebook.Item')),
-                ('container', models.ForeignKey(blank=True, on_delete='Cascade', related_name='content', to='sheet.InventoryItem')),
-                ('owner', models.ForeignKey(blank=True, on_delete='Cascade', related_name='inventory', to='sheet.Character')),
+                ('base', models.ForeignKey(blank=True, on_delete=models.CASCADE, to='rulebook.Item')),
+                ('container', models.ForeignKey(blank=True, on_delete=models.CASCADE, related_name='content', to='sheet.InventoryItem')),
+                ('owner', models.ForeignKey(blank=True, on_delete=models.CASCADE, related_name='inventory', to='sheet.Character')),
             ],
         ),
     ]

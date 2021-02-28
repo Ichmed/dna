@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='inventoryitem',
             name='container',
-            field=models.ForeignKey(blank=True, null=True, on_delete='Cascade', related_name='content', to='sheet.InventoryItem'),
+            field=models.ForeignKey(blank=True, null=True, on_delete=models.CASCADE, related_name='content', to='sheet.InventoryItem'),
         ),
     ]

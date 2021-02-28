@@ -44,7 +44,7 @@ class Migration(migrations.Migration):
                 ('Health_mod', models.IntegerField()),
                 ('Status_mod', models.IntegerField()),
                 ('Mana_mod', models.IntegerField()),
-                ('race', models.ForeignKey(on_delete='Cascade', to='rulebook.Race')),
+                ('race', models.ForeignKey(on_delete=models.CASCADE, to='rulebook.Race')),
             ],
         ),
         migrations.CreateModel(
@@ -54,8 +54,8 @@ class Migration(migrations.Migration):
                 ('size', models.IntegerField()),
                 ('healed', models.IntegerField()),
                 ('state', models.CharField(choices=[('F', 'Fresh'), ('T', 'Treated'), ('O', 'Old')], default='F', max_length=1)),
-                ('owner', models.ForeignKey(on_delete='Cascade', related_name='wounds', to='sheet.Character')),
-                ('type', models.ForeignKey(on_delete='Cascade', to='rulebook.DamageType')),
+                ('owner', models.ForeignKey(on_delete=models.CASCADE, related_name='wounds', to='sheet.Character')),
+                ('type', models.ForeignKey(on_delete=models.CASCADE, to='rulebook.DamageType')),
             ],
         ),
         migrations.CreateModel(
@@ -65,8 +65,8 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=255)),
                 ('level', models.IntegerField()),
                 ('granted', models.IntegerField()),
-                ('base', models.ForeignKey(blank=True, on_delete='Cascade', to='rulebook.Skill')),
-                ('owner', models.ForeignKey(on_delete='Cascade', related_name='skills', to='sheet.Character')),
+                ('base', models.ForeignKey(blank=True, on_delete=models.CASCADE, to='rulebook.Skill')),
+                ('owner', models.ForeignKey(on_delete=models.CASCADE, related_name='skills', to='sheet.Character')),
             ],
         ),
         migrations.CreateModel(
@@ -75,8 +75,8 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=255)),
                 ('level', models.IntegerField()),
-                ('base', models.ForeignKey(blank=True, on_delete='Cascade', to='rulebook.Ability')),
-                ('owner', models.ForeignKey(on_delete='Cascade', related_name='abilities', to='sheet.Character')),
+                ('base', models.ForeignKey(blank=True, on_delete=models.CASCADE, to='rulebook.Ability')),
+                ('owner', models.ForeignKey(on_delete=models.CASCADE, related_name='abilities', to='sheet.Character')),
             ],
         ),
     ]
