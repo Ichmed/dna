@@ -1,0 +1,98 @@
+{% extends "rulebook/container.html" %}
+{% block content %}
+{% load md %}
+{% load static %}
+{% block requires %}
+{% if data.requires.all|first or data.requires_raw or isEditor %}
+<div class="requires">
+Requires:
+{% for r in data.requirement.all %}
+{% with '$(link ability "id='|cat:r.requires_id|cat:'" "'|cat:r.display|cat:'")' as link %}
+{{link|parse:skip}}
+{% endwith %}
+{% endfor %}
+{% if data.requires_raw %}{{data.requires_raw|parse:skip}}{% endif %}
+</div>
+{% endif %}
+{% endblock %}
+<div class="inner">
+
+<input type="hidden" name="parent_id" value="{{data.parent_id}}">
+
+<div class="skillpoints">
+{% block skillpoints %}
+{% for i in ""|center:data.cost %}
+{% with "symbols/bobble_"|cat:data.skill|cat:".png" as path %}
+<img src="{% static path %}">
+{% endwith %}
+{% endfor %}
+{% if data.leveling != "None" %}<img id="leveling_img_{{ id }}" src="/static/symbols/leveling_{{ data.leveling }}.png">{% endif %}
+{% endblock %}
+</div>
+{% if data.type and data.type != "Upgrade" %}<div class="type">{{data.type|parse:skip}}</div>{% endif %}
+{% if data.implement %}<p>Implement: {{data.implement|parse:skip}}</p>{% endif %}
+
+<table class="container_header">
+	<tr>
+		{% if data.actionpoints %}	<th>AP</th>			{% endif %}
+		{% if data.manacost %}		<th>Mana</th>		{% endif %}
+		{% if data.staminacost %}	<th>Stamina</th>	{% endif %}
+		{% if data.chance %}		<th>Chance</th>		{% endif %}
+		{% if data.range %}			<th>Range</th>		{% endif %}
+		{% if data.duration %}		<th>Duration</th>	{% endif %}
+		{% if data.force %}			<th>Force</th>		{% endif %}
+		{% if data.quality %}		<th>Quality</th>	{% endif %}
+	</tr>
+	<tr>
+		{% if data.actionpoints %}	<td>{{data.actionpoints|parse:skip}}</td>	{% endif %}
+		{% if data.manacost %}		<td>{{data.manacost|parse:skip}}</td>		{% endif %}
+		{% if data.staminacost %}	<td>{{data.staminacost|parse:skip}}</td>	{% endif %}
+		{% if data.chance %}		<td>{{data.chance|parse:skip}}</td>			{% endif %}
+		{% if data.range %}			<td>{{data.range|parse:skip}}</td>			{% endif %}
+		{% if data.duration %}		<td>{{data.duration|parse:skip}}</td>		{% endif %}
+		{% if data.force %}			<td>{{data.force|parse:skip}}</td>			{% endif %}
+		{% if data.quality %}		<td>{{data.quality|parse:skip}}</td>		{% endif %}
+	</tr>
+</table>
+
+
+
+{% if data.conditions %}<p>Conditions: {{data.conditions|parse:skip}}</p>{% endif %}
+
+{% if data.equipment or data.ingredients %}
+<table class="recipe_top">
+<tr>
+{% if data.equipment %}
+<td class="equipment"><h3>Equipment:</h3>{{data.equipment|parse:skip}}</td>
+{% endif %}
+{% if data.ingredients %}
+<td class="ingredients"><h3>Ingredients:</h3>{{data.ingredients|parse:skip}}</td>
+{% endif %}
+</tr>
+</table>
+{% endif %}
+
+{% if data.effect %}<p>{{data.effect|parse:skip}}</p>{% endif %}
+{% if data.result %}<div class="result"><h3>Results:</h3>{{data.result|parse:skip}}</div>{% endif %}
+{% if data.flavor %}<span class="flavor">{{data.flavor|md}}</span>{% endif %}
+
+<div class="children">
+{% for child in data.children.all %}
+{%if not child.DELETED %} {{child|container_from_data:type}}{% endif %}
+{% endfor %}
+{% if not data.parent %}
+<div>
+<div class="add_child main" onclick="var d = $(this); $.get('/rulebook/editor/ability?parent_id={{data.id}}&skill_id={{data.skill.id}}').done(function(data){$(data).insertAfter(d)})">
+Add Upgrade
+</div>
+<div class="add_child" onclick="var d = $(this); $.get('/rulebook/editor/ability?parent_id={{data.id}}&name=Mastery&chance=%2B1 per Level&leveling=Default&cost=1&skill_id={{data.skill.id}}').done(function(data){$(data).insertAfter(d)})">
+Add Mastery
+</div>
+</div>
+{% endif %}
+</div>
+
+
+
+</div>
+{% endblock %}

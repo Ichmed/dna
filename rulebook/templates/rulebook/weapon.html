@@ -1,0 +1,9 @@
+{% extends "rulebook/container.html" %}
+{% load static %}
+{% load md %}
+{% block content %}
+<div class="inner">
+<p>Damage: {{data.damage_base}} + {{data.damage_dice}}{{data.dice_type}}({{data.damage_type}})</p>
+<p>Cost: {{data.cost}} {% if data.cost_reload %} ({{data.cost_reload}}) {% endif %}</p>
+</div>
+{% endblock %}

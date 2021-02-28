@@ -1,0 +1,5 @@
+`name` varchar(200) UNIQUE NOT NULL,
+`effect` mediumtext,
+`flavor` mediumtext,
+`strength` tinytext,
+`tags` tinytext

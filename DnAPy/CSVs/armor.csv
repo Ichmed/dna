@@ -1,0 +1,6 @@
+"name";"deflection";"padding";"text"
+"Chain Mail";10;1;""
+"Cloth Padding";0;2;""
+"Padded Leather";1;4;"Leather Armor fitted with wool or cotton padding for additional protection"
+"Simple Leather";1;2;"Clothing made from tanned leather with no additional padding"
+"Simple Plate Armor";15;0;"Hard steel plates, excellent at deflection, but without any additional padding.<br>Takes damage from blunt attacks"

@@ -1,0 +1,445 @@
+
+body {
+	padding: 0;
+	margin: 0;
+}
+
+#options {
+	position: fixed;
+	top: 0;
+	width: 20%;
+
+	div {
+		margin: 10px;
+	}
+}
+
+#sheet {
+	position: absolute;
+	top: 0;
+	width: 50%;
+	left: 25%;
+	right: 25%;
+}
+
+#notes {
+	position: fixed;
+	top: 0;
+	width: 20%;
+	right: 0%;
+
+	.note {
+		border-bottom: 3px solid black;
+		margin-top: 25px;
+		background-color: lightgrey;
+		padding: 8px;
+
+		textarea {
+			width: 100%;
+			resize: none;
+			border: none;
+			background-color: lightgrey;
+		}
+	}
+}
+
+#main_attributes {
+	width: 100%;
+}
+
+#name {
+	border: none;
+	display: block;
+	font-size: 35px;
+}
+
+
+[hide_modifiers="true"] .modifier{
+	display: none;
+}
+
+.fm {
+	display: flex;
+	align-items: start;
+}
+
+.PRIME {
+	text-align: center;
+	input {
+		width: 30px;
+	}
+}
+
+.atts{
+	border: 1px solid black;
+	font-family: monospace;
+	font-size:  0;
+
+	// width: 20%;
+	// display: inline-block;
+	margin: 0;
+	box-sizing: border-box;
+
+	* {
+		font-size:  15px;
+	}
+	
+	input, input:focus, input:hover, .sum {
+		border: none;
+		outline: none;
+		font-family: monospace;
+		
+		// margin-left: 10px;
+		// margin-right: 10px;
+		box-sizing: border-box;
+		width: 35px;
+
+		text-align: center;
+	}
+
+	p {
+		.sum, label {
+			// width: 30px;
+			// margin: 0;
+			display: block;
+			width: 35px;
+
+		}
+	}
+
+	.label {
+		padding-left: 5px;
+		padding-right: 5px;
+		// width: 20%;
+		box-sizing: border-box;
+	}
+
+	.secondary {
+		width: 50%;
+		display: inline-block;
+		margin: 0;
+		box-sizing: border-box;
+
+		input {
+			width: 35%;
+		}
+	}
+}
+
+.clickbox {
+	cursor: pointer;
+}
+
+.clickbox:hover {
+	background-color: lightgrey;
+}
+
+.senses, .movement{
+	.inner {
+		display: flex;
+
+		div {
+			margin: 5px;
+			padding: 5px;
+		}
+
+		.sense {
+			border: 1px solid black;
+			border-radius: 5%;
+		}
+		
+		p {
+			margin: 0px;
+		}
+	}
+}
+
+.atts.TER{
+	display: block;
+}
+
+input.mod {
+	width: 30px;
+}
+
+#weapons {
+	// border-collapse: collapse;
+	// border: 1px solid black;
+
+	td {
+		border: 1px solid black;
+		border-radius: 5px;
+	}
+	
+	p {
+		margin: 0px;
+	}
+
+	.weapon {
+		
+
+		input {
+			border: none;
+			border-bottom: 1px solid black;
+			margin-right: 0px;
+			background-color:rgba(0, 0, 0, 0);
+		}
+
+
+		td:not(.name) input {
+			width: 30px;
+			text-align: center;
+		}
+
+		input.dice {
+			text-align: right;
+		}
+	}
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+#resistances {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: start;
+
+	.resistance {
+		width: 150px;
+
+		input[type="number"] {
+			width: 30px;
+		}
+
+		span {
+			display: inline-block;
+			width: 50px;
+		}
+	}
+}
+
+#vitals {
+	// width: 50%;
+
+	border: 1px solid black;
+
+	.bar td {
+
+		// height: 80px;
+		width: 500px;
+	
+	
+		.wrapper {
+			
+			position: relative;
+			width: 100%;
+			height: 30px;
+	
+			.text {
+				background-color: rgba(255, 255, 255, 0.75);
+				border-radius: 10px;
+				position: absolute;
+	
+				padding-left: 5px;
+				padding-right: 5px;
+				text-align: center;
+
+				border: 1px solid black;
+				box-sizing: border-box;
+	
+				// height: 50%;
+				top: 15px;
+				left: 30%;
+				right: 30%;
+
+				input {
+					border: none;
+					background-color: rgba(0, 0, 0, 0);
+				}
+			}
+	
+			meter {
+				// -webkit-appearance: none;
+				position: absolute;
+				height: 50px;
+				width: 100%;
+			}
+	
+			.current {
+				text-align: right;
+			}
+	
+		}
+	
+	}
+
+	meter::-webkit-meter-bar {
+		transition: background-color 0.2s ease;
+	}
+	meter[alert=true]::-webkit-meter-bar {
+		background-color: red;
+		transition: background-color 0;
+	}
+
+	.stamina meter::-webkit-meter-optimum-value {
+		background-color: orange;
+	}
+	
+	.mana meter::-webkit-meter-optimum-value {
+		background-color: lightblue;
+	}
+	
+}
+
+.ability {
+
+	border: 1px solid black;
+	border-radius: 10px 0 0 10px;
+	padding: 4px;
+	margin-top: 3px;
+	position: relative;
+
+	.icon_align {
+		vertical-align: middle;
+		display: inline-block;
+		height: 100%;
+	}
+
+	.name {
+		font-size: 20px;
+		font-weight: bold;
+		border: none;
+	}
+
+	.info {
+		margin-left: 5px;
+		padding: 2px;
+		border: 1px solid black;
+		border-radius: 5px;
+		cursor: default;
+	}
+
+	.mana:hover {
+		background-color: lightblue;
+		cursor: pointer;
+	}
+
+	.level {
+		right: 0;
+		top: 0;
+		background-color: lightgrey;
+		position: absolute;
+		height: 100%;
+		width: 50px;
+		text-align: center;
+		vertical-align: middle;
+		display: inline-block;
+		border-radius: 50% 0 0 50%;
+
+		input {
+			font-size: 20px;
+			font-weight: bold;
+			padding: 5px;
+			background-color: rgba(0, 0, 0, 0);
+			border: none;
+			width: 100%;
+			text-align: right;
+		}
+	}
+}
+
+.ability:hover .level {
+	background-color: darkgrey;
+}
+
+#inventory {
+	.inner {
+		display: flex;
+		flex-wrap: wrap;
+
+		.item {
+			margin-left: 10px;
+			background-color: lightgrey;
+
+			border-left: 3px solid darkgrey;
+
+			h3 {
+				margin-top: 0;
+				margin-bottom: 0;
+				padding-top: 1px;
+				padding-right: 5px;
+				background-color: darkgrey;
+			}
+			
+			input {
+				background-color: rgba(0, 0, 0, 0);
+				border: none;
+				font-weight: bold;
+				font-size: 15px;
+			}
+
+			input[type="text"] {
+				width: 60px;
+			}
+
+			textarea {
+				font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+				// font-family: fantasy;
+				width: 100%;
+				resize: none;
+				border: none;
+				background-color: rgba(0, 0, 0, 0);
+				padding-top: 2px;
+				padding-left: 5px;
+				display: block;
+			}
+
+			textarea:placeholder-shown {
+				display: none;
+			}
+
+			
+		}
+
+		.item:focus {
+			textarea:placeholder-shown {
+				display: block;
+			}
+		}
+	}
+}
+
+.skills table {
+	border-collapse: separate;
+
+	border-radius: 25px;
+
+	text-align: center;
+
+	tr {
+		border: 2px solid black;
+		border-radius: 25%;
+	}
+
+	td {
+		margin-top: 10px;
+		border: 1px solid grey;
+		border-radius: 25%;
+	}
+
+	input {
+		text-align: center;
+		border: none;
+		width: 75px;
+	}
+
+	input[type=number] {
+		text-align: center;
+		border: none;
+		width: 15px;
+	}
+}

@@ -1,0 +1,16 @@
+<tr class="bar {{type}}" id="{{type}}_wrapper">
+<td>
+	<div class="bar wrapper">
+	<meter></meter>
+
+	{% with type|add:"_mod" as mod %}
+	<div class="text">
+		<span class="label">{{type}}</span>
+		<input class="att current resize" type="number" name="{{type}}" value={{character|get:type}} onkeyup="recalculate()" onchange="recalculate()">/<span class="sum"></span>
+		<span class="modifier">(+<input type="number" class="att resize" name="{{type}}_mod" value={{character|get:mod}} onkeyup="recalculate()" max="100">)</span>
+	</div>
+	{% endwith %}
+	</div>
+
+
+</tr>

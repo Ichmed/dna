@@ -1,0 +1,11 @@
+`composition` tinytext UNIQUE NOT NULL,
+`parent` tinytext,
+`priority` tinytext,
+`name` tinytext NOT NULL,
+`effect` mediumtext,
+`delay` mediumtext,
+`duration` mediumtext,
+`application` mediumtext,
+`color` tinytext,
+`aroma` mediumtext,
+`appearance` mediumtext

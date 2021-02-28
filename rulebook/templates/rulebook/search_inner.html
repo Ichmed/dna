@@ -1,0 +1,5 @@
+{% load md %}
+{% for data in  results %}
+{{data|container_from_data:type}}
+{# include "rulebook/"|cat:type|cat:".html" #}
+{% endfor %}

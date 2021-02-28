@@ -1,0 +1,13 @@
+{% extends "rulebook/container.html" %}
+{% load static %}
+{% load md %}
+{% block collapsed %}true{% endblock %}
+{% block content %}
+<div class="inner">
+
+{% if data.cost %}{{data.cost|parse:skip}}{% endif %}
+{% if data.weight %}{{data.weight|parse:skip}}{% endif %}
+
+{% if data.text %}{{data.text|parse:skip}}{% endif %}
+</div>
+{% endblock %}

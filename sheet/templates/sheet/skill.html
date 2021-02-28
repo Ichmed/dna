@@ -1,0 +1,15 @@
+{% load static %}
+{% load md %}
+
+<tr class="skill">
+<input type="hidden" name="base_id" value="{{skill_i.base.pk}}">
+{% with "symbols/bobble_"|cat:skill_i.name|cat:".png" as path %}
+<td><img class="icon" src="{% static path %}">
+{% endwith %}
+
+<td><div class="name"><input name="name" type="text" value="{{skill_i.name|capfirst}}"></div></td>
+<td><div class="level"><input name="level" onkeyup="recalculate()" type="number" value="{{skill_i.level}}"></div></td>
+<td><div class="generated"><input disabled value="{{skill_i.generated}}"></div></td>
+<td><div class="granted"><input name="granted" onkeyup="recalculate()" type="number" value="{{skill_i.granted}}"></div></td>
+<td><div class="spare"></div></td>
+<td><div class="total"><input disabled value="{{skill_i.generated|add:skill_i.granted}}"></div></td>

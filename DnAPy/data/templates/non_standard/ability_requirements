@@ -1,0 +1,4 @@
+CREATE TABLE IF NOT EXISTS `ability_requirements`(
+`ability` int NOT NULL,
+`required` int NOT NULL,
+`display` tinytext)

@@ -1,0 +1,541 @@
+<html>
+<head>
+<style>
+
+:root {
+	--container-frame: #e0ebeb;
+	--container-background: #bccad6;
+	
+	--container-frame-running: #bccad6;
+	--container-background-running: #f1e3dd;
+	
+	--sidebar: #fac899;
+	--sidebar-text: #8d9db6; 
+	--sidebar-text-highlight: #bccad6; 
+}
+
+body {
+	background-color: #8d9db6;
+}
+
+#sidebar {
+	position: fixed;
+	right: 0px;
+	width: 10%;
+	top: 0;
+	height: 95%;
+	border-radius: 0px 0px 0px 25px;
+	background-color: var(--sidebar);
+}
+
+#sidebar ul {
+	list-style-type: none;
+	font-size: 25px;
+	font-weight: bold;
+}
+
+#sidebar li {
+	margin: 5px;
+	cursor: pointer;
+	color: var(--sidebar-text)
+}
+
+#sidebar li:hover {
+	color: var(--sidebar-text-highlight)
+}
+
+
+#frame {
+	position: absolute;
+	left: 10%;
+	width: 80%;
+}
+
+.container[running="false"] .button.run {
+	display: none;
+}
+
+.container[running="true"] .button.idle {
+	display: none;
+}
+
+.button {
+	width: 70px;
+}
+
+.button.stop {
+	position: absolute;
+	right: 175px;
+	bottom: 30px;
+}
+
+.button.play.in5 {
+	position: absolute;
+	right: 25px;
+}
+
+.button.play, .button.pause {
+	position: absolute;
+	right: 100px;
+	bottom: 30px;
+}
+
+.button.loop {
+	position: absolute;
+	right: 25px;
+	bottom: 30px;
+}
+
+.looping_container {
+	position: absolute;
+	right: 100px;
+	bottom: 50px;
+}
+
+.fading_container {
+	position: absolute;
+	right: 175px;
+	bottom: 50px;
+}
+
+.container {
+	background-color: var(--container-background);
+	border: 2px solid #667292;
+	border-radius: 15px;
+	height: 200px;
+	width: 400px;
+	display: inline-block;
+	margin: 20px;
+	position: relative;
+	border: none;
+	overflow: hidden;
+}
+
+.rate_label, .volume_label{
+	position: absolute;
+	left: 0;
+	width: 15%;
+	top: 10px;
+	text-align: center;
+}
+
+.volume_container {
+	position: absolute;
+	top: 50px;
+	width: 100%;
+}
+
+.rate_container {
+	position: absolute;
+	top: 90px;
+	width: 100%;
+}
+
+.rate, .volume {
+	top: 10px;
+	position: absolute;
+	-webkit-appearance: none;
+	appearance: none;
+	width: 80%;
+	right: 5%;
+	height: 15px;
+	border-radius: 5px;
+	background-color: #e0ebeb;
+	outline: none;
+	opacity: 0.7;
+	-webkit-transition: .2s;
+	transition: opacity .2s;
+}
+
+.container[running="true"] .volume, .container[running="true"] .rate{
+	background-color: var(--container-background);
+}
+
+.rate::-webkit-slider-thumb, .volume::-webkit-slider-thumb, .rate::-moz-range-thumb, .volume::-webkit-slider-thumb {
+	width: 25px;
+	height: 25px;
+	border-radius:
+	background-color: var(--container-frame);
+	cursor: pointer;
+}
+
+.now_playing {
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	padding: 5px;
+	font-size: 10px;
+	background-color: var(--container-frame);
+	width: 100%;
+	height: 10px;
+}
+
+
+.container[running="true"] .now_playing{
+	background-color: var(--container-background);
+}
+
+.progress {
+	background-color: #c2410a;
+	position: absolute;
+	bottom: 20px;
+	height: 2px;
+	width: 100%;
+}
+
+.container[running="true"] h1{
+	background-color: var(--container-background);
+}
+
+.container[running="true"] {
+	background-color: var(--container-background-running);	
+}
+
+#add_button{
+	position: absolute;
+	width: 30%;
+	height: 30px;
+	left: 35%;
+	bottom: 25%;
+}
+
+h1, #query {
+	
+	font-family: arial;
+	font-weight: bold;
+	outline: none;
+	text-align: center;
+	width: 100%;
+	margin: 0px;
+	font-size: 30px;
+	background-color: var(--container-frame);
+	border: none;
+
+	min-inline-size: max-content;
+	
+	padding: 5px;
+	display: inline-block;
+}
+
+
+</style>
+<script src="_howler/dist/howler.js"></script>
+
+<script>
+function addSoundFieldByQuery(parent, query)
+{
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function()
+	{
+		if (this.readyState == 4 && this.status == 200) {
+			console.log(this.responseText);
+			addSoundField(parent, query, JSON.parse(this.responseText))
+			document.querySelector('#query').value = "";
+		}
+		if (this.readyState == 4 && this.status == 404) {
+			document.querySelector('#query').style.background = "red";
+			document.querySelector('#query').style.transition = "background-color 100ms linear";
+			setTimeout(function(){document.querySelector('#query').style.transition = "background-color 200ms linear"; document.querySelector('#query').style.background = null;}, 300)
+		}
+	};
+	xhttp.open("GET", "get/" + query, true);
+	xhttp.send();
+}
+
+function addSoundField(parent, query, sources)
+{
+	if(query == "") return;
+	var container = document.createElement('div');
+	container.className = 'container';
+	container.setAttribute('running', false);
+	
+	container.sounds = sources.map(x => new Howl({
+      src: x
+    }));
+	
+	console.log(container.sounds)
+	var title = document.createElement('h1');
+	title.innerHTML = query;
+	container.appendChild(title);
+	
+	var play_button = document.createElement('input');
+	play_button.type = "button";
+	play_button.className = "play button idle";
+	play_button.value = "play"
+	play_button.onclick = function(){play(container);};
+	container.appendChild(play_button);
+	
+	
+	var play_in_5_button = document.createElement('input');
+	play_in_5_button.type = "button";
+	play_in_5_button.className = "play in5 button idle";
+	play_in_5_button.value = "in 5s"
+	play_in_5_button.onclick = function(){setTimeout(play, 5000, container)};
+	container.appendChild(play_in_5_button);
+	
+	var looping_container = document.createElement('div');
+	looping_container.className = "looping_container"
+		var looping_label = document.createElement('span');
+		looping_label.className = "looping_label";
+		looping_label.innerHTML = "looping"
+		looping_container.appendChild(looping_label);
+		
+		var looping_box = document.createElement('input');
+		looping_box.type = 'checkbox'
+		looping_box.className = 'looping'
+		looping_box.value = 'loop'
+		/*looping_box.onclick = function(){loop(container);};*/
+		looping_container.appendChild(looping_box);
+		
+	container.appendChild(looping_container);
+	
+	var fading_container = document.createElement('div');
+	fading_container.className = "fading_container"
+		var fading_label = document.createElement('span');
+		fading_label.className = "fading_label";
+		fading_label.innerHTML = "fading"
+		fading_container.appendChild(fading_label);
+		
+		var fading_box = document.createElement('input');
+		fading_box.type = 'checkbox'
+		fading_box.className = 'fading'
+		fading_box.value = 'loop'
+		/*fading_box.onclick = function(){loop(container);};*/
+		fading_container.appendChild(fading_box);
+		
+	container.appendChild(fading_container);
+	
+	var stop_button = document.createElement('input');
+	stop_button.type = 'button'
+	stop_button.className = 'stop button'
+	stop_button.value = 'stop'
+	stop_button.onclick = function(){stop(container);};
+	container.appendChild(stop_button);
+	
+	
+	var pause_button = document.createElement('input');
+	pause_button.type = 'button'
+	pause_button.className = 'pause button run'
+	pause_button.value = 'pause'
+	pause_button.onclick = function(){pause(container);};
+	container.appendChild(pause_button);
+	
+	var volume_container = document.createElement('div');
+	volume_container.className = "volume_container"
+	
+		var volume = document.createElement('input');
+		volume.type = 'range';
+		volume.className = 'volume'
+		volume.min = 0;
+		volume.max = 100;
+		volume.value = 50;
+		volume.oninput=function(){update_volume(container, volume.value/volume.max)};
+		volume.onchange=function(){update_volume(container, volume.value/volume.max)};
+		volume_container.appendChild(volume);
+		
+		var volume_label = document.createElement('span');
+		volume_label.className = "volume_label";
+		volume_container.appendChild(volume_label);
+	
+	container.appendChild(volume_container);
+	
+	var rate_container = document.createElement('div');
+	rate_container.className = "rate_container"
+		
+		var rate = document.createElement('input');
+		rate.type = 'range';
+		rate.className = 'rate'
+		rate.min = 65;
+		rate.oninput=function(){update_rate(container, rate.value)};
+		rate.onchange=function(){update_rate(container, rate.value)};
+		rate.value = 69;
+		rate.max = 200;
+		rate_container.appendChild(rate);
+		
+		
+		var rate_label = document.createElement('span');
+		rate_label.className = "rate_label";
+		rate_container.appendChild(rate_label);
+	
+	container.appendChild(rate_container);
+	
+	var now_playing = document.createElement('span');
+	now_playing.className = "now_playing";
+	container.appendChild(now_playing);
+	
+	
+	var progress = document.createElement('div');
+	progress.className = "progress";
+	container.appendChild(progress);
+	
+	container.progress_updater = setInterval(update_progress, 10, container)
+	
+	container.running = false;
+	
+	update_volume(container, volume.value/volume.max);
+	update_rate(container, rate.value);
+	
+	
+	dummy = document.querySelector('#containerdummy');
+	dummy.style.height = "0px";
+	dummy.style.transition = null;
+	setTimeout(function(){dummy.style.transition = "200ms linear"; dummy.style.height = null;}, 100);
+	parent.insertBefore(container, document.getElementById('containerdummy'));
+}
+
+function set_looping(container, looping)
+{
+	container.querySelector('.looping').checked = looping;
+}
+
+function get_looping(container)
+{
+	return container.querySelector('.looping').checked;
+}
+
+function update_progress(container)
+{
+	if(!container.playing) return;
+	var v = container.playing.seek()/container.playing.duration();
+	
+	container.querySelector('.progress').style.width = v * 100 + "%";
+	
+	if(is_fading(container))
+	{
+		left = container.playing.duration() - container.playing.seek();
+		if(left <= 1) container.playing.fade(container.playing.volume(), 0, left * 1000);
+	}
+}
+
+function update_volume(container, volume)
+{
+	for(i in container.sounds)
+	{
+		container.sounds[i].volume(volume);
+	}
+	
+	container.querySelector('.volume_label').innerHTML = Math.round(volume * 100) + "%";
+}
+
+function update_rate(container, rate)
+{
+	if(rate <= 65) container.querySelector('.rate_label').innerHTML = "None";
+	else container.querySelector('.rate_label').innerHTML = "~" + Math.round(Math.exp(rate / 10) /100) /10 + "s";
+}
+
+async function waitForNext(container, time)
+{
+	if (!get_looping(container)) return;
+	container.setAttribute('running', true);
+	rate = container.querySelector(".rate").value / 10
+	
+	if(rate <= 6.5) base = 0;
+	else base = Math.exp(rate) * (0.5 + Math.random())
+	
+	console.log(base)
+	
+	await sleep(base);
+	if (!get_looping(container)) return;
+	play(container)	
+}
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function play(container)
+{
+	container.setAttribute('running', true);
+	if(container.playing && container.playing.seek() > 0) 
+	{
+		if(is_fading(container)) container.playing.fade(0, container.querySelector('.volume').value / 100, 1000);
+		else container.playing.volume(container.querySelector('.volume').value / 100);
+		return container.playing.duration(container.playing.play())
+	}
+	var item = container.sounds[Math.floor(Math.random()*container.sounds.length)];
+	if (container.playing) container.playing.stop();
+	container.querySelector(".now_playing").innerHTML = item._src;
+	container.playing = item;
+	item.once('end', function(){container.setAttribute('running', false); waitForNext(container);})
+	if(is_fading(container)) item.fade(0, container.querySelector('.volume').value / 100, 1000);
+	else item.volume(container.querySelector('.volume').value / 100);
+	return item.duration(item.play());
+}
+
+function is_fading(container)
+{
+	return container.querySelector('.fading').checked;
+}
+
+function stop(container)
+{
+	if(is_fading(container)) 
+	{
+		container.playing.off('fade');
+		container.playing.once('fade', function(){_stop(container)});
+		container.playing.fade(container.playing.volume(), 0, 1000);
+	}
+	else _stop(container);
+}
+
+function _stop(container)
+{
+	container.playing.stop()
+	set_looping(container, false);
+	container.setAttribute('running', false);
+}
+
+function pause(container)
+{
+	if(is_fading(container)) 
+	{
+		container.playing.off('fade');
+		container.playing.once('fade', function(){_pause(container)});
+		container.playing.fade(container.playing.volume(), 0, 1000);
+	}
+	else _pause(container);
+}
+
+function _pause(container)
+{
+	container.playing.pause()
+	if(container.looping) container.looping = false;
+	container.setAttribute('running', false);
+}
+
+function setup()
+{
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function()
+	{
+		if (this.readyState == 4 && this.status == 200) {
+			var list = document.createElement('ul');
+			var data = JSON.parse(this.responseText);
+			for(i in data)
+			{
+				var el = document.createElement('li');
+				text = data[i]
+				el.innerHTML = text;
+				el.setAttribute('onclick', "addSoundFieldByQuery(document.querySelector('#frame'), '" + text + "');")
+				list.appendChild(el);
+				
+			}
+			document.querySelector('#sidebar').appendChild(list);
+		}
+	};
+	xhttp.open("GET", "list", true);
+	xhttp.send();
+}
+</script>
+
+</head>
+	<body onload="setup();">
+		<div id="sidebar"></div>
+		<div id="frame">
+			<div class="container" id="containerdummy">
+				<input id="query" onkeyup="if(event.keyCode == 13) addSoundFieldByQuery(document.getElementById('frame'), document.getElementById('query').value);">
+				<input type="button" value="Add" id="add_button" onclick="addSoundFieldByQuery(document.getElementById('frame'), document.getElementById('query').value)">
+			</div>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,5 @@
+{
+	"Fumble": "/search/rules?name:Fumble",
+	"Armor": "/search/rules?name=Armor",
+	"Maneuvers": "/search/abilities?type:maneuver+cost=0"
+}

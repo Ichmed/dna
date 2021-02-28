@@ -1,0 +1,10 @@
+{% extends "rulebook/ability.html" %}
+{% load static %}
+{% block requires %}
+<div class="requires">
+{{data.requires_raw}}
+</div>
+{% endblock %}
+{% block skillpoints %}
+{% include "rulebook/bobbleSelector.html" %}
+{% endblock %}

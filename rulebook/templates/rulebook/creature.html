@@ -1,0 +1,11 @@
+{% extends "rulebook/container.html" %}
+{% block content %}
+{% load md %}
+{% load static %}
+
+{% include "rulebook/atts.html" %}
+{% include "rulebook/stats.html" %}
+
+{{data.text|parse:skip}}
+
+{% endblock %}

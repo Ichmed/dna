@@ -1,0 +1,173 @@
+{
+//-------- pseudo --------
+"1H": {
+	"color": "rgb(192, 32, 27)",
+	"type": "pseudo",
+	},
+"2H": {
+	"color": "rgb(81, 160, 93)",
+	"type": "pseudo",
+	},
+"ranged": {
+	"color": "rgb(105, 149, 190)",
+	"type": "pseudo",
+	},
+
+//-------- prowess --------
+
+//-------- weapons --------
+
+"unarmed": {
+	"color": "rgb(251, 225, 82)",
+	"prowess": "melee",
+	},
+
+"shield": {
+	"color": "rgb(251, 225, 82)",
+	"prowess": "melee",
+	},
+
+"dagger": {
+	"color": "rgb(192, 32, 27)",
+	"prowess": "melee",
+	},
+	
+"sword_1H": {
+	"color": "rgb(192, 32, 27)",
+	"prowess": "melee",
+	},
+"sword_2H": {
+	"color": "rgb(81, 160, 93)",
+	"prowess": "melee",
+	},
+	
+"rapier": {
+	"color": "rgb(192, 32, 27)",
+	"prowess": "melee",
+	},
+	
+"axe_1H": {
+	"color": "rgb(192, 32, 27)",
+	"prowess": "melee",
+	},
+"axe_2H": {
+	"color": "rgb(81, 160, 93)",
+	"prowess": "melee",
+	},
+"axe_throw": {
+	"color": "rgb(105, 149, 190)",
+	"prowess": "ranged",
+	},
+	
+"bludgeon_1H": {
+	"color": "rgb(192, 32, 27)",
+	"prowess": "melee",
+	},
+"bludgeon_2H": {
+	"color": "rgb(81, 160, 93)",
+	"prowess": "melee",
+	},
+	
+"staff": {
+	"color": "rgb(81, 160, 93)",
+	"prowess": "melee",
+	},
+	
+"spear_2H": {
+	"color": "rgb(81, 160, 93)",
+	"prowess": "melee",
+	},
+"spear_throw": {
+	"color": "rgb(105, 149, 190)",
+	"prowess": "ranged",
+	},
+	
+//-------- magic --------
+
+"earth": {
+	"color": "rgb(179, 134, 0)",
+	"prowess": "magic",
+	},
+	
+"water": {
+	"color": "rgb(0, 204, 255)",
+	"prowess": "magic",
+	},
+
+"air": {
+	"color": "rgb(255, 255, 102)",
+	"prowess": "magic",
+	},
+
+"fire": {
+	"color": "rgb(255, 102, 0)",
+	"prowess": "magic",
+	},
+
+"divine": {
+	"color": "rgb(255, 255, 204)",
+	"prowess": "magic",
+	},
+	
+"creation": {
+	"color": "rgb(204, 255, 102)",
+	"prowess": "magic",
+	},
+
+"corruption": {
+	"color": "rgb(204, 102, 255)",
+	"prowess": "magic",
+	},
+
+"arcane": {
+	"color": "rgb(102, 153, 255)",
+	"prowess": "magic",
+	},
+	
+"carnage": {
+	"color": "rgb(204, 0, 0)",
+	"prowess": "magic",
+	},
+
+
+
+//-------- craft --------
+
+"enchanting": {
+	"color": "rgb(255, 102, 255)",
+	"type": "craft",
+	},
+	
+"cooking": {
+	"color": "rgb(255, 153, 102)",
+	"type": "craft",
+	},
+	
+"tailoring": {
+	"color": "rgb(255, 204, 255)",
+	"type": "craft",
+	},
+	
+"medicine": {
+	"color": "rgb(255, 255, 153)",
+	"type": "craft",
+	},
+
+//-------- other --------
+
+"sabotage": {
+	"color": "rgb(204, 0, 0)",
+	},
+	
+"communication": {
+	"color": "rgb(255, 204, 0)",
+	},
+	
+"deception": {
+	"color": "rgb(204, 0, 0)",
+	},
+	
+"acrobatics": {
+	"color": "rgb(204, 102, 153)",
+	},
+}

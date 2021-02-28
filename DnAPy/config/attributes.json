@@ -1,0 +1,143 @@
+{
+"main":{
+	"CON":{
+		"full_name": "Constitution"
+	}, 
+	"DEX":{
+		"full_name": "Dexterity"
+	},
+	"INT":{
+		"full_name": "Inteligence"
+	},
+	"WIL":{
+		"full_name": "Willpower"
+	},
+	"INS":{
+		"full_name": "Insight"
+	}
+},
+"secondary":{
+	"STR":{
+		"full_name": "Strength",
+		"parent": "CON"
+	},
+	"FRT":{
+		"full_name": "Fortitude",
+		"parent": "CON"
+	},
+	"FIN":{
+		"full_name": "Finesse",
+		"parent": "DEX"
+	},
+	"AGI":{
+		"full_name": "Agility",
+		"parent": "DEX"
+	},
+	"ING":{
+		"full_name": "Ingenuity",
+		"parent": "INT"
+	},
+	"REC":{
+		"full_name": "Recall",
+		"parent": "INT"
+	},
+	"COU":{
+		"full_name": "Courage",
+		"parent": "WIL"
+	},
+	"DEV":{
+		"full_name": "Devotion",
+		"parent": "WIL"
+	},
+	"CHA":{
+		"full_name": "Charisma",
+		"parent": "INS"
+	},
+	"CRE":{
+		"full_name": "Creativity",
+		"parent": "INS"
+	}
+},
+"derived":{
+	"INI":{
+		"full_name": "Actions per Turn",
+		"formula": "(DEX + INT) / 2"
+	},
+	"PER":{
+		"full_name": "Perception",
+		"formula": "(CON + INT) / 2"
+	},
+	"MPA":{
+		"full_name": "Movement per Action",
+		"formula": "(CON + AGI) / 4"
+	},
+	"MEL":{
+		"full_name": "Meele Hit Chance",
+		"formula": "(CON + DEX) / 2"
+	},
+	"RAN":{
+		"full_name": "Ranged Hit Chance",
+		"formula": "(FIN + PER) / 2"
+	},
+	"PAR":{
+		"full_name": "Parry Chance",
+		"formula": "(STR) / 2"
+	},
+	"FOR":{
+		"full_name": "Force Bonus",
+		"formula": "(STR - 10) / 2"
+	},
+	"CAR":{
+		"full_name": "Carry Limit",
+		"formula": "(CON) / 2"
+	},
+	"DDG":{
+		"full_name": "Dodge Chance",
+		"formula": "(AGI + PER) / 4"
+	},
+	
+	"Max_Health":{
+		"full_name": "Max Health",
+		"formula": "(FRT) + 5"
+	},
+	
+	"Knockout_Threshold":{
+		"full_name": "Knockout Threshold Health",
+		"formula": "FRT"
+	},
+	"Max_Stamina":{
+		"full_name": "Max Stamina",
+		"formula": "(CON) + 5"
+	},
+	"Stamina_Regen":{
+		"full_name": "Stamina Regen",
+		"formula": "(CON) / 2"
+	},
+	
+	"Max_Mana":{
+		"full_name": "Max Mana",
+		"formula": "(REC + DEV) / 2"
+	},
+	"Mana_Regen":{
+		"full_name": "Mana Regen",
+		"formula": "(CON) / 2"
+	},
+	
+	"Injury_Threshold":{
+		"full_name": "Injury Threshold",
+		"formula": "(FRT) / 2"
+	},
+	"Cold_Threshold":{
+		"full_name": "Cold Threshold",
+		"formula": "5 - CON"
+	},
+	"Heat_Threshold":{
+		"full_name": "Heat Threshold",
+		"formula": "15 + CON"
+	},
+	"Posion_Threshold":{
+		"full_name": "Poison Threshold",
+		"formula": "l"
+	}
+}
+}

@@ -1,0 +1,395 @@
+body {
+  padding: 0;
+  margin: 0;
+}
+
+#options {
+  position: fixed;
+  top: 0;
+  width: 20%;
+}
+
+#options div {
+  margin: 10px;
+}
+
+#sheet {
+  position: absolute;
+  top: 0;
+  width: 50%;
+  left: 25%;
+  right: 25%;
+}
+
+#notes {
+  position: fixed;
+  top: 0;
+  width: 20%;
+  right: 0%;
+}
+
+#notes .note {
+  border-bottom: 3px solid black;
+  margin-top: 25px;
+  background-color: lightgrey;
+  padding: 8px;
+}
+
+#notes .note textarea {
+  width: 100%;
+  resize: none;
+  border: none;
+  background-color: lightgrey;
+}
+
+#main_attributes {
+  width: 100%;
+}
+
+#name {
+  border: none;
+  display: block;
+  font-size: 35px;
+}
+
+[hide_modifiers="true"] .modifier {
+  display: none;
+}
+
+.fm {
+  display: flex;
+  align-items: start;
+}
+
+.PRIME {
+  text-align: center;
+}
+
+.PRIME input {
+  width: 30px;
+}
+
+.atts {
+  border: 1px solid black;
+  font-family: monospace;
+  font-size: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.atts * {
+  font-size: 15px;
+}
+
+.atts input, .atts input:focus, .atts input:hover, .atts .sum {
+  border: none;
+  outline: none;
+  font-family: monospace;
+  box-sizing: border-box;
+  width: 35px;
+  text-align: center;
+}
+
+.atts p .sum, .atts p label {
+  display: block;
+  width: 35px;
+}
+
+.atts .label {
+  padding-left: 5px;
+  padding-right: 5px;
+  box-sizing: border-box;
+}
+
+.atts .secondary {
+  width: 50%;
+  display: inline-block;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.atts .secondary input {
+  width: 35%;
+}
+
+.clickbox {
+  cursor: pointer;
+}
+
+.clickbox:hover {
+  background-color: lightgrey;
+}
+
+.senses .inner, .movement .inner {
+  display: flex;
+}
+
+.senses .inner div, .movement .inner div {
+  margin: 5px;
+  padding: 5px;
+}
+
+.senses .inner .sense, .movement .inner .sense {
+  border: 1px solid black;
+  border-radius: 5%;
+}
+
+.senses .inner p, .movement .inner p {
+  margin: 0px;
+}
+
+.atts.TER {
+  display: block;
+}
+
+input.mod {
+  width: 30px;
+}
+
+#weapons td {
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+#weapons p {
+  margin: 0px;
+}
+
+#weapons .weapon input {
+  border: none;
+  border-bottom: 1px solid black;
+  margin-right: 0px;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+#weapons .weapon td:not(.name) input {
+  width: 30px;
+  text-align: center;
+}
+
+#weapons .weapon input.dice {
+  text-align: right;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+#resistances {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: start;
+}
+
+#resistances .resistance {
+  width: 150px;
+}
+
+#resistances .resistance input[type="number"] {
+  width: 30px;
+}
+
+#resistances .resistance span {
+  display: inline-block;
+  width: 50px;
+}
+
+#vitals {
+  border: 1px solid black;
+}
+
+#vitals .bar td {
+  width: 500px;
+}
+
+#vitals .bar td .wrapper {
+  position: relative;
+  width: 100%;
+  height: 30px;
+}
+
+#vitals .bar td .wrapper .text {
+  background-color: rgba(255, 255, 255, 0.75);
+  border-radius: 10px;
+  position: absolute;
+  padding-left: 5px;
+  padding-right: 5px;
+  text-align: center;
+  border: 1px solid black;
+  box-sizing: border-box;
+  top: 15px;
+  left: 30%;
+  right: 30%;
+}
+
+#vitals .bar td .wrapper .text input {
+  border: none;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+#vitals .bar td .wrapper meter {
+  position: absolute;
+  height: 50px;
+  width: 100%;
+}
+
+#vitals .bar td .wrapper .current {
+  text-align: right;
+}
+
+#vitals meter::-webkit-meter-bar {
+  transition: background-color 0.2s ease;
+}
+
+#vitals meter[alert=true]::-webkit-meter-bar {
+  background-color: red;
+  transition: background-color 0;
+}
+
+#vitals .stamina meter::-webkit-meter-optimum-value {
+  background-color: orange;
+}
+
+#vitals .mana meter::-webkit-meter-optimum-value {
+  background-color: lightblue;
+}
+
+.ability {
+  border: 1px solid black;
+  border-radius: 10px 0 0 10px;
+  padding: 4px;
+  margin-top: 3px;
+  position: relative;
+}
+
+.ability .icon_align {
+  vertical-align: middle;
+  display: inline-block;
+  height: 100%;
+}
+
+.ability .name {
+  font-size: 20px;
+  font-weight: bold;
+  border: none;
+}
+
+.ability .info {
+  margin-left: 5px;
+  padding: 2px;
+  border: 1px solid black;
+  border-radius: 5px;
+  cursor: default;
+}
+
+.ability .mana:hover {
+  background-color: lightblue;
+  cursor: pointer;
+}
+
+.ability .level {
+  right: 0;
+  top: 0;
+  background-color: lightgrey;
+  position: absolute;
+  height: 100%;
+  width: 50px;
+  text-align: center;
+  vertical-align: middle;
+  display: inline-block;
+  border-radius: 50% 0 0 50%;
+}
+
+.ability .level input {
+  font-size: 20px;
+  font-weight: bold;
+  padding: 5px;
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+  width: 100%;
+  text-align: right;
+}
+
+.ability:hover .level {
+  background-color: darkgrey;
+}
+
+#inventory .inner {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#inventory .inner .item {
+  margin-left: 10px;
+  background-color: lightgrey;
+  border-left: 3px solid darkgrey;
+}
+
+#inventory .inner .item h3 {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-top: 1px;
+  padding-right: 5px;
+  background-color: darkgrey;
+}
+
+#inventory .inner .item input {
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+#inventory .inner .item input[type="text"] {
+  width: 60px;
+}
+
+#inventory .inner .item textarea {
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  width: 100%;
+  resize: none;
+  border: none;
+  background-color: rgba(0, 0, 0, 0);
+  padding-top: 2px;
+  padding-left: 5px;
+  display: block;
+}
+
+#inventory .inner .item textarea:placeholder-shown {
+  display: none;
+}
+
+#inventory .inner .item:focus textarea:placeholder-shown {
+  display: block;
+}
+
+.skills table {
+  border-collapse: separate;
+  border-radius: 25px;
+  text-align: center;
+}
+
+.skills table tr {
+  border: 2px solid black;
+  border-radius: 25%;
+}
+
+.skills table td {
+  margin-top: 10px;
+  border: 1px solid grey;
+  border-radius: 25%;
+}
+
+.skills table input {
+  text-align: center;
+  border: none;
+  width: 75px;
+}
+
+.skills table input[type=number] {
+  text-align: center;
+  border: none;
+  width: 15px;
+}

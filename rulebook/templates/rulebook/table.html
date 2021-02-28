@@ -1,0 +1,24 @@
+<table class="">
+
+<tr>
+{% for name, value in results_as_dicts.0.items %}
+{% if name != 'self_id' and not cols or name in cols%}<th>{{ name }}</th>{% endif %}
+{% endfor %}
+</tr>
+
+{% for item in results_as_dicts %}
+	<tr>
+	{% for name, value in item.items %}
+		{% if name != 'self_id' and not cols or name in cols %}
+		<td>
+			{% if name == 'name' %}
+				<span class="smartlink" onclick="smartlink('{{type}}', '{{item.self_id}}')">{{value}}</span>
+			{% else %}
+				{{value}}
+			{% endif %}
+		</td>
+		{% endif %}
+	{% endfor %}
+</tr>
+{% endfor %}
+</table>

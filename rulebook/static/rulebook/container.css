@@ -1,0 +1,382 @@
+/* -------------------------------------------- CONTAINERS -------------------------------------------- */
+.container {
+	column-span: all;
+}
+
+.container_wrapper {
+	position:relative;
+	z-index: 1;
+	clear: both;
+	margin-left: auto;
+	margin-right: auto;
+	width: 60%;
+}
+
+.container {
+	/*border: 2px solid black;
+	border-left: 2px solid black;
+	background-color: #F4F4F4;*/
+	margin: 10px;
+	position: relative;
+}
+
+.container_wrapper button.save {
+    position: absolute;
+    top: 5;
+    left: -5%;
+}
+
+/*Clearfix Hack*/
+.container_wrapper::after {
+	content: "";
+	clear: both;
+	display: table;
+}
+
+.container .inner {
+	padding: 10px;	
+}
+
+.container_wrapper .container_wrapper {
+	width: 95%;
+	margin-right: 10;
+	padding-right: 0;
+	/*border: none;*/
+}
+
+/*.container * {
+	clear: none;
+}*/
+
+.container input[type=button] {
+	margin-left: 10px;
+	display: inline;
+	position: relative;
+	bottom: 5px;
+}
+
+.container input{
+	display: block;	
+}
+
+.container .data{
+	margin-left: 10px;
+	margin-top: 5px;
+}
+
+.container .name{
+	margin: 0px;
+	font-family: Arial;
+	padding-left: 10px;
+	margin-left: 0;
+	margin-right: 0;
+	font-size: 2em;
+	display: block;
+}
+
+.container .name *{
+	font: inherit;
+	background: none;
+	border: none;
+}
+
+.InputContainer.name .input_label {
+	display: none;
+}
+
+/*.container[collapsed="true"] .name:hover {
+	height: 40px;
+}*/
+
+/* -------------------------------------------- Edit Button -------------------------------------------- /
+
+.edit{
+	position: absolute;
+	top: 15px;
+	left: -45px;
+}
+
+/* -------------------------------------------- RULES CONTAINER -------------------------------------------- */
+
+.container.rules {
+	/*padding: 20px;
+	background-image: linear-gradient(to right, #fff2e6,  #ffe5cc, #fff2e6);*/
+	margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.container .container.rules {
+	margin-left: 5px;
+	background-image: none;
+	background-color: #00000000;
+}
+
+.container.rules .name{
+	border-bottom: 1px solid grey;
+	margin-bottom: 2px;
+}
+
+.container.rules .data.content{
+	column-count: 2;
+	column-width: 400px;
+	column-gap: 80px;
+	/*column-rule: 1px solid grey;*/
+}
+
+.container.rules .InputContainer.content{
+	column-count: 1;
+}
+
+.container.rules .container.rules {
+	border: none;
+}
+
+/* -------------------------------------------- ABILITIES CONTAINER -------------------------------------------- */
+
+.ability .name {
+	display: inline;
+}
+
+.container_header {
+	width: 100%;
+	border-collapse: separate;
+	border-spacing: 10px 0;
+	margin-bottom: 7px;
+}
+
+.container .container_header td{
+	
+	background-color: beige;
+	padding: 5px;
+	text-align: center;
+	width: 150px;
+}
+
+.ability .children {
+	margin: 5px;
+}
+
+.ability .children .container_wrapper {
+	width: auto;
+	display: inline-flex;
+}
+
+	
+.ability .requires {
+	display: block;	
+}
+.ability .requires p{
+	display: inline;
+}
+
+.container.ability .inner {
+	/*background-color: #F8F8F8;*/
+	background-color: #FFFFFF;
+	column-span: all;
+	border-radius: 0px 0px 15px 15px;
+	border: 1px solid black;
+	border-bottom: 2px solid black;
+}
+
+.container.ability .name {
+	/*display: inline;*/
+}
+
+.container.ability .requires {
+	display: inline;
+	opacity: 50%;
+}
+
+.container.ability .requires:hover{
+	opacity: 100%;
+}
+
+.container.ability .requires:hover span{
+	opacity: 50%;	
+}
+.container.ability .requires:hover span:hover{
+	cursor: pointer;
+	text-decoration: underline;
+	opacity: 100%;
+}
+
+.container.ability .type {
+	position: relative;
+    background-color: ghostwhite;
+    margin-top: -10;
+    margin-left: -10;
+    margin-right: -10;
+    padding: 10;
+	font-weight: bold;
+	border-bottom: 1px solid black;
+}
+.container.ability .label {
+	font-weight: bold;
+}
+.container.ability .label + p::before {
+	content: " ";
+}
+
+.container.ability .label + p {
+	display: inline;
+}
+
+.container .skillpoints, .container .components, .SkillSelector_bobbles {
+	position: absolute;
+	top: 5px;
+	right: 10px;
+	margin: 5px;
+}
+
+.container .data_descriptor, .input_label {
+	font-weight: bold;
+}
+
+
+.container .data_descriptor.content, .container .flavor .label {
+	display: none;
+}
+
+.container .left {
+	float: left;
+	width: 60%;
+}
+
+.container .right {
+	float: right;
+	width: 40%;
+}
+
+.equipment, .ingredients, .result {
+	border-radius: 2px 2px 25px 2px;
+	padding: 10px;
+}
+
+.equipment {
+	background-color: #dcf5f3;
+}
+
+.ingredients {
+	background-color: beige;
+}
+
+.result {
+	background-color: #dcf5f3;
+	border: 1px solid #00000080;
+	border-bottom: 5px solid #00000080;
+	padding: 10px;
+	margin-top: 7px;
+	margin-left: 10px;
+	width: fit-content;
+}
+
+.ingredients .label, .equipment .label{
+	display: block;
+}
+
+.recipe_top {
+	border-spacing: 10px 0;
+	border-collapse: separate;
+}
+
+.recipe_top h3 + ul{
+	margin-top: 0;
+}
+
+.recipe_top ul:last-child {
+	margin-bottom: 0;
+}
+
+.recipe_top td {
+	vertical-align: text-top;
+	border: 1px solid #00000080;
+	border-bottom: 5px solid #00000080;
+	padding: 10px;
+}
+
+/* -------------------------------------------- Skill Cost -------------------------------------------- */
+.skill_cost {
+	position: absolute;
+	right: 10px;
+	top: 10px;
+}
+
+.skill_cost img {
+	margin: 0px;
+}
+
+/* -------------------------------------------- Flavor -------------------------------------------- */
+
+.flavor {
+	font-style: italic;
+	/*font-size: 25px;*/
+	text-align: center;
+}
+
+.container.ability .container.ability {
+	background-color: #00000010;
+}
+
+/* -------------------------------------------- CREATURES CONTAINER -------------------------------------------- */
+
+.container.creatures {
+	padding: 0;
+}
+
+.container.creatures .content{
+	padding: 5px;
+	border: 1px solid black;
+	box-sizing: border-box;
+}
+
+.container.creatures .content::after {
+	content: "";
+	clear: both;
+	display: table;
+}
+
+/* -------------------------------------------- ARMOR CONTAINER -------------------------------------------- */
+
+
+.padding, .deflection{
+	box-sizing: border-box;
+	/*border: 1px solid black;
+	/*width: 10%;*/
+	display: inline-block;
+	margin: 0px;
+	margin-top: 15px;
+}
+
+.padding::before{
+	content:url(/resc/symbols/iconPadding.png);
+}
+
+.deflection::before{
+	content:url(/resc/symbols/iconDeflection.png);
+}
+
+
+/* -------------------------------------------- MISC -------------------------------------------- */
+
+.add_child {
+	border-radius: 5px;
+	border: 2px dotted black;
+	display: inline-block;
+	margin-right: 10px;
+	padding: 2px;
+	cursor: pointer;
+}
+
+.add_child.main {
+	border-radius: 5px;
+	background-color: #11111110
+}
+
+.add_child:hover {
+	background-color: #11111120
+}
+
+
+.container.skill {
+	display: flex;
+}

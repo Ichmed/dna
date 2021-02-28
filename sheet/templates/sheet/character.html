@@ -1,0 +1,511 @@
+{% load static %}
+<html>
+
+<head>
+{% comment %} <link rel="stylesheet" type="text/css" href="{% static 'rulebook/main.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'rulebook/container.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'rulebook/widgets.css' %}"> {% endcomment %}
+
+
+<link rel="stylesheet" type="text/css" href="{% static 'sheet/css/sheet.css' %}">
+<!--script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<script src="{% static 'rulebook/smartlink.js' %}"></script>
+<script src="{% static 'rulebook/autosize.js' %}"></script>
+
+<script>
+
+function I(x)
+{
+	return parseInt(x) || 0;
+}
+
+function V(x)
+{
+	return I($('#' + x + " .sum").text() || $('#' + x + " input").val()) || 0
+}
+
+function recalculate() {
+	$('.secondary input').each(function()
+		{
+			var a = parseInt($(this).val()) || 0;
+			var b = parseInt($(this).parent().parent().find('.PRIME input').val()) || 0;
+			
+			
+			$(this).parent().find('.sum').text(a + b);
+		}
+	);
+
+	{% for key, value in TER.items %}
+	$('#{{key}} .sum').text((I($('#{{key}} input').val())) + {{value}})
+	{% endfor %}
+
+	
+	{% for key, value in bars.items %}
+	$('.{{key}} .sum').text((I($('.{{key}} .modifier input').val())) + {{value}})
+	{% endfor %}
+
+	{% for item in bars %}
+
+	var meter = $("#{{item}}_wrapper meter");
+	meter.prop("max",  V("{{item}}_wrapper"));
+	meter.prop("value", $(".{{item}} .current").val());
+
+	{% endfor %}
+
+	$('.weapon').each(function() {
+
+		console.log($(this).find('.parry .skill'))
+
+		$(this).find('.cost  .total').val(	I($(this).find('.cost  .base').val())	+ I($(this).find('.cost  .skill').val()));
+		$(this).find('.hit   .total').val(	I($(this).find('.hit   .base').val())	+ I($(this).find('.hit   .skill').val()) + V('MEL'));
+		$(this).find('.parry .total').val(	I($(this).find('.parry .base').val())	+ I($(this).find('.parry .skill').val()) + V('PAR'));
+		$(this).find('.force .total').val(	I($(this).find('.force .base').val())	+ I($(this).find('.force .skill').val()) + V('FOR'));
+		
+		$(this).find('.damage .total.dice').val(I($(this).find('.damage .base.dice').val()));
+		$(this).find('.damage .total.flat').valS(I($(this).find('.damage .base.flat').val()));
+		$(this).find('.damage .total.type').val($(this).find('.damage .base.type').val());
+
+	});
+
+	$('.skill').each(function() {
+		let level = $(this).find('.level input').val();
+		let generated = parseInt(level / 6) * 12;
+		switch(level % 6) {
+			case 5:	generated += 2;
+			case 4:	generated += 3;
+			case 3:	generated += 3;
+			case 2:	generated += 2;
+			case 1:	generated += 1;
+		}
+		$(this).find('.generated input').val(generated);
+		$(this).find('.total input').val(generated + I($(this).find('.granted input').val()));
+	});
+
+	$('.resistance').each(function() {
+		var mul = 100/(100 + I($(this).find('input.base').val()));
+		console.log(mul);
+		$(this).find('input.mul').val(mul.toFixed(1));
+	});
+}
+
+(function($,undefined){
+  '$:nomunge'; // Used by YUI compressor.
+
+  $.fn.serializeObject = function(){
+    var obj = {};
+
+    $.each( this.serializeArray(), function(i,o){
+      var n = o.name,
+        v = o.value;
+
+        obj[n] = obj[n] === undefined ? v
+          : $.isArray( obj[n] ) ? obj[n].concat( v )
+          : [ obj[n], v ];
+    });
+
+    return obj;
+  };
+
+})(jQuery);
+
+(function($,undefined){
+  '$:nomunge'; // Used by YUI compressor.
+
+  $.fn.valS = function(num){
+    if(num > 0) {
+		num = "+" + num
+	}
+	this.val(num)
+  };
+
+})(jQuery);
+
+function resizeInput() {
+
+    $(this).css('width', $(this).val().length * parseInt($(this).css('font-size'), 10) * 0.8);
+}
+
+function enterOnWeaponName(event) {
+	if (event.key === 'Enter') {
+		loadWeapon($(this).closest('.weapon'), this.value);
+	}
+}
+
+function loadWeapon(weapon, weaponName) {
+	
+	$.get('/rulebook/api/search/weapon/name=' + weaponName).done(function(data) {
+
+		weapon.find('.force	input.base').valS(data['force']);
+		weapon.find('.hit	input.base').val(data['hit']);
+		weapon.find('.parry	input.base').val(data['parry']);
+		weapon.find('.cost	input.base').val(data['cost']);
+
+		weapon.find('.damage input.base.dice').val(data['damage_dice']);
+		weapon.find('.damage input.base.flat').valS(data['damage_base']);
+		weapon.find('.damage input.base.type').val(data['damage_type']);
+		
+		recalculate();		
+	});
+}
+
+function addItem(parent, base=null) {
+	{% with EMPTY as item %}
+	var item = $(`{% include "sheet/item.html" %}`);
+	{% endwith %}
+	console.log(parent);
+	parent.append(item);
+}
+
+function allowDrop(ev) {
+	ev.preventDefault();
+}
+
+function dragItem(ev) {
+	draggedItem = ev.target;
+}
+
+function colorItem(ev) {
+	$(ev.target).closest('.item_target').css('background-color', 'rgb(166, 227, 181)');
+}
+
+function resetItem(ev) {
+	$(ev.target).closest('.item_target').css('background-color', '');
+}
+
+function dropItem(ev) {
+	ev.preventDefault();
+	var data = ev.dataTransfer.getData("object");
+	console.log(data);
+	ev.target.closest(".item_target").appendChild(draggedItem);
+	resetItem(ev);
+}
+
+function collecItem(item) {
+	var dict = $(item).children(':input').serializeObject();
+	dict['content'] = $(item).children('.item').map((i, x) => collecItem($(x))).toArray();
+	return dict;
+}
+
+function selectItem(event, target) {
+	$(target).closest('.item').find('textarea').first().css('display', 'block');
+	if(event.target == target) {
+		$(target).find('textarea').first().focus();
+	}
+	event.stopPropagation();
+}
+
+function post() {
+
+	var attributes = $('.att').serializeObject();
+	let skills = $('.skills tr').slice(1).map((i, x) => $(x).find(':input').serializeObject()).toArray();
+	let notes = $('#notes .note').map((i, x) => $(x).find(':input').serializeObject()).toArray();
+	let abilities = $('.ability').map((i, x) => $(x).find(':input').serializeObject()).toArray();
+	let resistances = $('.resistance :input.base').serializeObject()
+	let items = $('#inventory .inner').children('.item').map((i, x) => collecItem(x)).toArray();
+
+
+	console.log(skills)
+
+	$.post("/sheet/character/id/" + $('#key').val(), JSON.stringify({
+		'name': $('#name').val(),
+		'attributes': attributes,
+		'skills': skills,
+		'notes': notes,
+		'abilities': abilities,
+		'resistances': resistances,
+		'items': items,
+	}))
+}
+
+function selectInput() {
+	$(this).find('input').select();
+}
+
+function damage(amount, location, type) {
+
+	var damage = amount * $('.' + type).find('input.mul').val();
+
+	if(type === "Blunt") {
+		spend("Health", Math.floor(damage / 2), false)
+		spend("Stamina", Math.ceil(damage / 2), false)
+	} else {
+		spend("Health", damage);
+	}
+}
+
+function spend(resource, amount, block=true) {
+	let v = I($("." + resource + " .current").val());
+	console.log(resource, "-", amount);
+	
+	v -= amount;
+	var meter = $("#" + resource + "_wrapper meter");
+	
+	if (resource !== "Health") {
+		if (v < 0) {
+			meter.attr("alert", true);
+			setTimeout(function() {
+				meter.attr("alert", false)
+			}, 500);
+			if (block) return false;
+			v = 0;
+		}
+	}
+
+
+
+	$("." + resource + " .current").val(v);
+	meter.prop("max",  V(resource + "_wrapper"));
+	meter.prop("value", $("." + resource + " .current").val());
+
+	if (v <= 0) {
+		console.log('meep');
+		meter.attr("alert", true);
+		setTimeout(function() {
+			meter.attr("alert", false)
+		}, 500);
+	}
+
+	return true;
+}
+
+function insertList(name, target) {
+	console.log(`<option value='{x}'>{data[x]}</option>`)
+	$.get('/rulebook/api/list/ability/')
+		.done((data) => 
+			($(target).append(data.keys()
+				.map((x) => $(`<option value='{x}'>{data[x]}</option>`)))
+			)
+		)
+}
+
+
+$( document ).ready(function() {
+	
+	recalculate();
+	$('input.resize').keyup(resizeInput).each(resizeInput);
+	$('body')
+		.on('keyup', '.weapon .name input.base', enterOnWeaponName)
+		.on('keyup', 'input.resize', resizeInput)
+		.on('keyup', 'input.update', recalculate)
+		.on('dragenter', '.item_target', colorItem)
+		.on('dragleave', '.item_target', resetItem)
+	;
+	autosize($('textarea'));
+	
+    $('.dropdown').each((i, x) => ($(x).select2({
+		ajax: {
+			url: "/rulebook/api/list/" + $(x).attr('target'),
+			dataType: 'json',
+		}
+	})));
+});
+
+
+</script>
+
+</head>
+
+
+<body>
+<input type="hidden" name="pk" id="key" value="{{character.pk}}">
+
+<div id="options">
+<div onclick="let x = $(this).find('input'); x.prop('checked', x.prop('checked')); $('body').attr('hide_modifiers', x.prop('checked'))"><input type="checkbox"> Hide modifiers</div>
+<div><input type="button" onclick="post()" value="Save"></div>
+</div>
+
+<div id="sheet">
+
+<input type="text" name="name" id="name" value="{{character.name}}">
+
+<table id="main_attributes">
+{% for PRIME, SEC1, SEC2 in ATT %}{% include "sheet/att_box.html" %}{% endfor %}
+</table>
+<div id="secondary_attributes">
+		{% for a in TER %}
+		{% if not a == 'MEL' %}
+		{% comment %} <div class="atts TER">
+			<div id="{{a}}" onclick="$(this).find('input').select()"><span class="label">{{a}}</span><input class="mod" type="number" name="{{a}}_mod" onkeyup="recalculate()" placeholder="0" class="modifier att"><span class="sum"></span></div>
+		</div> {% endcomment %}
+		{% endif %}
+		{% endfor %}
+		
+</div>
+
+<div class="fm">
+<div class="f" style="flex-grow: 3; width: 70%;">
+
+<div class="senses">
+	<h2>Senses</h2>
+	<div class="inner">
+		<div class="atts" id="PER" onclick="selectInput">
+			<span class="label">PER</span>
+			<input type="number" name="PER_mod" value="{{character.PER_mod}}" onkeyup="recalculate()" placeholder="0" class="modifier att">
+			<span class="sum"></span>
+		</div>
+		{% for sense in senses %}
+		<div class="sense clickbox" onclick="smartlink('ability', '{{sense.base.pk}}')">
+			<p class="modifier">{{sense.base.name}}
+			{% if sense.base.name != sense.name %}<p><span>{{sense.name}}</span>{% endif %}
+			{% if sense.base.leveling != 'None' %} <p>Lvl: {{sense.level}} {% endif %}
+		</div>
+		{% endfor %}
+	</div>
+</div>
+
+<div class="movement">
+	<h2>Movement</h2>
+	<div class="inner">
+		<div class="atts" id="MPA" onclick="selectInput">
+			<span class="label">MPA</span>
+			<input type="number" name="MPA_mod" value="{{character.MPA_mod}}" onkeyup="recalculate()" placeholder="0" class="modifier att">
+			<span class="sum"></span>
+		</div>
+		{% for move in movement %}
+		<div class="move clickbox" onclick="smartlink('ability', '{{move.base.pk}}')">
+			<p><span>{{sense.base.name}}</span>
+			{% if move.base.leveling != 'None' %} <p>Lvl: {{move.level}} {% endif %}
+		</div>
+		{% endfor %}
+	</div>
+</div>
+
+<h2>Combat</h2>
+<div id="actions">
+	<table id="weapons">
+	
+	<tr class="atts">
+		<td style="border: none">
+		<td style="border: none">
+		<td>
+			<div id="RAN" onclick="selectInput">
+				<p><span class="label">RAN</span>
+				<p><input type="number" name="RAN_mod" value="{{character.RAN_mod}}" onkeyup="recalculate()" placeholder="0" class="modifier att">
+				<p><span class="sum"></span>
+			</div>
+		
+		<td style="border: none">
+		<td style="border: none">
+		<td style="border: none">
+	</tr>
+	<tr class="atts">
+		<td style="border: none">
+		<td style="border: none">
+		<td>
+			<div id="MEL" onclick="selectInput">
+				<p><span class="label">MEL</span>
+				<p><input type="number" name="MEL_mod" value="{{character.MEL_mod}}" onkeyup="recalculate()" placeholder="0" class="modifier att">
+				<p><span class="sum"></span>
+			</div>
+		<td>
+			<div id="FOR" onclick="selectInput">
+				<p><span class="label">FOR</span>
+				<p><input type="number" name="FOR_mod" value="{{character.FOR_mod}}" onkeyup="recalculate()" placeholder="0" class="modifier att">
+				<p><span class="sum"></span>
+			</div>
+		<td>
+			<div id="PAR" onclick="selectInput">
+				<p><span class="label">PAR</span>
+				<p><input type="number" name="PAR_mod" value="{{character.PAR_mod}}" onkeyup="recalculate()" placeholder="0" class="modifier att">
+				<p><span class="sum"></span>
+			</div>
+		<td style="border: none">
+	</tr>
+	<tr>
+		<th>Name</th>
+		<th>Cost</th>
+		<th>Hit</th>
+		<th>FOR</th>
+		<th>PAR</th>
+		<th>Damage</th>
+	</tr>
+	{% include "sheet/weapon.html" %}
+	{% include "sheet/weapon.html" %}
+	</table>
+	<div id="abilities">
+	</div>
+</div>
+
+</div>
+
+<div class="f" style="flex-grow: 2; width: 600px">
+<div id="damage_box">
+
+<input type="number" id="damage_amount">
+<input type="button" onclick="damage(I($('#damage_amount').val()), 'GENERIC', $('input[name=\'damage_type\']:checked').val())">
+</div>
+
+<div id="resistances">
+{% for d in damage_types %}
+<div class="resistance {{d}}">
+<input type="radio" name="damage_type" value="{{d}}"><span>{{d}}</span> <input type="number" class="base update" name="{{d.pk}}" value="{{character|get:'resistance_'|add:d}}"><input type="number" class="mul" disabled>
+</div>
+{% endfor %}
+</div>
+
+<div id="vitals">
+	{% for wound in character.wounds.all %}
+	{{ wound.size }}
+	{% endfor %}
+	<div id="bars">
+		<table>
+		{% for type in bars %}
+		{% include "sheet/bar.html" %}
+		{% endfor %}
+		</table>
+		</div>
+	</div>
+
+</div>
+</div>
+<select class="dropdown" id="ability_select" target="ability" style="width: 150px;">
+</select>
+
+{% for ability in active %}
+{% include "sheet/ability.html" %}
+{% endfor %}
+
+<div id="inventory">
+<h2>Inventory</h2>
+<input type="button" value="+" onclick="addItem($(this).parent().find('.inner'))">
+<div class="inner item_target" ondrop="dropItem(event)" ondragover="allowDrop(event)">
+{% for item in character.inventory.all %}
+{% include "sheet/item.html" %}
+{% endfor %}
+</div>
+</div>
+
+<div class="skills">
+<h2>Skills</h2>
+<table>
+<th>
+<th>Name
+<th>Level</th>
+<th>Generated</th>
+<th>Granted</th>
+<th>Spare</th>
+<th>Total</th>	
+{% for skill_i in character.skills.all %}
+{% include "sheet/skill.html" %}
+{% endfor %}
+</table>
+</div>
+
+
+</div>
+
+
+<div id="notes">
+{% for note in character.notes.all %}
+{% include "sheet/note.html" %}
+{% endfor %}
+</div>
+
+</body>
+
+</html>

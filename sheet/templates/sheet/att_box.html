@@ -1,0 +1,9 @@
+{% with SEC1|add:"_mod" as mod_1 %}{% with SEC2|add:"_mod" as mod_2 %}
+{% load lookup %}
+<td id="{{PRIME}}_outer" class="atts">
+<div id="{{PRIME}}" class="PRIME" onclick="$(this).find('input').select()"><span class="label">{{PRIME}}</span><input name="{{PRIME}}" type="number" onkeyup="recalculate()" class="att" value="{{character|get:PRIME}}"></div>
+<div id="{{SEC1}}" class="secondary 1" onclick="$(this).find('input').select()"><span class="label">{{SEC1}}</span><input onkeyup="recalculate()" name="{{SEC1}}_mod" type="number" class="modifier att"  placeholder="0" value="{{character|get:mod_1}}"><span class="sum"></span></div>
+<div id="{{SEC2}}" class="secondary 2" onclick="$(this).find('input').select()"><span class="label">{{SEC2}}</span><input onkeyup="recalculate()" name="{{SEC2}}_mod" type="number" class="modifier att"  placeholder="0" value="{{character|get:mod_2}}"><span class="sum"></span></div>
+</td>
+{% endwith %}
+{% endwith %}

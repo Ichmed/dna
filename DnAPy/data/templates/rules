@@ -1,0 +1,6 @@
+`name` varchar(45) UNIQUE NOT NULL,
+`parent` varchar(45) DEFAULT NULL,
+`content` mediumtext,
+`content_short` tinytext,
+`tags` tinytext,
+`priority` int(11) DEFAULT '100'

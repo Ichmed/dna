@@ -1,0 +1,26 @@
+{% load static %}
+{% load md %}
+{% if isEditor %}
+<div class="container_wrapper" id="wrapper_{{type}}_{{id}}">
+<button onclick="var d = $(this).parent(); $.post('/rulebook/edit/{{type}}/{{id}}', d.find(':input').serialize()).done(function(data){d.replaceWith(data);});" class="save">Save</button>
+{% else %}
+<div class="container_wrapper" id="wrapper_{{type}}_{{data.id}}">
+{% endif %}
+<div class="container {{type}} collapsable" collapsed="{% if isEditor %}false{% else %}{% block collapsed %}false{% endblock %}{% endif %}" id="container_{{type}}_{{data.id}}">
+<h1 class="name uncollapsable" 
+{% if not isEditor %}
+	onclick="$(this).parent().attr('collapsed', !Boolean($(this).parent().attr('collapsed') == 'true'));"	
+{% endif %}>
+{% if isEditor %}
+<input type="hidden" name="id" value="{{data.self_id}}">
+{% endif %}
+{{data.name}}</h1>
+{% block content %}
+{% endblock %}
+{% if isEditor %}
+{{data.tags}}
+{% endif %}
+<button class="edit" onclick="$(this).parent().attr('collapsed', false); var d = $(this).parent().parent(); $.get('/rulebook/editor/{{type}}/{{data.id}}').done(function(data){d.replaceWith(data);autosize($('textarea'))})">Edit</button>
+<button class="delete" onclick="$.post('/rulebook/delete/{{type}}/{{data.id}}'); $(this).parent().remove()">Delete</button>
+</div>
+</div>

@@ -1,0 +1,275 @@
+/* -------------------------------------------- CONTAINERS -------------------------------------------- */
+.container {
+	column-span: all;
+}
+
+.container_wrapper {
+	position:relative;
+	z-index: 1;
+	clear: both;
+}
+
+.container {
+	/*border: 2px solid black;
+	border-left: 2px solid black;
+	background-color: #F4F4F4;*/
+	margin: 10px;
+	margin-left: auto;
+	margin-right: auto;
+	width: 60%;
+	position: relative;
+	padding: 10px;
+}
+
+/*Clearfix Hack*/
+.container_wrapper::after {
+	content: "";
+	clear: both;
+	display: table;
+}
+
+
+.container .container {
+	width: 95%;
+	margin-right: 10;
+	padding-right: 0;
+	/*border: none;*/
+}
+
+/*.container * {
+	clear: none;
+}*/
+
+.container input[type=button] {
+	margin-left: 10px;
+	display: inline;
+	position: relative;
+	bottom: 5px;
+}
+
+.container input{
+	display: block;	
+}
+
+.container .data{
+	margin-left: 10px;
+	margin-top: 5px;
+}
+
+.container .name{
+	margin: 0px;
+	font-family: Arial;
+	padding-left: 10px;
+	margin-left: 0;
+	margin-right: 0;
+	font-size: 2em;
+	display: block;
+}
+
+.container .name *{
+	font: inherit;
+	background: none;
+	border: none;
+}
+
+.InputContainer.name .input_label {
+	display: none;
+}
+
+/*.container[collapsed="true"] .name:hover {
+	height: 40px;
+}*/
+
+/* -------------------------------------------- Edit Button -------------------------------------------- */
+
+.edit{
+	position: absolute;
+	top: 15px;
+	left: -45px;
+}
+
+/* -------------------------------------------- RULES CONTAINER -------------------------------------------- */
+
+.container.rules {
+	/*padding: 20px;
+	background-image: linear-gradient(to right, #fff2e6,  #ffe5cc, #fff2e6);*/
+	margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.container .container.rules {
+	margin-left: 5px;
+	background-image: none;
+	background-color: #00000000;
+}
+
+.container.rules .name{
+	border-bottom: 1px solid grey;
+	margin-bottom: 2px;
+}
+
+.container.rules .data.content{
+	column-count: 2;
+	column-width: 400px;
+	column-gap: 80px;
+	/*column-rule: 1px solid grey;*/
+}
+
+.container.rules .InputContainer.content{
+	column-count: 1;
+}
+
+.container.rules .container.rules {
+	border: none;
+}
+
+/* -------------------------------------------- ABILITIES CONTAINER -------------------------------------------- */
+
+.container.abilities {
+	/*background-color: #F8F8F8;*/
+	background-color: #FFFFFF;
+	column-span: all;
+	border-radius: 0px 0px 15px 15px;
+	border: none;
+	border: 1px solid black;
+	border-bottom: 2px solid black;
+}
+
+.container.abilities .name {
+	/*display: inline;*/
+}
+
+.container.abilities .requires {
+	display: inline;
+	opacity: 50%;
+}
+
+.container.abilities .requires:hover{
+	opacity: 100%;
+}
+
+.container.abilities .requires:hover span{
+	opacity: 50%;	
+}
+.container.abilities .requires:hover span:hover{
+	cursor: pointer;
+	text-decoration: underline;
+	opacity: 100%;
+}
+.container.abilities .label {
+	font-weight: bold;
+}
+.container.abilities .label + p::before {
+	content: " ";
+}
+
+.container.abilities .label + p {
+	display: inline;
+}
+
+.container .skillpoints, .container .components, .SkillSelector_bobbles {
+	position: absolute;
+	top: 5px;
+	right: 10px;
+}
+
+.container .data_descriptor, .input_label {
+	font-weight: bold;
+}
+
+
+.container .data_descriptor.content, .container .flavor .label {
+	display: none;
+}
+
+.container .left {
+	float: left;
+	width: 60%;
+}
+
+.container .right {
+	float: right;
+	width: 40%;
+}
+
+.ingredients, .equipment {
+	border-radius: 0px 0px 25px 0px;
+	padding: 10px;
+}
+
+.ingredients .label, .equipment .label{
+	display: block;
+}
+
+/* -------------------------------------------- Skill Cost -------------------------------------------- */
+.skill_cost {
+	position: absolute;
+	right: 10px;
+	top: 10px;
+}
+
+.skill_cost img {
+	margin: 0px;
+}
+
+/* -------------------------------------------- Flavor -------------------------------------------- */
+
+.flavor {
+	font-style: italic;
+	/*font-size: 25px;*/
+	text-align: center;
+}
+
+.container.abilities {
+	/*background-color: #F8F8F8;*/
+	background-color: #FFFFFF;
+	column-span: all;
+	border-radius: 0px 0px 15px 15px;
+	border: none;
+	border: 1px solid black;
+	border-bottom: 2px solid black;
+}
+
+.container.abilities .container.abilities {
+	background-color: #00000010;
+}
+
+/* -------------------------------------------- CREATURES CONTAINER -------------------------------------------- */
+
+.container.creatures {
+	padding: 0;
+}
+
+.container.creatures .content{
+	padding: 5px;
+	border: 1px solid black;
+	box-sizing: border-box;
+}
+
+.container.creatures .content::after {
+	content: "";
+	clear: both;
+	display: table;
+}
+
+/* -------------------------------------------- ARMOR CONTAINER -------------------------------------------- */
+
+
+.padding, .deflection{
+	box-sizing: border-box;
+	/*border: 1px solid black;
+	/*width: 10%;*/
+	display: inline-block;
+	margin: 0px;
+	margin-top: 15px;
+}
+
+.padding::before{
+	content:url(/resc/symbols/iconPadding.png);
+}
+
+.deflection::before{
+	content:url(/resc/symbols/iconDeflection.png);
+}
+
+

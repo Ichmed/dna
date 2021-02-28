@@ -1,0 +1,17 @@
+{% load static %}
+{% load md %}
+
+<div class="ability clickbox" onclick="smartlink('ability', '{{ability.base.pk}}')">
+<input type="hidden" name="base_id" value="{{ability.base.pk}}">
+<input type="hidden" name="name" value="{{ability.name}}">
+{% with "symbols/bobble_"|cat:ability.base.skill|cat:".png" as path %}
+<div class="icon_align"><img class="icon" src="{% static path %}"></div>
+{% endwith %}
+<input class="name" name="name" value="{{ability.name}}">
+{% if ability.base.actionpoints %} <span class="info cost"> Cost: {{ability.base.actionpoints}}</span>{% endif %}
+{% if ability.base.chance %} <span class="info chance">Chance: {{ability.base.chance}}</span>{% endif %}
+{% if ability.base.range %} <span class="info range">Range: {{ability.base.range}}</span>{% endif %}
+{% if ability.base.manacost %} <span class="info mana" onclick="spend('mana', {{ability.base.manacost}}); event.stopPropagation()">Mana: {{ability.base.manacost}}</span>{% endif %}
+
+<div class="level"><input value="{{ability.level}}" name="level"></div>
+</div>

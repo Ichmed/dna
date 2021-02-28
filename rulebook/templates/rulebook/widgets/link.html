@@ -1,0 +1,15 @@
+{% if results|first %}
+{% with results|first as result %}
+<span class="smartlink tooltip" 
+onClick="smartlink('{{type}}', '{% if results|length == 1 %}{{result.id}}{% else %}{{query}}{% endif %}');">{{display}}<span class="tooltiptext">
+		{% if result.content_short %} {{result.content_short}}
+		{% elif result.content %} {{result.content|slice:250}} {% if result.content|length > 250 %}...{% endif %}
+		{% elif result.effect %} {{result.effect|slice:250}} {% if result.effect|length > 250 %}...{% endif %}
+		{% elif result.result %} {{result.result|slice:250}} {% if result.result|length > 250 %}...{% endif %}
+		{% else %} ...
+		{% endif %}		
+</span></span>
+{% endwith %}
+{% else %}
+<span class="brokenLink">{{display}}</span>
+{% endif %}

@@ -1,0 +1,4 @@
+`name` varchar(45) UNIQUE NOT NULL,
+`deflection` int(11) DEFAULT '0',
+`padding` int(11) DEFAULT '0',
+`text` mediumtext

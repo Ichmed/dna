@@ -1,0 +1,8 @@
+<div class="item item_target" draggable="true" ondragstart="dragItem(event)" ondrop="dropItem(event)" ondragover="allowDrop(event)" onclick="selectItem(event, this)">
+<input name="pk" type="hidden" value="{{ item.pk }}">
+<input name="name" type="text" value="{{ item.name }}"><input type="button" value="+" onclick="addItem($(this).parent())">
+<textarea name="text" placeholder="Description" onfocusout="$(this).css('display', '')">{{ item.text }}</textarea>
+{% for item in item.content.all %}
+{% include "sheet/item.html" %}
+{% endfor %}
+</div>

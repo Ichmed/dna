@@ -1,0 +1,6 @@
+{% load md %}
+<table class='crafting'>
+{% for row in rows %}
+<tr><td class='cost'>{{row.cost}}</td> <td class='text'>{{row.text|parse}}</td></tr>
+{% endfor %}
+</table>

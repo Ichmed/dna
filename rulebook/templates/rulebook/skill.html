@@ -1,0 +1,14 @@
+{% extends "rulebook/container.html" %}
+{% load static %}
+{% load md %}
+{% block content %}
+<div class="inner">
+{% if isEditor %}
+{{data.color}}
+{% else %}
+{% with "symbols/bobble_"|cat:data.name|cat:".png" as path %}
+<img src="{% static path %}">
+{% endwith %}
+{% endif %}
+</div>
+{% endblock %}

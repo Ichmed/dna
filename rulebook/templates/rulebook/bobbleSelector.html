@@ -1,0 +1,54 @@
+{% load static %}
+{% load md %}
+<div class="bobbleSelector">
+<input type="hidden" name="cost" id="cost_{{ id }}" value="{{ data.cost }}">
+
+<select name="skill" id="skill_{{ id }}">
+{% for skill in skills %}
+{% if skill.name|trim == data.skill|trim %}
+<option value="{{ skill.name }}" selected>
+{% else %}
+<option value="{{ skill.name }}">
+{% endif %}
+{{ skill.name }}</option>
+{% endfor %}
+</select>
+
+
+<select name="leveling" onchange="updateBobbles({{ id }})">
+{% for x in leveling_types %}
+{% if data.leveling == x %}
+<option value="{{x}}" selected>{{x}}</option>
+{% else %}
+<option value="{{x}}">{{x}}</option>
+{% endif %}
+{% endfor %}
+</select>
+
+<input type="hidden" name="leveling" id="leveling_{{ id }}" value="{{ data.leveling }}">
+<img src="/static/symbols/plus.png" onclick="$('#cost_{{ id }}').val(parseInt($('#cost_{{ id }}').val()) + 1); updateBobbles('{{ id }}');">
+<span id="bobbles_{{ id }}">
+{% for i in ""|center:data.cost %}
+<img src="/static/symbols/bobble_{{ data.skill }}.png">
+{% endfor %}
+</span>
+<img id="leveling_img_{{ id }}" src="/static/symbols/leveling_{{ data.leveling }}.png">
+<img src="/static/symbols/minus.png" onclick="$('#cost_{{ id }}').val(Math.max(parseInt($('#cost_{{ id }}').val()) - 1, 0)); updateBobbles('{{ id }}');">
+<script>
+function updateBobbles(id)
+{
+	$('#bobbles_' + id + " *").detach();
+	for(var i = 0; i < parseInt($('#cost_' + id).val()); i++)
+	{
+		$('#bobbles_' + id).append($('<img src="/static/symbols/bobble_' + $('#skill_' + id).val() + '.png">'));
+		console.log(i);
+	}
+	if($('#leveling_' + id).val() != "None")
+	{
+		$('#leveling_img_' + id).show()
+		$('#leveling_img_' + id).attr('src', '/static/symbols/leveling_' + $('#leveling_' + id).val() + '.png')
+	}
+	else $('#leveling_img_' + id).hide()
+}
+</script>
+</div>

@@ -1,0 +1,180 @@
+/* -------------------------------------------- smart links -------------------------------------------- */
+.smartlink {
+	cursor: pointer;
+	text-decoration: underline;
+	position: relative;
+}
+
+.smartlink:hover {
+	color: blue;
+}
+
+/* -------------------------------------------- tooltips -------------------------------------------- */
+/* Tooltip text */
+.tooltip .tooltiptext {
+	visibility: hidden;
+	background-color: rgba(80, 80, 80);
+	color: #fff;
+	text-align: left;
+	width: 300px;
+	border-radius: 6px;
+	border: 1px solid rgba(0, 0, 0);
+	padding: 10px;
+	/* Position the tooltip */
+	position: absolute;
+	
+	top: -10;
+	z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+	visibility: visible;
+}
+
+.tooltip:hover .tooltiptext:hover {
+	visibility: hidden;
+}
+
+/* -------------------------------------------- Skill Trees -------------------------------------------- */
+
+.skilltree {
+	position: absolute;
+	left: calc(100% - 15px);
+	top: 0px;
+	height: 100%;
+	background-color: antiquewhite;
+	border-radius: 0px 15px 15px 0px;
+	border: 1px solid black;
+	z-index: -1;
+}
+
+.skilltree svg{
+	margin: 20px;
+	width: 100%;
+}
+
+.skilltree > div {
+	position: relative;
+	margin: 20px;
+	margin-right: 5px;
+}
+
+.skilltree_bobble {
+	cursor: pointer;
+	opacity: 0.7; 
+}
+
+.skilltree_bobble:hover {
+	opacity: 1;
+}
+
+/* -------------------------------------------- Armor Calculation -------------------------------------------- */
+
+#armor_calc {
+	padding: 10px;
+}
+
+#armor_calc div {
+	display: inline-block;
+	vertical-align: top;
+}
+
+#armor_calc input {
+	width: 30px;
+}
+
+
+#armor_calc .result .content{
+	border-bottom: solid 2px black;
+	width: 50px;
+	height: 20px;
+}
+
+/* -------------------------------------------- Tables -------------------------------------------- */
+
+.widget_table {
+	text-align: left;
+}
+
+.widget_table tr {
+	padding-left: 5px;	
+}
+
+.widget_table .container_data_descriptor {
+	display: none;
+}
+
+.widget_table tr:nth-child(even) {
+	background-color: #C0C0C060;
+}
+
+.widget_table.wide {
+	column-span: all;
+}
+
+.widget_table.wide table{
+	width: 100%;
+}
+
+.widget_table th {
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.widget_table td {
+	padding: 5px;
+}
+
+
+/* -------------------------------------------- Crafting -------------------------------------------- */
+.crafting {
+	margin-top: 5px;
+	margin-bottom: 5px;
+	border-collapse: separate;
+}
+
+.crafting td{
+	border: 1px solid black;
+	border-radius: 0px 25px 25px 0px;
+	box-sizing: border-box;
+	padding-left: 5px;
+	padding-top: 5px;
+	background-color: white;
+}
+
+.crafting td:empty {
+	opacity: 25%;
+}
+
+.crafting h1 {
+	font-size: 15;
+	font-weight: bold;
+	margin-bottom: 5px;
+}
+
+.crafting .cost {
+	width: 25px;
+	margin-right: 10px;
+	padding-left: 5px;
+	padding-right: 5px;
+	border-radius: 25px 0px 0px 25px;
+	text-align: right;
+}
+
+/*-----------------------------------------------Quick Box--------------------------------------*/
+
+.quickbox h1{
+	border-radius: 15px 15px 0px 0px;
+	border: 2px solid darkgreen;
+	background-color: darkgreen;
+	color: white;
+	margin: 0;
+	padding-left: 10px;
+	width: 80px;
+	font-size: 15;
+}
+
+.quickbox div{
+	border-radius: 0px 15px 15px 15px;
+	border: 2px solid darkgreen;
+}

@@ -1,0 +1,19 @@
+{% extends "rulebook/container.html" %}
+{% load static %}
+{% load md %}
+{% block collapsed %}true{% endblock %}
+{% block content %}
+<div class="inner">
+
+{% if isEditor %} 
+{{data.parent}}
+{% endif %}
+
+{% if data.content %}{{data.content|parse:skip}}{% endif %}
+{% for c in data.children.all %}
+{% with c as data %}
+{% include "rulebook/rule.html" %}
+{% endwith %}
+{% endfor %}
+</div>
+{% endblock %}

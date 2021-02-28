@@ -1,0 +1,39 @@
+#frame {
+	width: 60%;
+	border: 1px solid black;
+	margin: auto;
+}
+
+.attributes .block {
+	display: inline-block;
+	width: 20%;
+}
+
+.label {
+	position: absolute;
+	left: 15px;
+	width: 30%;
+}
+
+.main .label {
+	left: 55px;
+}
+
+.attributes .block input {
+	width: 50px;
+	border: none;
+	right: 0;
+	position: absolute;
+}
+
+.secondary, .main, .derived {
+	border: 1px solid black;
+	position: relative;
+	box-sizing: border-box;
+	height: 20px;
+}
+
+.attributes .block .secondary{
+	width: 50%;
+	display: inline-block;
+}

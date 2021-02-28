@@ -1,0 +1,38 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'rulebook/main.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'rulebook/container.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'rulebook/widgets.css' %}">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+<script src="{% static 'rulebook/smartlink.js' %}"></script>
+<script src="{% static 'rulebook/autosize.js' %}"></script>
+
+
+
+<div style="position: relative;">
+<svg style="position: absolute;">
+{% for edge in edges %}
+<line x1="{{edge|first|first}}" y1="{{edge|first|last}}" x2="{{edge|last|first}}" y2="{{edge|last|last}}" stroke="black" />
+{% endfor %}
+</svg>
+<div style="position: absolute;">
+{% for tup in data %}
+{% with tup|first as d and tup|last as c %}
+{% if mode == "container" %}
+	<div style="position: absolute; left: {{c|first}}; top: {{c|last}}; width: 500px;">
+	{% with d as data %}
+	{% include "rulebook/ability.html" %}
+	{% endwith %}
+	</div>
+{% else %}
+	{% if d == root %}
+	<img src="/static/symbols/bobble_{{d.skill.name}}.png" style="position: absolute; left: {{c|first}}; top: {{c|last}};">
+	{% else %}
+	<img src="/static/symbols/bobble_{{d.skill.name}}.png" style="position: absolute; left: {{c|first}}; top: {{c|last}};" class="skilltree_bobble" onclick="smartlink('{{type}}', '{{d.id}}')" title="{{d.name}}">
+	{% endif %}
+{% endif %}
+{% endwith %}
+<br>
+{% endfor %}
+</div>
+</div>
