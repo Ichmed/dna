@@ -3,7 +3,7 @@
 
 <tr class="skill">
 <input type="hidden" name="base_id" value="{{skill_i.base.pk}}">
-{% with "symbols/bobble_"|cat:skill_i.name|cat:".png" as path %}
+{% with "symbols/bobble_"|cat:skill_i.name|lower|cat:".png" as path %}
 <td><img class="icon" src="{% static path %}">
 {% endwith %}
 
