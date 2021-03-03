@@ -1,16 +1,13 @@
-"""
-WSGI config for dna project.
-
-It exposes the WSGI callable as a module-level variable named ``application``.
-
-For more information on this file, see
-https://docs.djangoproject.com/en/2.2/howto/deployment/wsgi/
-"""
-
 import os
 
-from django.core.wsgi import get_wsgi_application
+import sys
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'dna.settings')
+sys.path.append('/opt/bitnami/projects/dna')
+
+os.environ.setdefault("PYTHON_EGG_CACHE", "/opt/bitnami/projects/dna/egg_cache")
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "dna.settings")
+
+from django.core.wsgi import get_wsgi_application
 
 application = get_wsgi_application()
