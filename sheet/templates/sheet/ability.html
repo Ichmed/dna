@@ -3,7 +3,6 @@
 
 <div class="ability clickbox" onclick="smartlink('ability', '{{ability.base.pk}}')">
 <input type="hidden" name="base_id" value="{{ability.base.pk}}">
-<input type="hidden" name="name" value="{{ability.name}}">
 {% with "symbols/bobble_"|cat:ability.base.skill|cat:".png" as path %}
 <div class="icon_align"><img class="icon" src="{% static path %}"></div>
 {% endwith %}

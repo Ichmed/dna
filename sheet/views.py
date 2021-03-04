@@ -112,8 +112,8 @@ def update_inventory(data, container=None, owner_id=None):
 def store_or_update_character(request, id):
 	data = json.loads(request.body)
 
-	for key, value in data.items():
-		print(key + ": " + str(value))
+	# for key, value in data.items():
+	# 	print(key + ": " + str(value))
 
 	u = {key: 0 if x == "" else int(x) for key, x in data['attributes'].items()}
 	u.update({'name': data['name']})
