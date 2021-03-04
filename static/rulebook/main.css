@@ -183,7 +183,7 @@ img[alt*="float"]{
 	text-align: center;
 }
 
-.secondary, .main, .derived {
+.attribute.secondary, .attribute.main, .attribute.derived {
 	border: 1px solid black;
 	box-sizing: border-box;
 	height: 20px;
@@ -192,5 +192,11 @@ img[alt*="float"]{
 .attributes .block .secondary{
 	width: 50%;
 	display: inline-block;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+-webkit-appearance: none;
+margin: 0;
 }
 
