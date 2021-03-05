@@ -1,0 +1,3 @@
+[submodule "Soundboard/_code/howler"]
+	path = Soundboard/_code/howler
+	url = https://github.com/goldfire/howler.js.git
