@@ -1,0 +1,4 @@
+# This directory should be empty except for this file when you dowload the project
+# Run python manage.py collectstatic to populate it
+*
+!.gitignore
