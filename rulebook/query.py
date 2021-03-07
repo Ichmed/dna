@@ -47,7 +47,7 @@ def perform_query(table, query):
 	elif get_model_for_name(table) in [Ability, Rule]:
 		#Query is None, all entries will be returned.
 		#Exclude all objects with parents (Upgrades etc), they will be removed anyway
-		Qs = [~Q(type=None)]
+		Qs = [Q(parent=None)]
 		objs = manager.filter(*Qs, **filters).all()
 	else: 
 		objs = manager.all()
