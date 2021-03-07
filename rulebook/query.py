@@ -1,5 +1,9 @@
 from rulebook.models import *
+
 from django.db.models import Q
+from django.http import Http404
+
+import re
 
 from .templatetags.cache import push, put, pop
 
@@ -22,28 +26,56 @@ def get_model_for_name(name):
 		"expansion": Expansion,
 		"creature": Creature, "creatures": Creature,
 	}
-	
-	return models[name]
+	try:
+		return models[name]
+	except KeyError:
+		raise Http404("This Category does not exist")
 
 
-def perform_query(table, query):
+def perform_query(table, query, page=-1):
 	
-	manager = get_model_for_name(table.lower()).objects
+	model = get_model_for_name(table.lower())
+	manager = model.objects
 		
 	Qs = []
+	excludes=[]
 	filters = {}
 	objs = None
 	filters['DELETED'] = None
 	if query:
 		for sub in query.split(";"):
 			if sub == "": continue
+			
+
 			for q in sub.split("+"):
-				if "=" in q:
-					filters[q.split("=")[0] + "__iexact"] =  q.split("=")[1]
-				elif ":" in q:
-					filters[q.split(":")[0] + "__contains"] =  q.split(":")[1]
-			if objs: objs |= manager.filter(*Qs, **filters).all()
-			else: objs = manager.filter(*Qs, **filters).all()
+				key, mode, value = re.match(r"\s*(\w*?)\s*([:=!])\s*([\w,]*)\s*", q).groups()
+				
+				if key.lower() == "requires":
+					reqs = value.split(',')
+					if mode == ":":
+						Qs.append(Q(requires__in=reqs) | Q(requires=None))
+						Qs.append(Q(parent=None))
+					if mode == "=":
+						# Qs.append(Q(num_reqs__lte=len(reqs)))
+						# Qs.append(Q(requires__in=reqs))
+						Qs += [Q(requires=r) for r in reqs]
+						manager = manager.annotate(num_reqs=Count('requires'))
+						# excludes.append(~Q(requires__in=reqs))
+						Qs.append(Q(parent=None))
+					if mode == "!":
+						# Qs.append(Q(num_reqs__lte=len(reqs)))
+						# Qs.append(Q(requires__in=reqs))
+						Qs += [Q(requires=r) | Q(requires=None) for r in reqs]
+						manager = manager.annotate(num_reqs=Count('requires'))
+						# excludes.append(~Q(requires__in=reqs))
+				else:
+					if mode == "=":
+						filters[key + "__iexact"] = value
+					elif mode == ":":
+						filters[key + "__contains"] = value
+
+			if objs: objs |= manager.filter(*Qs, **filters).exclude(*excludes).all()
+			else: objs = manager.filter(*Qs, **filters).exclude(*excludes).all()
 	elif get_model_for_name(table) in [Ability, Rule]:
 		#Query is None, all entries will be returned.
 		#Exclude all objects with parents (Upgrades etc), they will be removed anyway
