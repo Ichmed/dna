@@ -131,7 +131,14 @@ def store_or_update_character(request, id):
 		Resistance.objects.update_or_create({"amount": value}, owner_id=id, type_id=resistance)
 
 	for ability in data.get('abilities', []):
-		AbilityInstance.objects.update_or_create(ability, owner_id=id, base_id=ability['base_id'])
+		print(ability)
+		if 'id' in ability and (ability['id'] == "undefined" or ability['id'] == ""):
+			ability.pop('id')
+
+		if 'id' in ability:
+			AbilityInstance.objects.update_or_create(ability, owner_id=id, pk=ability['id'])
+		else:
+			AbilityInstance.objects.create(**ability, owner_id=id)
 
 	for skill in data.get('skills', []):
 		if not 'base_id' in skill or skill['base_id'] == "":
@@ -152,15 +159,16 @@ class EMPTY:
 def send_character(request, character):
 	
 	senses = []
-	passive = []
+	moves = []
 	active = []
 
 	for a in character.abilities.all():
+		if not a.base: continue
 		t = a.base.type
 		if("Sense" in t):
 			senses.append(a)
-		elif("Passive" in t):
-			passive.append(a)
+		elif("Movement" in t):
+			moves.append(a)
 		else:
 			active.append(a)
 
@@ -172,7 +180,7 @@ def send_character(request, character):
 		'TER': TER,
 		'bars': bars,
 		'senses': senses,
-		'passive': passive,
+		'moves': moves,
 		'active': active,
 		'damage_types': DamageType.objects.all(),
 		'empty': EMPTY(),

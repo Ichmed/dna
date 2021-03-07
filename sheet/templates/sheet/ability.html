@@ -1,16 +1,27 @@
 {% load static %}
 {% load md %}
 
-<div class="ability clickbox" onclick="smartlink('ability', '{{ability.base.pk}}')">
-<input type="hidden" name="base_id" value="{{ability.base.pk}}">
+<div class="ability clickbox" onclick="smartlink('ability', '{{ability.base.id}}')">
+<input type="hidden" name="base_id" value="{{ability.base.id}}">
+<input type="hidden" name="id" value="{{ability.id}}">
+<div class="inner">
 {% with "symbols/bobble_"|cat:ability.base.skill|cat:".png" as path %}
-<div class="icon_align"><img class="icon" src="{% static path %}"></div>
+<div class="icon_align"><img class="icon" src="/static/symbols/bobble_{{ability.base.skill.name}}.png"></div>
 {% endwith %}
 <input class="name" name="name" value="{{ability.name}}">
+<span class="type">{{ ability.base.type }}</span>
 {% if ability.base.actionpoints %} <span class="info cost"> Cost: {{ability.base.actionpoints}}</span>{% endif %}
 {% if ability.base.chance %} <span class="info chance">Chance: {{ability.base.chance}}</span>{% endif %}
 {% if ability.base.range %} <span class="info range">Range: {{ability.base.range}}</span>{% endif %}
 {% if ability.base.manacost %} <span class="info mana" onclick="spend('mana', {{ability.base.manacost}}); event.stopPropagation()">Mana: {{ability.base.manacost}}</span>{% endif %}
-
-<div class="level"><input value="{{ability.level}}" name="level"></div>
+</div>
+{% if ability.base.leveling != "None" %}
+<div class="level" onclick="event.stopPropagation()">
+	<input type="number" value="{{ability.level}}" name="level">
+	<img src="/static/symbols/leveling_{{ability.base.leveling}}.png"><span class="popup">Cost: <span class="cost"></span></span>
+</div>
+{% endif %}
+{% if ability.base.leveling == "None" %}
+<input type="hidden" value="{{ability.level}}" name="level">
+{% endif %}
 </div>

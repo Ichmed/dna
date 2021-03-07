@@ -88,7 +88,6 @@ def parse_header(header):
 		preamble = "if (" + " ".join(rest) + ") {"
 	elif type == "with":
 		f, _, t = rest
-		print(f"{{ var {t} = {substitute(f)};\n")
 		preamble = f"{{ var {t} = {substitute(f)};"
 	# TODO: self closing tags
 	# elif type == "static":
