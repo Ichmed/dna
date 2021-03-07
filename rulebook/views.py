@@ -80,17 +80,20 @@ def search(request, table, query=None):
 
 def api_search(_, table, query):
 	try:
-		return JsonResponse(model_to_dict(perform_query(table, query)[0]))
-	except:
-		raise Http404("Poll does not exist")
+		o = perform_query(table, query)[0]
+		d = model_to_dict(o, fields=[field.name for field in o._meta.fields]) #TODO: improve this
+		return JsonResponse(d)
+	except Exception as e:
+		print(e)
+		raise Http404("does not exist")
 
 def api_list(request, table, query=None):
 	if query is None:
 		query = "name:" + request.GET.get('q', '')
 	else:
-		query += " + name:" + query
+		query += " + name:" + request.GET.get('q', '')
 
-	return JsonResponse({'results':[{'id': x.pk, 'text': x.name} for x in perform_query(table, query)]})
+	return JsonResponse({'results':[{'id': x.id, 'text': x.name} for x in perform_query(table, query)]})
 
 def editor(request, table, id=None):
 	m = get_model_for_name(table)
