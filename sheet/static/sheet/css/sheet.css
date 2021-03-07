@@ -258,16 +258,27 @@ input::-webkit-inner-spin-button {
 
 .ability {
   margin-top: 3px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-radius: 10px;
   position: relative;
+  background-color: rgba(159, 253, 198, 0.288);
+}
+
+.ability .ability {
+  margin-left: 15px;
+  border: none;
+}
+
+.ability .ability [name=name] {
+  width: 185px;
 }
 
 .ability .inner {
-  border: 1px solid black;
   border-radius: 10px;
   padding: 0;
   display: inline-block;
   width: 89%;
-  overflow: hidden;
 }
 
 .ability .icon_align {
@@ -281,10 +292,9 @@ input::-webkit-inner-spin-button {
   font-size: 20px;
   font-weight: bold;
   border: none;
-  background-color: grey;
-  color: #fff;
-  border-radius: 0 15px 15px 0;
+  width: 200px;
   padding: 10px;
+  background-color: rgba(0, 0, 0, 0);
 }
 
 .ability .type {
@@ -326,6 +336,10 @@ input::-webkit-inner-spin-button {
   border: none;
   width: 50px;
   text-align: center;
+}
+
+.ability .dropdown {
+  width: 100px;
 }
 
 .ability:hover .level {
@@ -419,7 +433,7 @@ input::-webkit-inner-spin-button {
 }
 
 div:hover > .popup, .popup:hover {
-  position: relative;
+  position: absolute;
   left: 100%;
   top: -100%;
   display: block;
@@ -427,4 +441,6 @@ div:hover > .popup, .popup:hover {
   padding: 3px;
   background-color: rgba(0, 0, 0, 0.5);
   border-radius: 5px;
+  width: 100%;
+  max-width: 200px;
 }

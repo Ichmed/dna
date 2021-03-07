@@ -92,6 +92,8 @@ function recalculate() {
 		console.log(mul);
 		$(this).find('input.mul').val(mul.toFixed(1));
 	});
+	
+	refreshDropdowns();
 }
 
 (function($,undefined){
@@ -205,7 +207,7 @@ function post() {
 	var attributes = $('.att').serializeObject();
 	let skills = $('.skills tr').slice(1).map((i, x) => $(x).find(':input').serializeObject()).toArray();
 	let notes = $('#notes .note').map((i, x) => $(x).find(':input').serializeObject()).toArray();
-	let abilities = $('.ability').map((i, x) => $(x).find(':input').serializeObject()).toArray();
+	let abilities = $('.ability .inner').map((i, x) => $(x).find(':input').serializeObject()).toArray();
 	let resistances = $('.resistance :input.base').serializeObject()
 	let items = $('#inventory .inner').children('.item').map((i, x) => collecItem(x)).toArray();
 
@@ -284,17 +286,29 @@ function insertList(name, target) {
 		)
 }
 
-function add_ability(id) {
-	
+function addAbility(id) {
 	$.get('/rulebook/api/search/ability/id=' + id).done(function(base) {
 		ability = {
 			base: base,
 			name: base.name,
 			level: 1
 		}
-		console.log(ability)
 		{{ "sheet/ability.html"|to_js_template }}
 		$('#abilities').append($(_r));
+	});
+}
+
+function insertAbility(id, target) {
+	$.get('/rulebook/api/search/ability/id=' + id).done(function(base) {
+		ability = {
+			base: base,
+			name: base.name,
+			level: 1
+		}
+		{{ "sheet/ability.html"|to_js_template }}
+		var res = $(_r);
+		$(res).find('[name=parent_id]').val($(target).closest('.ability').find('[name=id]').val());
+		$(target).closest('.ability').find('.children').append(res);
 	});
 }
 
@@ -311,10 +325,19 @@ function calc_cum_cost(level, base, type) {
 	return sum;
 }
 
+function refreshDropdowns() {
+	
+    $('.dropdown').each((i, x) => ($(x).select2({
+		ajax: {
+			url: "/rulebook/api/list/" + $(x).attr('target') + "/" + ($(x).attr('params') || ""),
+			dataType: 'json',
+		}
+	})));
+}
+
 
 $( document ).ready(function() {
 	
-	recalculate();
 	$('input.resize').keyup(resizeInput).each(resizeInput);
 	$('body')
 		.on('keyup', '.weapon .name input.base', enterOnWeaponName)
@@ -324,14 +347,9 @@ $( document ).ready(function() {
 		.on('dragleave', '.item_target', resetItem)
 	;
 	autosize($('textarea'));
-	
-    $('.dropdown').each((i, x) => ($(x).select2({
-		ajax: {
-			url: "/rulebook/api/list/" + $(x).attr('target'),
-			dataType: 'json',
-		}
-	})));
 
+	recalculate();
+	
 });
 
 
@@ -492,7 +510,7 @@ $( document ).ready(function() {
 </div>
 <select class="dropdown" id="ability_select" target="ability" style="width: 150px;">
 </select>
-<input type="button" onclick="add_ability($('#ability_select').val());">
+<input type="button" onclick="addAbility($('#ability_select').val());">
 
 <div id="abilities">
 {% for ability in active %}
