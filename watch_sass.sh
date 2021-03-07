@@ -1,0 +1,1 @@
+ python manage.py sass sheet/static/sheet/scss/ sheet/static/sheet/css/ --watch
