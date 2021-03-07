@@ -4,7 +4,7 @@ from django.db.models import *
 
 class Character(Model):
 	name = CharField(max_length=255)
-	race = ForeignKey('rulebook.Race', on_delete=CASCADE)
+	race = ForeignKey('rulebook.Race', on_delete=CASCADE, blank=True, null=True)
 	
 	CON = IntegerField(default=10)
 	STR_mod = IntegerField(default=0)
@@ -26,23 +26,23 @@ class Character(Model):
 	CHA_mod = IntegerField(default=0)
 	CRE_mod = IntegerField(default=0)
 
-	INI_mod = IntegerField(default=10)
-	PER_mod = IntegerField(default=10)
-	MPA_mod = IntegerField(default=10)
+	INI_mod = IntegerField(default=0)
+	PER_mod = IntegerField(default=0)
+	MPA_mod = IntegerField(default=0)
 
-	MEL_mod = IntegerField(default=10)
-	RAN_mod = IntegerField(default=10)
-	PAR_mod = IntegerField(default=10)
-	FOR_mod = IntegerField(default=10)
+	MEL_mod = IntegerField(default=0)
+	RAN_mod = IntegerField(default=0)
+	PAR_mod = IntegerField(default=0)
+	FOR_mod = IntegerField(default=0)
 
-	CAR_mod = IntegerField(default=10)
-	DDG_mod = IntegerField(default=10)
+	CAR_mod = IntegerField(default=0)
+	DDG_mod = IntegerField(default=0)
 
-	Health_mod = IntegerField(default=10)
+	Health_mod = IntegerField(default=0)
 	Health = IntegerField(default=10)
-	Stamina_mod = IntegerField(default=10)
+	Stamina_mod = IntegerField(default=0)
 	Stamina = IntegerField(default=10)
-	Mana_mod = IntegerField(default=10)
+	Mana_mod = IntegerField(default=0)
 	Mana = IntegerField(default=10)
 	
 	def __str__(self):

@@ -1,0 +1,9 @@
+<a href="/sheet/character/id/new">New Character</a>
+<div>
+	Characters:
+	<ul>
+		{% for character in characters %}
+		<li><a href="/sheet/character/id/{{character.id}}">{{character.name}}</a>
+		{% endfor %}
+	</ul>
+</div>

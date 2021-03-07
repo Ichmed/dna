@@ -222,7 +222,7 @@ function post() {
 		'abilities': abilities,
 		'resistances': resistances,
 		'items': items,
-	}))
+	})).done(function(data){window.location.href = "/sheet/character/id/" + data})
 }
 
 function selectInput() {

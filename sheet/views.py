@@ -81,14 +81,15 @@ def character_by_name(request, name):
 
 @csrf_exempt
 def character_by_id(request, id):
-	if id == "new":
-		character = Character()
-	else:
-		character = Character.objects.get(pk=id)
 
 	if request.method == 'POST':
 		return store_or_update_character(request, id)
 	elif request.method == 'GET':
+		if id == "new":
+			character = Character()
+		else:
+			character = Character.objects.get(id=id)
+
 		return send_character(request, character)
 
 
@@ -119,11 +120,11 @@ def store_or_update_character(request, id):
 	u.update({'name': data['name']})
 	
 	
-	if(id > 0):
-		Character.objects.filter(pk=id).update(**u)
-	else:
+	if id == 'None':
 		character = Character.objects.create(**u)
 		id = character.pk
+	else:
+		Character.objects.filter(pk=id).update(**u)
 	
 
 	for resistance, value in data.get('resistances', {}).items():
@@ -150,7 +151,7 @@ def store_or_update_character(request, id):
 		update_inventory(item, container=None, owner_id=id)
 
 
-	return HttpResponse()
+	return HttpResponse(id)
 
 class EMPTY:
 	def __getitem__(*_):
@@ -189,5 +190,10 @@ def send_character(request, character):
 		# 'wounds': [model_to_dict(x) for x in character.wounds.all()],
 		# 'inventory': [model_to_dict(x) for x in character.inventory.all()],
 		# 'notes': [model_to_dict(x) for x in character.notes.all()],
+	})
+
+def list_characters(request):
+	return render(request, 'sheet/welcome.html', {
+		"characters": Character.objects.all()
 	})
 
