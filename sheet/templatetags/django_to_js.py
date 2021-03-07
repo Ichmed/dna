@@ -85,7 +85,7 @@ def parse_header(header):
 		running, _, source= rest
 		preamble = f"for({running}_ in {source}){{ var {running} = {source}[{running}_]; "
 	elif type == "if":
-		preamble = "if (" + " ".join(rest) + ") {"
+		preamble = "if (" + (" ".join(rest)).replace("not", "!") + ") {"
 	elif type == "with":
 		f, _, t = rest
 		preamble = f"{{ var {t} = {substitute(f)};"
