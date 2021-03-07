@@ -257,23 +257,39 @@ input::-webkit-inner-spin-button {
 }
 
 .ability {
-  border: 1px solid black;
-  border-radius: 10px 0 0 10px;
-  padding: 4px;
   margin-top: 3px;
   position: relative;
+}
+
+.ability .inner {
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 0;
+  display: inline-block;
+  width: 89%;
+  overflow: hidden;
 }
 
 .ability .icon_align {
   vertical-align: middle;
   display: inline-block;
   height: 100%;
+  width: 3%;
 }
 
 .ability .name {
   font-size: 20px;
   font-weight: bold;
   border: none;
+  background-color: grey;
+  color: #fff;
+  border-radius: 0 15px 15px 0;
+  padding: 10px;
+}
+
+.ability .type {
+  width: 150px;
+  display: inline-block;
 }
 
 .ability .info {
@@ -295,7 +311,7 @@ input::-webkit-inner-spin-button {
   background-color: lightgrey;
   position: absolute;
   height: 100%;
-  width: 50px;
+  width: 8%;
   text-align: center;
   vertical-align: middle;
   display: inline-block;
@@ -308,8 +324,8 @@ input::-webkit-inner-spin-button {
   padding: 5px;
   background-color: rgba(0, 0, 0, 0);
   border: none;
-  width: 100%;
-  text-align: right;
+  width: 50px;
+  text-align: center;
 }
 
 .ability:hover .level {
@@ -392,4 +408,23 @@ input::-webkit-inner-spin-button {
   text-align: center;
   border: none;
   width: 15px;
+}
+
+.inline {
+  display: inline-block;
+}
+
+.popup {
+  display: none;
+}
+
+div:hover > .popup, .popup:hover {
+  position: relative;
+  left: 100%;
+  top: -100%;
+  display: block;
+  z-index: 1;
+  padding: 3px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
 }
