@@ -1,9 +1,11 @@
 from django.template.defaulttags import register
 from django.utils.safestring import mark_safe
+from dna.settings import BASE_DIR
+import os
 
 @register.filter
 def to_js_template(path, target="r", source="data"):
-	text = open("sheet/templates/" + path).read()
+	text = open(os.path.join(BASE_DIR, "sheet", "templates", path)).read()
 	return mark_safe(f"var _{target} = \"\";" + parse(text, target=target, source=source)[0])
 
 def parse(block, header="", target="r", source="data"):
