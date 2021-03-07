@@ -51,9 +51,10 @@ class Character(Model):
 
 class AbilityInstance(Model):
 	base = ForeignKey('rulebook.Ability', blank=True, null=True, on_delete=CASCADE)
+	parent = ForeignKey('self', on_delete=CASCADE, blank=True, null=True, related_name="children")
 	name = CharField(max_length=255)
 	level = IntegerField()
-	owner = ForeignKey(Character, related_name='abilities', on_delete=CASCADE)
+	owner = ForeignKey(Character, blank=True, null=True, related_name='abilities', on_delete=CASCADE)
 	
 
 	def __str__(self):
