@@ -31,6 +31,9 @@ function V(x)
 }
 
 function recalculate() {
+
+	$('.signed').valS()
+
 	$('.secondary input').each(function()
 		{
 			var a = parseInt($(this).val()) || 0;
@@ -119,11 +122,21 @@ function recalculate() {
 (function($,undefined){
   '$:nomunge'; // Used by YUI compressor.
 
-  $.fn.valS = function(num){
-    if(num > 0) {
-		num = "+" + num
-	}
-	this.val(num)
+  $.fn.valS = function(num=undefined){
+    this.each(function() {
+		var num = num;
+		if(num === undefined){
+			num = $(this).val();
+		}
+		num = parseInt(num);
+		if(isNaN(num)){
+			return;
+		}
+		if(num >= 0) {
+			num = "+" + num;
+		}
+		$(this).val(num)
+	});
   };
 
 })(jQuery);
@@ -222,7 +235,7 @@ function post() {
 		'abilities': abilities,
 		'resistances': resistances,
 		'items': items,
-	})).done(function(data){window.location.href = "/sheet/character/id/" + data})
+	})).done(function(data){window.location.replace("/sheet/character/id/" + data)})
 }
 
 function selectInput() {
@@ -300,15 +313,19 @@ function addAbility(id) {
 
 function insertAbility(id, target) {
 	$.get('/rulebook/api/search/ability/id=' + id).done(function(base) {
+		base['children'] = {all: false}
 		ability = {
 			base: base,
 			name: base.name,
-			level: 1
+			level: 1,
+			children: {
+				all: false
+			}
 		}
 		{{ "sheet/ability.html"|to_js_template }}
 		var res = $(_r);
 		$(res).find('[name=parent_id]').val($(target).closest('.ability').find('[name=id]').val());
-		$(target).closest('.ability').find('.children').append(res);
+		$(target).closest('.ability').find('.select2').before(res);
 	});
 }
 
@@ -328,6 +345,7 @@ function calc_cum_cost(level, base, type) {
 function refreshDropdowns() {
 	
     $('.dropdown').each((i, x) => ($(x).select2({
+		placeholder: $(x).attr('placeholder'),
 		ajax: {
 			url: "/rulebook/api/list/" + $(x).attr('target') + "/" + ($(x).attr('params') || ""),
 			dataType: 'json',
@@ -371,7 +389,7 @@ $( document ).ready(function() {
 
 <div id="sheet">
 
-<input type="text" name="name" id="name" value="{{character.name}}">
+<input type="text" name="name" id="name" placeholder="Firstname Lastname" value="{{character.name}}">
 
 <table id="main_attributes">
 {% for PRIME, SEC1, SEC2 in ATT %}{% include "sheet/att_box.html" %}{% endfor %}
@@ -511,9 +529,10 @@ $( document ).ready(function() {
 
 </div>
 </div>
-<select class="dropdown" id="ability_select" target="ability" style="width: 150px;">
+<select class="dropdown" placeholder="Select Ability" id="ability_select" target="ability" style="width: 150px;">
+<option></option>
 </select>
-<input type="button" onclick="addAbility($('#ability_select').val());">
+<input type="button" value="+" onclick="addAbility($('#ability_select').val());">
 
 <div id="abilities">
 {% for ability in active %}
