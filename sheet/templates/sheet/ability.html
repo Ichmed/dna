@@ -1,8 +1,8 @@
 {% load static %}
 {% load md %}
 
-<div class="ability clickbox" onclick="if(event.target == this) smartlink('ability', '{{ability.base.id}}');">
-<div class="inner" onclick="if(event.target == this) smartlink('ability', '{{ability.base.id}}');">
+<div class="ability">
+<div class="inner clickbox" onclick="if(event.target == this) smartlink('ability', '{{ability.base.id}}');">
 <input type="hidden" name="base_id" value="{{ability.base.id}}">
 <input type="hidden" name="id" value="{{ability.id}}">
 <input type="hidden" name="parent_id" {% if ability.parent %} value="{{ability.parent}}" {% endif %}>
@@ -16,9 +16,6 @@
 {% if ability.base.range %} <span class="info range">Range: {{ability.base.range}}</span>{% endif %}
 {% if ability.base.manacost %} <span class="info mana" onclick="spend('mana', {{ability.base.manacost}}); event.stopPropagation()">Mana: {{ability.base.manacost}}</span>{% endif %}
 
-{% if not ability.base.parent %}
-<select class="dropdown" target="ability" params="parent__id={{ability.base.id}}"></select><input type="button" value="+" onclick="insertAbility($(this).parent().find('.dropdown').val(), this); console.log(this)">
-{% endif %}
 {% if ability.base.leveling != "None" %}
 <div class="level" onclick="event.stopPropagation()">
 	<input type="number" value="{{ability.level}}" name="level">
@@ -30,11 +27,18 @@
 {% endif %}
 <div class="popup">{% if ability.base.effect %}{{ability.base.effect}}{% endif %}{% if ability.base.result %}{{ability.base.result}}{% endif %}</div>
 </div>
+
 <div class="children">
-{% if ability.children %}
 {% for ability in ability.children.all %}
 {% include "sheet/ability.html" %}
 {% endfor %}
+{% if ability.base.children.all %}
+<div class="fake ability">
+<div class="inner clickbox">
+<select class="dropdown" placeholder="Select Upgrade" target="ability" params="parent__id={{ability.base.id}}"><option></option></select><input type="button" value="+" onclick="insertAbility($(this).parent().find('.dropdown').val(), this); console.log(this)">
+</div>
+</div>
 {% endif %}
 </div>
+
 </div>

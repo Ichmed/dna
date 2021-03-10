@@ -258,15 +258,13 @@ input::-webkit-inner-spin-button {
 
 .ability {
   margin-top: 3px;
-  padding-left: 5px;
   padding-right: 5px;
-  border-radius: 10px;
+  border-left: 3px solid black;
   position: relative;
-  background-color: rgba(159, 253, 198, 0.288);
 }
 
 .ability .ability {
-  margin-left: 15px;
+  margin-left: 5%;
   border: none;
 }
 
@@ -274,15 +272,39 @@ input::-webkit-inner-spin-button {
   width: 185px;
 }
 
+.ability .fake.ability .inner {
+  height: 43px;
+}
+
+.ability .fake.ability select {
+  width: 85%;
+}
+
+.ability .fake.ability .select2-selection {
+  height: 40px;
+  background-color: rgba(100, 100, 100, 0.5);
+  border: none;
+}
+
+.ability .fake.ability .select2-selection__rendered, .ability .fake.ability .select2-selection__placeholder {
+  margin-top: auto;
+  font-size: 20px;
+  display: block;
+  color: black;
+}
+
 .ability .inner {
-  border-radius: 10px;
+  position: relative;
+  border: 1px solid black;
   padding: 0;
+  padding-left: 5px;
+  border-radius: 0 10px 10px 0;
   display: inline-block;
   width: 89%;
+  overflow: hidden;
 }
 
 .ability .icon_align {
-  vertical-align: middle;
   display: inline-block;
   height: 100%;
   width: 3%;
@@ -321,7 +343,7 @@ input::-webkit-inner-spin-button {
   background-color: lightgrey;
   position: absolute;
   height: 100%;
-  width: 8%;
+  width: 75px;
   text-align: center;
   vertical-align: middle;
   display: inline-block;
@@ -334,12 +356,8 @@ input::-webkit-inner-spin-button {
   padding: 5px;
   background-color: rgba(0, 0, 0, 0);
   border: none;
-  width: 50px;
+  width: 40px;
   text-align: center;
-}
-
-.ability .dropdown {
-  width: 100px;
 }
 
 .ability:hover .level {
