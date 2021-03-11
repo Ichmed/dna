@@ -301,10 +301,13 @@ function insertList(name, target) {
 
 function addAbility(id) {
 	$.get('/rulebook/api/search/ability/id=' + id).done(function(base) {
-		ability = {
+		var ability = {
 			base: base,
 			name: base.name,
-			level: 1
+			level: 1,
+			children: {
+				all: []
+			}
 		}
 		{{ "sheet/ability.html"|to_js_template }}
 		$('#abilities').append($(_r));
@@ -319,7 +322,7 @@ function insertAbility(id, target) {
 			name: base.name,
 			level: 1,
 			children: {
-				all: false
+				all: []
 			}
 		}
 		{{ "sheet/ability.html"|to_js_template }}
