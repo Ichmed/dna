@@ -26,7 +26,7 @@ def load_widget(name, libname=None, abs=[]):
 	Load a widget from a python file
 	"""
 	if not libname: libname = "rulebook.widgets." + name
-	print("loading", name, "from", libname)
+	# print("loading", name, "from", libname)
 	for n in [name] + abs:
 		widgets[n] = getattr(getattr(__import__(libname), 'widgets'), name).build
 
