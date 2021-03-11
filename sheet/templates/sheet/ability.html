@@ -25,7 +25,7 @@
 {% if ability.base.leveling == "None" %}
 <input type="hidden" value="{{ability.level}}" name="level">
 {% endif %}
-<div class="popup">{% if ability.base.effect %}{{ability.base.effect}}{% endif %}{% if ability.base.result %}{{ability.base.result}}{% endif %}</div>
+<div class="description">{% if ability.base.effect %}{{ability.base.effect|md}}{% endif %}{% if ability.base.result %}{{ability.base.result|md}}{% endif %}</div>
 </div>
 
 <div class="children">
@@ -33,9 +33,9 @@
 {% include "sheet/ability.html" %}
 {% endfor %}
 {% if ability.base.children.all %}
-<div class="fake ability">
+<div class="fake ability modifier">
 <div class="inner clickbox">
-<select class="dropdown" placeholder="Select Upgrade" target="ability" params="parent__id={{ability.base.id}}"><option></option></select><input type="button" value="+" onclick="insertAbility($(this).parent().find('.dropdown').val(), this); console.log(this)">
+<select class="dropdown" placeholder="Click to Select Upgrade" target="ability" params="parent__id={{ability.base.id}}"><option></option></select><input type="button" value="+" onclick="insertAbility($(this).parent().find('.dropdown').val(), this); console.log(this)">
 </div>
 </div>
 {% endif %}

@@ -56,6 +56,10 @@ body {
   display: none;
 }
 
+[hide_ability_description="true"] .ability .description {
+  display: none;
+}
+
 .fm {
   display: flex;
   align-items: start;
@@ -282,7 +286,7 @@ input::-webkit-inner-spin-button {
 
 .ability .fake.ability .select2-selection {
   height: 40px;
-  background-color: rgba(100, 100, 100, 0.5);
+  background-color: rgba(100, 100, 100, 0);
   border: none;
 }
 
@@ -340,14 +344,12 @@ input::-webkit-inner-spin-button {
 .ability .level {
   right: 0;
   top: 0;
-  background-color: lightgrey;
   position: absolute;
   height: 100%;
   width: 75px;
   text-align: center;
   vertical-align: middle;
   display: inline-block;
-  border-radius: 50% 0 0 50%;
 }
 
 .ability .level input {
@@ -360,8 +362,13 @@ input::-webkit-inner-spin-button {
   text-align: center;
 }
 
-.ability:hover .level {
-  background-color: darkgrey;
+.ability .description {
+  margin-bottom: 5px;
+}
+
+.ability .description p {
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 #inventory .inner {
