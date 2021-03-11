@@ -36,7 +36,9 @@ def perform_query(table, query, page=-1):
 	
 	model = get_model_for_name(table.lower())
 	manager = model.objects
-		
+
+	print(query)
+
 	Qs = []
 	excludes=[]
 	filters = {}
@@ -49,6 +51,8 @@ def perform_query(table, query, page=-1):
 
 			for q in sub.split("+"):
 				key, mode, value = re.match(r"\s*(\w*?)\s*([:=!])\s*([\w, ]*)", q).groups()
+
+				print(key, mode, value)
 
 				if key.lower() == "requires":
 					reqs = value.split(',')
