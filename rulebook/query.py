@@ -48,8 +48,8 @@ def perform_query(table, query, page=-1):
 			
 
 			for q in sub.split("+"):
-				key, mode, value = re.match(r"\s*(\w*?)\s*([:=!])\s*([\w,]*)\s*", q).groups()
-				
+				key, mode, value = re.match(r"\s*(\w*?)\s*([:=!])\s*([\w, ]*)", q).groups()
+
 				if key.lower() == "requires":
 					reqs = value.split(',')
 					if mode == ":":

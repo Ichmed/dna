@@ -220,7 +220,7 @@ function post() {
 	var attributes = $('.att').serializeObject();
 	let skills = $('.skills tr').slice(1).map((i, x) => $(x).find(':input').serializeObject()).toArray();
 	let notes = $('#notes .note').map((i, x) => $(x).find(':input').serializeObject()).toArray();
-	let abilities = $('.ability .inner').map((i, x) => $(x).find(':input').serializeObject()).toArray();
+	let abilities = $('.ability:not(.fake)>.inner').map((i, x) => $(x).find(':input').serializeObject()).toArray();
 	let resistances = $('.resistance :input.base').serializeObject()
 	let items = $('#inventory .inner').children('.item').map((i, x) => collecItem(x)).toArray();
 
@@ -314,7 +314,7 @@ function addAbility(id) {
 function insertAbility(id, target) {
 	$.get('/rulebook/api/search/ability/id=' + id).done(function(base) {
 		base['children'] = {all: false}
-		ability = {
+		var ability = {
 			base: base,
 			name: base.name,
 			level: 1,
@@ -327,6 +327,23 @@ function insertAbility(id, target) {
 		$(res).find('[name=parent_id]').val($(target).closest('.ability').find('[name=id]').val());
 		$(target).closest('.ability').find('.select2').before(res);
 	});
+}
+
+function insertWeapon() {
+	var weapon = {
+		base: {
+			name: "",
+			force: "",
+			parry: "",
+			cost: "",
+		},
+		skill: {
+			name: ""
+		}
+	}
+	{{ "sheet/weapon.html"|to_js_template }}
+	$('#weapons').append($(_r));
+
 }
 
 function calc_cost(level, base, type) {
@@ -443,7 +460,7 @@ $( document ).ready(function() {
 	</div>
 </div>
 
-<h2>Combat</h2>
+<h2>Weapons</h2>
 <div id="actions">
 	<table id="weapons">
 	
@@ -492,9 +509,11 @@ $( document ).ready(function() {
 		<th>PAR</th>
 		<th>Damage</th>
 	</tr>
+	{% for weapon in character.waepons.all %}
 	{% include "sheet/weapon.html" %}
-	{% include "sheet/weapon.html" %}
+	{% endfor %}
 	</table>
+	<input type="button" value="+" onclick="insertWeapon()">
 </div>
 
 </div>
@@ -502,14 +521,14 @@ $( document ).ready(function() {
 <div class="f" style="flex-grow: 2; width: 600px">
 <div id="damage_box">
 
-<input type="number" id="damage_amount">
-<input type="button" onclick="damage(I($('#damage_amount').val()), 'GENERIC', $('input[name=\'damage_type\']:checked').val())">
+<input type="number" id="damage_amount" placeholder="Damage Amount">
+<input type="button" value="Deal Damage" onclick="damage(I($('#damage_amount').val()), 'GENERIC', $('input[name=\'damage_type\']:checked').val())">
 </div>
 
 <div id="resistances">
 {% for d in damage_types %}
 <div class="resistance {{d}}">
-<input type="radio" name="damage_type" value="{{d}}"><span>{{d}}</span> <input type="number" class="base update" name="{{d.pk}}" value="{{character|get:'resistance_'|add:d}}"><input type="number" class="mul" disabled>
+<input type="radio" {% if forloop.first %} checked="checked" {% endif %} name="damage_type" value="{{d}}"><span>{{d}}</span> <input type="number" class="base update" name="{{d.pk}}" value="{{character|get:'resistance_'|add:d}}"><input type="number" class="mul" disabled>
 </div>
 {% endfor %}
 </div>
@@ -529,16 +548,22 @@ $( document ).ready(function() {
 
 </div>
 </div>
-<select class="dropdown" placeholder="Select Ability" id="ability_select" target="ability" style="width: 150px;">
-<option></option>
-</select>
-<input type="button" value="+" onclick="addAbility($('#ability_select').val());">
-
 <div id="abilities">
+<h2>Abilties</h2>
 {% for ability in active %}
 {% include "sheet/ability.html" %}
 {% endfor %}
 </div>
+
+<div class="ability fake">
+<div class="inner">
+<select class="dropdown" placeholder="Select Ability" id="ability_select" target="ability" style="width: 150px;">
+<option></option>
+</select>
+<input type="button" value="+" onclick="addAbility($('#ability_select').val());">
+</div>
+</div>
+
 
 <div id="inventory">
 <h2>Inventory</h2>

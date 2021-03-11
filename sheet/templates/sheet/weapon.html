@@ -1,17 +1,17 @@
 <tr class="weapon">
 	<td class="name">
-		<p><input class="base modifier" type="text" name="name" onload="console.log('aaaa')" onkeyup="event => {
+		<p><input class="base modifier" type="text" name="name" onkeyup="event => {
 			console.log(event.key);
 			if(event.key ==='Enter') {
 				$.get('/rulebook/api/search/weapon/name=' + this.val()).done(function(data) {
 				});
 			}
-		}">
-		<p><input class="skill modifier" type="text" name="name">
+		}" value="{{weapon.base.name}}">
+		<p><input class="skill modifier" type="text" name="name" value="{{weapon.skill.name}}">
 		<p><input class="total" type="text" name="name">
 	</td>
 	<td class="cost">
-		<p><input class="base modifier" type="text" name="cost">
+		<p><input class="base modifier" type="text" name="cost" value="{{weapon.base.cost}}">
 		<p><input class="skill modifier" type="text" name="cost">
 		<p><input class="total" type="text" name="cost">
 	</td>
@@ -21,12 +21,12 @@
 		<p><input class="total" type="text" name="hit">
 	</td>
 	<td class="force">
-		<p><input class="base modifier" type="text" name="force">
+		<p><input class="base modifier" type="text" name="force" value="{{weapon.base.force}}">
 		<p><input class="skill modifier" type="text" name="force">
 		<p><input class="total" type="text" name="force">
 	</td>
 	<td class="parry">
-		<p><input class="base modifier" type="text" name="parry">
+		<p><input class="base modifier" type="text" name="parry" value="{{weapon.base.parry}}">
 		<p><input class="skill modifier" type="text" name="parry">
 		<p><input class="total" type="text" name="parry">
 	</td>
