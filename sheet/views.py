@@ -37,11 +37,11 @@ TER = {
 }
 
 bars = {
-'Health': "V('FRT') + 5",
+'Health': "Math.floor(V('FRT') + 5)",
 # 'Knockout Threshold' = FRT
-'Stamina': "V('CON') + 5",
+'Stamina': "Math.floor(V('CON') + 5)",
 # 'Stamina Regen' = CON / 2
-'Mana': "(V('REC') + V('DEV')) / 2"
+'Mana': "Math.floor((V('REC') + V('DEV')) / 2)"
 # 'Mana Regen' = WIL/3
 
 
