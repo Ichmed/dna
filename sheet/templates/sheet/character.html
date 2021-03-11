@@ -327,8 +327,8 @@ function insertAbility(id, target) {
 		}
 		{{ "sheet/ability.html"|to_js_template }}
 		var res = $(_r);
-		$(res).find('[name=parent_id]').val($(target).closest('.ability').find('[name=id]').val());
-		$(target).closest('.ability').find('.select2').before(res);
+		$(res).find('[name=parent_id]').val($(target).closest('.ability:not(.fake)').find('[name=id]').val());
+		$(target).closest('.ability.fake').before(res);
 	});
 }
 

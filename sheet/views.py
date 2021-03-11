@@ -135,11 +135,19 @@ def store_or_update_character(request, id):
 		print(ability)
 		if 'id' in ability and (ability['id'] == "undefined" or ability['id'] == ""):
 			ability.pop('id')
+		if 'parent_id' in ability and (ability['parent_id'] == "undefined" or ability['parent_id'] == ""):
+			ability.pop('parent_id')
 
 		if 'id' in ability:
-			AbilityInstance.objects.update_or_create(ability, owner_id=id, pk=ability['id'])
+			if 'parent_id' in ability:
+				AbilityInstance.objects.update_or_create(ability, owner_id=None, pk=ability['id'])
+			else:
+				AbilityInstance.objects.update_or_create(ability, owner_id=id, pk=ability['id'])
 		else:
-			AbilityInstance.objects.create(**ability, owner_id=id)
+			if 'parent_id' in ability:
+				AbilityInstance.objects.create(**ability, owner_id=None)
+			else:
+				AbilityInstance.objects.create(**ability, owner_id=id)
 
 	for skill in data.get('skills', []):
 		if not 'base_id' in skill or skill['base_id'] == "":
