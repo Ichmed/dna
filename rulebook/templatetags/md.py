@@ -36,7 +36,7 @@ def create_search_widget(name, path, *args_names, alts=[]):
 	
 		m = get_model_for_name(table)
 		display = None
-		if not "=" in query and not ":" in query:
+		if not "=" in query and not ":" in query and not "!" in query:
 			display = query
 			query = "name=" + query
 
