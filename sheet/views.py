@@ -93,11 +93,16 @@ def character_by_id(request, id):
 		return send_character(request, character)
 
 
-def update_inventory(data, container=None, owner_id=None):
+def update_inventory(data, container=None, drop=False):
 	content = data.pop('content', [])
 	
-	data['container'] = container	
-	# data['owner_id'] = owner_id
+	if drop:
+		data['owner_id'] = None
+	
+	if data['owner_id']:
+		data['container'] = container	
+	else:
+		data['container'] = None
 
 	# print(data)
 
@@ -108,7 +113,7 @@ def update_inventory(data, container=None, owner_id=None):
 		item = InventoryItem.objects.create(**data)
 
 	for i in content:
-		update_inventory(i, container=item, owner_id=owner_id)
+		update_inventory(i, container=item, drop=data['owner_id'] is None)
 
 def store_or_update_character(request, id):
 	data = json.loads(request.body)
@@ -151,7 +156,7 @@ def store_or_update_character(request, id):
 		SkillInstance.objects.update_or_create(skill, owner_id=id, base_id=skill['base_id'], name=skill['name'])
 
 	for item in data.get('items', []):
-		update_inventory(item, container=None, owner_id=id)
+		update_inventory(item)
 
 
 	return HttpResponse(id)
