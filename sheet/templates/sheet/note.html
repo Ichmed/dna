@@ -1,5 +1,6 @@
-<div class="note" id="note_{{note.pk}}">
+<div class="note container" id="note_{{note.pk}}">
 <input type="hidden" name="pk" value="{{note.pk}}">
 <textarea name="text">{{note.text}}</textarea>
 <input type="number" name="expire" value="{{note.expire}}">
+{% include "sheet/delete_button.html" %}
 </div>

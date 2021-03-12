@@ -65,7 +65,7 @@ class SkillInstance(Model):
 	name = CharField(max_length=255)
 	level = IntegerField(default=1)
 	granted = IntegerField(default=0)
-	owner = ForeignKey(Character, related_name='skills', on_delete=CASCADE)
+	owner = ForeignKey(Character, null=True, related_name='skills', on_delete=CASCADE)
 	
 	def __str__(self):
 		return self.name + " " + str(self.pk)

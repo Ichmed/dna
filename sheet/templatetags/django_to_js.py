@@ -62,6 +62,8 @@ subs = {
 	"{{": "\" +",
 	"}}": "+ \"",
 	"|cat:": "+",
+	"|add:": "+",
+	"|lower": ".toLowerCase()",
 }
 
 def escape(x):

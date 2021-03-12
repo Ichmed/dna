@@ -108,13 +108,13 @@ def update_inventory(data, container=None, owner_id=None):
 		item = InventoryItem.objects.create(**data)
 
 	for i in content:
-		update_inventory(i, container=item, owner_id=None)
+		update_inventory(i, container=item, owner_id=owner_id)
 
 def store_or_update_character(request, id):
 	data = json.loads(request.body)
 
-	# for key, value in data.items():
-	# 	print(key + ": " + str(value))
+	for key, value in data.items():
+		print(key + ": " + str(value))
 
 	u = {key: 0 if x == "" else int(x) for key, x in data['attributes'].items()}
 	u.update({'name': data['name']})
@@ -140,16 +140,12 @@ def store_or_update_character(request, id):
 
 		if 'id' in ability:
 			if 'parent_id' in ability:
-				AbilityInstance.objects.update_or_create(ability, owner_id=None, pk=ability['id'])
-			else:
 				AbilityInstance.objects.update_or_create(ability, owner_id=id, pk=ability['id'])
 		else:
-			if 'parent_id' in ability:
-				AbilityInstance.objects.create(**ability, owner_id=None)
-			else:
 				AbilityInstance.objects.create(**ability, owner_id=id)
 
 	for skill in data.get('skills', []):
+		print(skill)
 		if not 'base_id' in skill or skill['base_id'] == "":
 			skill['base_id'] = None
 		# print(skill)
@@ -180,6 +176,14 @@ def send_character(request, character):
 			moves.append(a)
 		else:
 			active.append(a)
+
+	# c = {
+	# 	"active": active,
+	# 	"moves": moves,
+	# 	"senses": senses,
+	# 	"skills": character.skills.filter(DELETED=None).all()
+	# 	"abilities": 
+	# }
 
 
 	return render(request, 'sheet/character.html', 

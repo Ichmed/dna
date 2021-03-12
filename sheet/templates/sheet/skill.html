@@ -1,15 +1,14 @@
 {% load static %}
 {% load md %}
 
-<tr class="skill">
-<input type="hidden" name="base_id" value="{{skill_i.base.pk}}">
-{% with "symbols/bobble_"|cat:skill_i.name|lower|cat:".png" as path %}
-<td><img class="icon" src="{% static path %}">
-{% endwith %}
+<tr class="skill container">
+<input type="hidden" name="base_id" value="{{skill.base.id}}">
+<td><img class="icon" src="/static/symbols/bobble_{{skill.name|lower}}.png">
 
-<td><div class="name"><input name="name" type="text" value="{{skill_i.name|capfirst}}"></div></td>
-<td><div class="level"><input name="level" onkeyup="recalculate()" type="number" value="{{skill_i.level}}"></div></td>
-<td><div class="generated"><input disabled value="{{skill_i.generated}}"></div></td>
-<td><div class="granted"><input name="granted" onkeyup="recalculate()" type="number" value="{{skill_i.granted}}"></div></td>
+<td><div class="name"><input name="name" type="text" value="{{skill.name}}"></div></td>
+<td><div class="level"><input name="level" onkeyup="recalculate()" type="number" value="{{skill.level}}"></div></td>
+<td><div class="generated"><input disabled value="{{skill.generated}}"></div></td>
+<td><div class="granted"><input name="granted" onkeyup="recalculate()" type="number" value="{{skill.granted}}"></div></td>
 <td><div class="spare"></div></td>
-<td><div class="total"><input disabled value="{{skill_i.generated|add:skill_i.granted}}"></div></td>
+<td><div class="total"><input disabled value="{% if skill.total %} {{skill.total}} {% endif %} {% if not skill.total %}{{skill.generated|add:skill.granted}} {% endif %}"></div></td>
+<td class="del">{% include "sheet/delete_button.html" %}

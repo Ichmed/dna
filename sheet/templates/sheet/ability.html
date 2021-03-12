@@ -1,7 +1,7 @@
 {% load static %}
 {% load md %}
 
-<div class="ability">
+<div class="ability container">
 <div class="inner clickbox" onclick="if(event.target == this) smartlink('ability', '{{ability.base.id}}');">
 <input type="hidden" name="base_id" value="{{ability.base.id}}">
 <input type="hidden" name="id" value="{{ability.id}}">
@@ -26,6 +26,7 @@
 <input type="hidden" value="{{ability.level}}" name="level">
 {% endif %}
 <div class="description">{% if ability.base.effect %}{{ability.base.effect|md}}{% endif %}{% if ability.base.result %}{{ability.base.result|md}}{% endif %}</div>
+{% include "sheet/delete_button.html" %}
 </div>
 
 <div class="children">
@@ -40,5 +41,4 @@
 </div>
 {% endif %}
 </div>
-
 </div>

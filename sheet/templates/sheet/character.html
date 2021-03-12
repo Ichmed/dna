@@ -218,9 +218,9 @@ function selectItem(event, target) {
 function post() {
 
 	var attributes = $('.att').serializeObject();
-	let skills = $('.skills tr').slice(1).map((i, x) => $(x).find(':input').serializeObject()).toArray();
 	let notes = $('#notes .note').map((i, x) => $(x).find(':input').serializeObject()).toArray();
 	let abilities = $('.ability:not(.fake)>.inner').map((i, x) => $(x).find(':input').serializeObject()).toArray();
+	let skills = $('.skill').map((i, x) => $(x).find(':input').serializeObject()).toArray();
 	let resistances = $('.resistance :input.base').serializeObject()
 	let items = $('#inventory .inner').children('.item').map((i, x) => collecItem(x)).toArray();
 
@@ -234,6 +234,7 @@ function post() {
 		'notes': notes,
 		'abilities': abilities,
 		'resistances': resistances,
+		'skills': skills,
 		'items': items,
 	})).done(function(data){window.location.replace("/sheet/character/id/" + data)})
 }
@@ -289,16 +290,6 @@ function spend(resource, amount, block=true) {
 	return true;
 }
 
-function insertList(name, target) {
-	console.log(`<option value='{x}'>{data[x]}</option>`)
-	$.get('/rulebook/api/list/ability/')
-		.done((data) => 
-			($(target).append(data.keys()
-				.map((x) => $(`<option value='{x}'>{data[x]}</option>`)))
-			)
-		)
-}
-
 function addAbility(id) {
 	$.get('/rulebook/api/search/ability/id=' + id).done(function(base) {
 		var ability = {
@@ -347,6 +338,22 @@ function insertWeapon() {
 	{{ "sheet/weapon.html"|to_js_template }}
 	$('#weapons').append($(_r));
 
+}
+
+function insertSkill(id) {
+	$.get('/rulebook/api/search/skill/id=' + id).done(function(base) {
+		var skill = {
+			base: base,
+			name: base.name,
+			granted: 0,
+			generated: 1,
+			level: 1,
+			spare: 0,
+			total: 1
+		}
+		{{ "sheet/skill.html"|to_js_template }}
+		$('#skills').append($(_r));
+	});
 }
 
 function calc_cost(level, base, type) {
@@ -555,7 +562,7 @@ $( document ).ready(function() {
 <div id="abilities">
 <h2>Abilties</h2>
 {% for ability in active %}
-{% include "sheet/ability.html" %}
+{% if not ability.parent %}{% include "sheet/ability.html" %}{% endif %}
 {% endfor %}
 </div>
 
@@ -574,25 +581,32 @@ $( document ).ready(function() {
 <input type="button" value="+" onclick="addItem($(this).parent().find('.inner'))">
 <div class="inner item_target" ondrop="dropItem(event)" ondragover="allowDrop(event)">
 {% for item in character.inventory.all %}
-{% include "sheet/item.html" %}
+{% if not item.container %}{% include "sheet/item.html" %}{% endif %}
 {% endfor %}
 </div>
 </div>
 
-<div class="skills">
+<div>
 <h2>Skills</h2>
-<table>
-<th>
-<th>Name
+<table id="skills">
+<tr>
+<th></th>
+<th>Name</th>
 <th>Level</th>
 <th>Generated</th>
 <th>Granted</th>
 <th>Spare</th>
 <th>Total</th>	
-{% for skill_i in character.skills.all %}
+{% for skill in character.skills.all %}
 {% include "sheet/skill.html" %}
 {% endfor %}
 </table>
+
+<select class="dropdown" placeholder="Select Skill" id="skill_select" target="skill" style="width: 150px;">
+<option></option>
+</select>
+<input type="button" value="+" onclick="insertSkill($('#skill_select').val());">
+
 </div>
 
 

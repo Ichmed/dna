@@ -420,30 +420,30 @@ input::-webkit-inner-spin-button {
   display: block;
 }
 
-.skills table {
+#skills {
   border-collapse: separate;
   border-radius: 25px;
   text-align: center;
 }
 
-.skills table tr {
+#skills .skill tr {
   border: 2px solid black;
   border-radius: 25%;
 }
 
-.skills table td {
+#skills .skill td:not(.del) {
   margin-top: 10px;
   border: 1px solid grey;
   border-radius: 25%;
 }
 
-.skills table input {
+#skills .skill input:not([type="button"]) {
   text-align: center;
   border: none;
   width: 75px;
 }
 
-.skills table input[type=number] {
+#skills .skill input[type=number] {
   text-align: center;
   border: none;
   width: 15px;
@@ -468,4 +468,8 @@ div:hover > .popup, .popup:hover {
   border-radius: 5px;
   width: 100%;
   max-width: 200px;
+}
+
+.delete_button {
+  background-color: #bd0a0a;
 }
