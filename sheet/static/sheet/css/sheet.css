@@ -261,6 +261,7 @@ input::-webkit-inner-spin-button {
 }
 
 .ability {
+  position: relative;
   margin-top: 3px;
   padding-right: 5px;
   border-left: 3px solid black;
@@ -305,7 +306,6 @@ input::-webkit-inner-spin-button {
   border-radius: 0 10px 10px 0;
   display: inline-block;
   width: 89%;
-  overflow: hidden;
 }
 
 .ability .icon_align {
@@ -369,6 +369,13 @@ input::-webkit-inner-spin-button {
 .ability .description p {
   margin-top: 5px;
   margin-bottom: 5px;
+}
+
+.ability .delete_button {
+  position: absolute;
+  display: block;
+  left: -35px;
+  top: 1px;
 }
 
 #inventory .inner {
@@ -472,4 +479,8 @@ div:hover > .popup, .popup:hover {
 
 .delete_button {
   background-color: #bd0a0a;
+}
+
+.delete_button input {
+  background-color: rgba(0, 0, 0, 0);
 }

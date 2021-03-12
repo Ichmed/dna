@@ -301,6 +301,8 @@ input::-webkit-inner-spin-button {
 
 .ability {
 
+	position: relative;
+
 	.ability {
 		margin-left: 5%;
 		border: none;
@@ -352,7 +354,6 @@ input::-webkit-inner-spin-button {
 		display: inline-block;
 		width: 89%;
 		// background-color: rgba(159, 253, 198, 0.288);
-		overflow: hidden;
 	}
 
 	.icon_align {
@@ -420,6 +421,13 @@ input::-webkit-inner-spin-button {
 			margin-top: 5px;
 			margin-bottom: 5px;
 		}
+	}
+	
+	.delete_button {
+		position: absolute;
+		display: block;
+		left: -35px;
+		top: 1px;
 	}
 }
 
@@ -536,4 +544,8 @@ div:hover > .popup, .popup:hover {
 
 .delete_button {
 	background-color: rgb(189, 10, 10);
+
+	input { 
+		background-color: rgba(0, 0, 0, 0);
+	}
 }

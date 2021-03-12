@@ -149,10 +149,10 @@ def store_or_update_character(request, id):
 			AbilityInstance.objects.create(**ability, owner_id=id)
 
 	for skill in data.get('skills', []):
-		# print(skill)
+		print(skill)
 		if not 'base_id' in skill or skill['base_id'] == "":
 			skill['base_id'] = None
-		# print(skill)
+		print(skill)
 		SkillInstance.objects.update_or_create(skill, owner_id=id, base_id=skill['base_id'], name=skill['name'])
 
 	for item in data.get('items', []):
@@ -174,12 +174,16 @@ def send_character(request, character):
 	for a in character.abilities.all():
 		if not a.base: continue
 		t = a.base.type
-		if("Sense" in t):
-			senses.append(a)
-		elif("Movement" in t):
-			moves.append(a)
+		if not t is None:
+			if("Sense" in t):
+				senses.append(a)
+			elif("Movement" in t):
+				moves.append(a)
+			else:
+				active.append(a)
 		else:
 			active.append(a)
+
 
 	# c = {
 	# 	"active": active,

@@ -174,7 +174,9 @@ function addItem(parent, base=null) {
 	var item = $(`{% include "sheet/item.html" %}`);
 	{% endwith %}
 	console.log(parent);
+	$(item).css('display', 'none');
 	parent.append(item);
+	$(item).fadeIn();
 }
 
 function allowDrop(ev) {
@@ -305,7 +307,10 @@ function addAbility(id) {
 			}
 		}
 		{{ "sheet/ability.html"|to_js_template }}
-		$('#abilities').append($(_r));
+		var res = $(_r);
+		$(res).css('display', 'none');
+		$('#abilities').append(res);
+		$(res).fadeIn();
 	});
 }
 
@@ -323,7 +328,9 @@ function insertAbility(id, target) {
 		{{ "sheet/ability.html"|to_js_template }}
 		var res = $(_r);
 		$(res).find('[name=parent_id]').val($(target).closest('.ability:not(.fake)').find('[name=id]').val());
+		$(res).css('display', 'none');
 		$(target).closest('.ability.fake').before(res);
+		$(res).fadeIn();
 	});
 }
 
@@ -340,7 +347,11 @@ function insertWeapon() {
 		}
 	}
 	{{ "sheet/weapon.html"|to_js_template }}
-	$('#weapons').append($(_r));
+	
+	var res = $(_r);
+	$(res).css('display', 'none');
+	$('#weapons').append(res);
+	$(res).fadeIn();
 
 }
 
@@ -356,7 +367,10 @@ function insertSkill(id) {
 			total: 1
 		}
 		{{ "sheet/skill.html"|to_js_template }}
-		$('#skills').append($(_r));
+		var res = $(_r);
+		$(res).css('display', 'none');
+		$('#skills').append(res);
+		$(res).fadeIn();
 	});
 }
 

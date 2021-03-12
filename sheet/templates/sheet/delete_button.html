@@ -1,1 +1,1 @@
-<span><input type="hidden" name="owner_id" value="{{character.id}}"><input class="delete_button" type="button" value="X" onclick="$(this).parent().find('[name=owner_id]').val(null); $(this).closest('.container').css('display', 'none')"></span>
+<span class="delete_button"><input type="hidden" name="owner_id" value="{{character.id}}"><input type="button" value="X" onclick="$(this).parent().find('[name=owner_id]').val(null); $(this).closest('.container').slideUp()"></span>

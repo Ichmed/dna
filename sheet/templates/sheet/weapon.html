@@ -7,35 +7,38 @@
 				});
 			}
 		}" value="{{weapon.base.name}}">
-		<p><input class="skill modifier" type="text" name="name" value="{{weapon.skill.name}}">
+		<p><input class="weapon_skill modifier" type="text" name="name" value="{{weapon.skill.name}}">
 		<p><input class="total" type="text" name="name">
 	</td>
 	<td class="cost">
 		<p><input class="base modifier" type="text" name="cost" value="{{weapon.base.cost}}">
-		<p><input class="skill modifier" type="text" name="cost">
+		<p><input class="weapon_skill modifier" type="text" name="cost">
 		<p><input class="total" type="text" name="cost">
 	</td>
 	<td class="hit">
 		<p><input class="base modifier" type="text" name="hit">
-		<p><input class="skill modifier" type="text" name="hit">
+		<p><input class="weapon_skill modifier" type="text" name="hit">
 		<p><input class="total" type="text" name="hit">
 	</td>
 	<td class="force">
 		<p><input class="base modifier" type="text" name="force" value="{{weapon.base.force}}">
-		<p><input class="skill modifier" type="text" name="force">
+		<p><input class="weapon_skill modifier" type="text" name="force">
 		<p><input class="total" type="text" name="force">
 	</td>
 	<td class="parry">
 		<p><input class="base modifier" type="text" name="parry" value="{{weapon.base.parry}}">
-		<p><input class="skill modifier" type="text" name="parry">
+		<p><input class="weapon_skill modifier" type="text" name="parry">
 		<p><input class="total" type="text" name="parry">
 	</td>
 	<td class="damage">
 		<p class="modifier"><input class="base modifier dice" type="text" name="damage_dice">d6<input class="base modifier flat" type="text" name="damage_base">(<input class="base modifier type" type="text" name="damage_type">)
 
-		<p class="modifier"><input class="skill modifier dice" type="text" name="damage_dice" disabled>d6<input class="skill modifier flat" type="text" name="damage_base" disabled>(<input class="skill modifier type" type="text" name="damage_base" disabled>)
+		<p class="modifier"><input class="weapon_skill modifier dice" type="text" name="damage_dice" disabled>d6<input class="weapon_skill modifier flat" type="text" name="damage_base" disabled>(<input class="weapon_skill modifier type" type="text" name="damage_base" disabled>)
 
 		<p><input class="total dice" type="text" name="damage_dice">d6<input class="total flat" type="text" name="damage_type">(<input class="total type" type="text" name="damage_type">)
+	</td>
+	<td>
+		{% include "sheet/delete_button.html" %}	
 	</td>
 
 </tr>
