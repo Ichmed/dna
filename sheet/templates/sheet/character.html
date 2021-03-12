@@ -202,7 +202,11 @@ function dropItem(ev) {
 }
 
 function collecItem(item) {
-	var dict = $(item).children(':input').serializeObject();
+	var dict = {
+		...$(item).children(':input').serializeObject(),
+		...$(item).children('span').children(':input').serializeObject(),
+	}
+	console.log(dict);
 	dict['content'] = $(item).children('.item').map((i, x) => collecItem($(x))).toArray();
 	return dict;
 }

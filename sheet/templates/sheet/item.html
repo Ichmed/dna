@@ -1,5 +1,5 @@
 <div class="item item_target container" draggable="true" ondragstart="dragItem(event)" ondrop="dropItem(event)" ondragover="allowDrop(event)" onclick="selectItem(event, this)">
-<input name="pk" type="hidden" value="{{ item.pk }}">
+<input name="id" type="hidden" value="{{ item.pk }}">
 <input name="name" type="text" value="{{ item.name }}"><input type="button" value="+" onclick="addItem($(this).parent())">
 {% include "sheet/delete_button.html" %}
 <textarea name="text" placeholder="Description" onfocusout="$(this).css('display', '')">{{ item.text }}</textarea>

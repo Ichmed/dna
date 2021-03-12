@@ -97,14 +97,14 @@ def update_inventory(data, container=None, owner_id=None):
 	content = data.pop('content', [])
 	
 	data['container'] = container	
-	data['owner_id'] = owner_id
+	# data['owner_id'] = owner_id
 
 	# print(data)
 
-	if 'pk' in data and data['pk'] != "":
-		item = InventoryItem.objects.update_or_create(data, pk=data.get('pk'))[0]
+	if 'id' in data and data['id'] != "":
+		item = InventoryItem.objects.update_or_create(data, id=data.get('id'))[0]
 	else:
-		data.pop('pk')
+		data.pop('id')
 		item = InventoryItem.objects.create(**data)
 
 	for i in content:
@@ -113,8 +113,8 @@ def update_inventory(data, container=None, owner_id=None):
 def store_or_update_character(request, id):
 	data = json.loads(request.body)
 
-	for key, value in data.items():
-		print(key + ": " + str(value))
+	# for key, value in data.items():
+	# 	print(key + ": " + str(value))
 
 	u = {key: 0 if x == "" else int(x) for key, x in data['attributes'].items()}
 	u.update({'name': data['name']})
@@ -122,9 +122,9 @@ def store_or_update_character(request, id):
 	
 	if id == 'None':
 		character = Character.objects.create(**u)
-		id = character.pk
+		id = character.id
 	else:
-		Character.objects.filter(pk=id).update(**u)
+		Character.objects.filter(id=id).update(**u)
 	
 
 	for resistance, value in data.get('resistances', {}).items():
@@ -132,20 +132,19 @@ def store_or_update_character(request, id):
 		Resistance.objects.update_or_create({"amount": value}, owner_id=id, type_id=resistance)
 
 	for ability in data.get('abilities', []):
-		print(ability)
+		# print(ability)
 		if 'id' in ability and (ability['id'] == "undefined" or ability['id'] == ""):
 			ability.pop('id')
 		if 'parent_id' in ability and (ability['parent_id'] == "undefined" or ability['parent_id'] == ""):
 			ability.pop('parent_id')
 
 		if 'id' in ability:
-			if 'parent_id' in ability:
-				AbilityInstance.objects.update_or_create(ability, owner_id=id, pk=ability['id'])
+			AbilityInstance.objects.update_or_create(ability, owner_id=id, id=ability['id'])
 		else:
-				AbilityInstance.objects.create(**ability, owner_id=id)
+			AbilityInstance.objects.create(**ability, owner_id=id)
 
 	for skill in data.get('skills', []):
-		print(skill)
+		# print(skill)
 		if not 'base_id' in skill or skill['base_id'] == "":
 			skill['base_id'] = None
 		# print(skill)
