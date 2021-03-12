@@ -25,7 +25,7 @@
 {% if ability.base.leveling == "None" %}
 <input type="hidden" value="{{ability.level}}" name="level">
 {% endif %}
-<div class="description">{% if ability.base.effect %}{{ability.base.effect|md}}{% endif %}{% if ability.base.result %}{{ability.base.result|md}}{% endif %}</div>
+<div class="description">{% if ability.base.effect %}{{ability.base.effect}}{% endif %}{% if ability.base.result %}{{ability.base.result}}{% endif %}</div>
 {% include "sheet/delete_button.html" %}
 </div>
 
