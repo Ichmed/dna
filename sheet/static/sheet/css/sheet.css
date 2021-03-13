@@ -456,6 +456,11 @@ input::-webkit-inner-spin-button {
   width: 15px;
 }
 
+#skills .skill .spare input[value^="-"] {
+  background-color: red;
+  color: white;
+}
+
 .inline {
   display: inline-block;
 }

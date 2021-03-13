@@ -5,6 +5,9 @@
 <div class="inner clickbox" onclick="if(event.target == this) smartlink('ability', '{{ability.base.id}}');">
 <input type="hidden" name="base_id" value="{{ability.base.id}}">
 <input type="hidden" name="id" value="{{ability.id}}">
+<input type="hidden" name="cost" value="{{ability.base.cost}}">
+<input type="hidden" name="skill" value="{{ability.base.skill.name}}">
+<input type="hidden" name="leveling" value="{{ability.base.leveling}}">
 <input type="hidden" name="parent_id" {% if ability.parent %} value="{{ability.parent.id}}" {% endif %}>
 {% with "symbols/bobble_"|cat:ability.base.skill|cat:".png" as path %}
 <div class="icon_align"><img class="icon" src="/static/symbols/bobble_{{ability.base.skill.name}}.png"></div>

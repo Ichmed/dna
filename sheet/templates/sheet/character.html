@@ -96,6 +96,7 @@ function recalculate() {
 		$(this).find('input.mul').val(mul.toFixed(1));
 	});
 	
+	update_skill_cost()
 	refreshDropdowns();
 }
 
@@ -375,16 +376,39 @@ function insertSkill(id) {
 }
 
 function calc_cost(level, base, type) {
-	if (type === "Default") return base;
-	else if (type === "Inc") return level * base;
-	else if (type === "Exp") return Math.pow(base, level);
-	else return base;
+	if (type === "Default") return parseInt(base);
+	else if (type === "Inc") return parseInt(level * base);
+	else if (type === "Exp") return parseInt(Math.pow(base, level));
+	else return parseInt(base);
 }
 
 function calc_cum_cost(level, base, type) {
 	var sum = 0;
 	for(i = 1; i <= level; i++) sum += calc_cost(i, base, type);
 	return sum;
+}
+
+function update_skill_cost() {
+	var sum = {};
+	$(".ability .inner").each(function(i, e) {
+		e = $(e);
+		var skill = e.find('[name="skill"]').val();
+		var level = e.find('[name="level"]').val();
+		var cost = e.find('[name="cost"]').val();
+		var leveling = e.find('[name="leveling"]').val();
+		var base = parseInt(sum['skill'] || 0);
+		sum[skill] = base + calc_cum_cost(level, cost, leveling);
+	});
+	
+	console.log(sum)
+
+	for(skill in sum) {
+		var v = sum[skill];
+		var c = $('.skill [name="name"][value="' + skill + '"]').closest('.skill');
+		v = parseInt(c.find('.total input').val()) - parseInt(v);
+		c.find('.spare input').val(v);
+		c.find('.spare input').attr('value', v);
+	}
 }
 
 function refreshDropdowns() {

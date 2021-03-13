@@ -518,6 +518,11 @@ input::-webkit-inner-spin-button {
 			border: none;
 			width: 15px;
 		}
+
+		.spare input[value^="-"] {
+			background-color: red;
+			color: white;
+		}
 	}
 }
 

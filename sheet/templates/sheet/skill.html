@@ -9,6 +9,6 @@
 <td><div class="level"><input name="level" onkeyup="recalculate()" type="number" value="{{skill.level}}"></div></td>
 <td><div class="generated"><input disabled value="{{skill.generated}}"></div></td>
 <td><div class="granted"><input name="granted" onkeyup="recalculate()" type="number" value="{{skill.granted}}"></div></td>
-<td><div class="spare"></div></td>
+<td><div class="spare"><input disabled></div></td>
 <td><div class="total"><input disabled value="{% if skill.total %} {{skill.total}} {% endif %} {% if not skill.total %}{{skill.generated|add:skill.granted}} {% endif %}"></div></td>
 <td class="del">{% include "sheet/delete_button.html" %}
