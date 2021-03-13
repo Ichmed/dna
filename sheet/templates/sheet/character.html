@@ -412,11 +412,15 @@ function update_skill_cost() {
 }
 
 function refreshDropdowns() {
+
+	var abilitylist = $('.ability:not(.fake)>.inner').map((i, x) => $(x).find(':input[name=base_id]').val()).toArray().join(',');
+
+	console.log(abilitylist);
 	
     $('.dropdown').each((i, x) => ($(x).select2({
 		placeholder: $(x).attr('placeholder'),
 		ajax: {
-			url: "/rulebook/api/list/" + $(x).attr('target') + "/" + ($(x).attr('params') || ""),
+			url: "/rulebook/api/list/" + $(x).attr('target') + "/" + ($(x).attr('params') || "").replace('{abilitylist}', abilitylist),
 			dataType: 'json',
 		}
 	})));
@@ -610,7 +614,7 @@ $( document ).ready(function() {
 
 <div class="ability fake">
 <div class="inner">
-<select class="dropdown" placeholder="Select Ability" id="ability_select" target="ability" style="width: 150px;">
+<select class="dropdown" placeholder="Select Ability" id="ability_select" target="ability" params="requires: {abilitylist}" style="width: 150px;">
 <option></option>
 </select>
 <input type="button" value="+" onclick="addAbility($('#ability_select').val());">

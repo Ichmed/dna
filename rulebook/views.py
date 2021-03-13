@@ -93,6 +93,8 @@ def api_list(request, table, query=None):
 	elif 'q' in request.GET:
 		query += " + name:" + request.GET.get('q', '')
 
+	print(query)
+
 	return JsonResponse({'results':[{'id': x.id, 'text': x.name} for x in perform_query(table, query, page=request.GET.get('page', -1))]})
 
 def editor(request, table, id=None):

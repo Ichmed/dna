@@ -52,7 +52,10 @@ def perform_query(table, query, page=-1):
 			for q in sub.split("+"):
 				key, mode, value = re.match(r"\s*(\w*?)\s*([:=!])\s*([\w, ]*)", q).groups()
 
-				print(key, mode, value)
+
+				if value == "0": value = None
+
+				# print(key, mode, value)
 
 				if key.lower() == "requires":
 					reqs = value.split(',')
@@ -74,7 +77,7 @@ def perform_query(table, query, page=-1):
 						# excludes.append(~Q(requires__in=reqs))
 				else:
 					if mode == "=":
-						filters[key + "__iexact"] = value
+						filters[key] = value
 					elif mode == ":":
 						filters[key + "__contains"] = value
 
