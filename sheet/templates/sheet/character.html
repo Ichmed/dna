@@ -376,8 +376,14 @@ function insertSkill(id) {
 }
 
 function calc_cost(level, base, type) {
-	if (type === "Default") return parseInt(base);
-	else if (type === "Inc") return parseInt(level * base);
+	if (type === "Default") return parseInt(level * base);
+	else if (type === "Inc") {
+		var r = 0;
+		for( var i = 1; i <= level; i++) {
+			r += i * base;
+		}
+		return parseInt(r);
+	}
 	else if (type === "Exp") return parseInt(Math.pow(base, level));
 	else return parseInt(base);
 }
