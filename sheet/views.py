@@ -142,6 +142,12 @@ def store_or_update_character(request, id):
 			ability.pop('id')
 		if 'parent_id' in ability and (ability['parent_id'] == "undefined" or ability['parent_id'] == ""):
 			ability.pop('parent_id')
+		if 'cost' in ability and ability['base_id']:
+			ability.pop('cost')
+		if 'skill' in ability and ability['base_id']:
+			ability.pop('skill')
+		if 'leveling' in ability and ability['base_id']:
+			ability.pop('leveling')
 
 		if 'id' in ability:
 			AbilityInstance.objects.update_or_create(ability, owner_id=id, id=ability['id'])

@@ -63,7 +63,6 @@ function recalculate() {
 
 	$('.weapon').each(function() {
 
-		console.log($(this).find('.parry .skill'))
 
 		$(this).find('.cost  .total').val(	I($(this).find('.cost  .base').val())	+ I($(this).find('.cost  .skill').val()));
 		$(this).find('.hit   .total').val(	I($(this).find('.hit   .base').val())	+ I($(this).find('.hit   .skill').val()) + V('MEL'));
@@ -92,7 +91,6 @@ function recalculate() {
 
 	$('.resistance').each(function() {
 		var mul = 100/(100 + I($(this).find('input.base').val()));
-		console.log(mul);
 		$(this).find('input.mul').val(mul.toFixed(1));
 	});
 	
@@ -174,7 +172,6 @@ function addItem(parent, base=null) {
 	{% with EMPTY as item %}
 	var item = $(`{% include "sheet/item.html" %}`);
 	{% endwith %}
-	console.log(parent);
 	$(item).css('display', 'none');
 	parent.append(item);
 	$(item).fadeIn();
@@ -199,7 +196,6 @@ function resetItem(ev) {
 function dropItem(ev) {
 	ev.preventDefault();
 	var data = ev.dataTransfer.getData("object");
-	console.log(data);
 	ev.target.closest(".item_target").appendChild(draggedItem);
 	resetItem(ev);
 }
@@ -209,7 +205,6 @@ function collecItem(item) {
 		...$(item).children(':input').serializeObject(),
 		...$(item).children('span').children(':input').serializeObject(),
 	}
-	console.log(dict);
 	dict['content'] = $(item).children('.item').map((i, x) => collecItem($(x))).toArray();
 	return dict;
 }
@@ -231,8 +226,6 @@ function post() {
 	let resistances = $('.resistance :input.base').serializeObject()
 	let items = $('#inventory .inner').children('.item').map((i, x) => collecItem(x)).toArray();
 
-
-	console.log(skills)
 
 	$.post("/sheet/character/id/" + $('#key').val(), JSON.stringify({
 		'name': $('#name').val(),
@@ -264,7 +257,6 @@ function damage(amount, location, type) {
 
 function spend(resource, amount, block=true) {
 	let v = I($("." + resource + " .current").val());
-	console.log(resource, "-", amount);
 	
 	v -= amount;
 	var meter = $("#" + resource + "_wrapper meter");
@@ -287,7 +279,6 @@ function spend(resource, amount, block=true) {
 	meter.prop("value", $("." + resource + " .current").val());
 
 	if (v <= 0) {
-		console.log('meep');
 		meter.attr("alert", true);
 		setTimeout(function() {
 			meter.attr("alert", false)
@@ -396,14 +387,11 @@ function update_skill_cost() {
 		var level = e.find('[name="level"]').val();
 		var cost = e.find('[name="cost"]').val();
 		var leveling = e.find('[name="leveling"]').val();
-		var base = parseInt(sum['skill'] || 0);
+		var base = parseInt(sum[skill] || 0);
 
-		var cum = calc_cum_cost(level, cost, leveling);
-		sum[skill] = base + cum;
-		console.log(e, level, cost, leveling, cum);
+		sum[skill] = base + calc_cum_cost(level, cost, leveling);
 	});
 	
-	console.log(sum)
 
 	for(skill in sum) {
 		var v = sum[skill];
@@ -417,8 +405,6 @@ function update_skill_cost() {
 function refreshDropdowns() {
 
 	var abilitylist = $('.ability:not(.fake)>.inner').map((i, x) => $(x).find(':input[name=base_id]').val()).toArray().join(',');
-
-	console.log(abilitylist);
 	
     $('.dropdown').each((i, x) => ($(x).select2({
 		placeholder: $(x).attr('placeholder'),
