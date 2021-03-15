@@ -1,8 +1,17 @@
 <div class="item item_target container" draggable="true" ondragstart="dragItem(event)" ondrop="dropItem(event)" ondragover="allowDrop(event)" onclick="selectItem(event, this)">
 <input name="id" type="hidden" value="{{ item.pk }}">
-<input name="name" type="text" value="{{ item.name }}"><input type="button" value="+" onclick="addItem($(this).parent())">
+<input name="name" type="text" value="{{ item.name }}" class="resize">
+<input type="button" value="+" title="Add Sub Item" onclick="addItem($(this).parent())">
+{% if not item.weaponinstance %}<input type="button" value="⚔" title="Make Weapon" onclick="makeWeapon($(this).parent()); $(this).fadeOut()">{% endif %}
 {% include "sheet/delete_button.html" %}
 <textarea name="text" placeholder="Description" onfocusout="$(this).css('display', '')">{{ item.text }}</textarea>
+
+{% if item.weaponinstance %}
+{% with item.weaponinstance as weapon %}
+{% include "sheet/weapon.html" %}
+{% endwith %}
+{% endif %}
+
 {% for item in item.content.all %}
 {% include "sheet/item.html" %}
 {% endfor %}

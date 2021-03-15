@@ -5,9 +5,11 @@ from django.utils.safestring import mark_safe
 
 from django.forms.models import model_to_dict
 
-from .models import AbilityInstance, Character, InventoryItem, Resistance, SkillInstance
+from .models import AbilityInstance, Character, InventoryItem, Resistance, SkillInstance, InventorySlot, WeaponInstance
 
 from rulebook.models import DamageType
+
+from django.db.models import Q
 
 import json
 
@@ -93,19 +95,37 @@ def character_by_id(request, id):
 		return send_character(request, character)
 
 
-def update_inventory(data, container=None, drop=False):
+def update_inventory(data, slot_id=None, container=None, drop=False):
 	content = data.pop('content', [])
 	
 	if drop:
 		data['owner_id'] = None
+		data['slot_id'] = None
+	elif slot_id and data['owner_id']:
+		data['slot_id'] = slot_id
+	else:
+		data['slot_id'] = None
+
 	
 	if data['owner_id']:
 		data['container'] = container	
 	else:
 		data['container'] = None
 
-	# print(data)
 
+
+	w = data['weaponinstance']
+	if "id" in w:
+		print(w)
+		id = w.pop("id")
+		if id == "":
+			id = None
+
+		data['weaponinstance'] = WeaponInstance.objects.update_or_create(w, id=id)[0]
+	else: 
+		data['weaponinstance'] = None
+
+	print(data)
 	if 'id' in data and data['id'] != "":
 		item = InventoryItem.objects.update_or_create(data, id=data.get('id'))[0]
 	else:
@@ -113,13 +133,14 @@ def update_inventory(data, container=None, drop=False):
 		item = InventoryItem.objects.create(**data)
 
 	for i in content:
-		update_inventory(i, container=item, drop=data['owner_id'] is None)
+		update_inventory(i, slot_id=None, container=item, drop=data['owner_id'] is None)
 
 def store_or_update_character(request, id):
 	data = json.loads(request.body)
 
-	# for key, value in data.items():
-	# 	print(key + ": " + str(value))
+	for key, value in data.items():
+		print()
+		print(key + ": " + str(value))
 
 	u = {key: 0 if x == "" else int(x) for key, x in data['attributes'].items()}
 	u.update({'name': data['name']})
@@ -130,6 +151,9 @@ def store_or_update_character(request, id):
 		id = character.id
 	else:
 		Character.objects.filter(id=id).update(**u)
+	
+	InventorySlot.objects.update_or_create(owner_id=id, name="Left Hand", type="S")
+	InventorySlot.objects.update_or_create(owner_id=id, name="Right Hand", type="S")
 	
 
 	for resistance, value in data.get('resistances', {}).items():
@@ -155,14 +179,15 @@ def store_or_update_character(request, id):
 			AbilityInstance.objects.create(**ability, owner_id=id)
 
 	for skill in data.get('skills', []):
-		print(skill)
+		# print(skill)
 		if not 'base_id' in skill or skill['base_id'] == "":
 			skill['base_id'] = None
 		print(skill)
 		SkillInstance.objects.update_or_create(skill, owner_id=id, base_id=skill['base_id'], name=skill['name'])
 
-	for item in data.get('items', []):
-		update_inventory(item)
+	for slot in data['slots']:
+		for item in slot['items']:
+			update_inventory(item, slot_id = slot['id'])
 
 
 	return HttpResponse(id)
@@ -190,6 +215,16 @@ def send_character(request, character):
 		else:
 			active.append(a)
 
+	slots = {
+		"hands": character.inventory.filter(name__contains="Hand").all(),
+	}
+
+	ids = [x.id for l in slots.values() for x in l]
+
+	slots['other'] = character.inventory.filter(~Q(id__in=ids)).all()
+
+	# print(slots)
+
 
 	# c = {
 	# 	"active": active,
@@ -205,6 +240,7 @@ def send_character(request, character):
 		'character': character,
 		'ATT': ATT,
 		'TER': TER,
+		'slots': slots,
 		'bars': bars,
 		'senses': senses,
 		'moves': moves,

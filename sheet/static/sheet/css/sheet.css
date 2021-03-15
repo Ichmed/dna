@@ -21,11 +21,23 @@ body {
   right: 25%;
 }
 
+#sheet > div {
+  margin: 10px;
+  padding: 10px;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.33);
+  -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.33);
+}
+
+#sheet > div h2 {
+  margin-top: 2px;
+}
+
 #notes {
   position: fixed;
   top: 0;
   width: 20%;
   right: 0%;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.33);
 }
 
 #notes .note {
@@ -148,31 +160,6 @@ body {
 
 input.mod {
   width: 30px;
-}
-
-#weapons td {
-  border: 1px solid black;
-  border-radius: 5px;
-}
-
-#weapons p {
-  margin: 0px;
-}
-
-#weapons .weapon input {
-  border: none;
-  border-bottom: 1px solid black;
-  margin-right: 0px;
-  background-color: rgba(0, 0, 0, 0);
-}
-
-#weapons .weapon td:not(.name) input {
-  width: 30px;
-  text-align: center;
-}
-
-#weapons .weapon input.dice {
-  text-align: right;
 }
 
 input::-webkit-outer-spin-button,
@@ -299,6 +286,7 @@ input::-webkit-inner-spin-button {
 }
 
 .ability .inner {
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.33);
   position: relative;
   border: 1px solid black;
   padding: 0;
@@ -378,18 +366,19 @@ input::-webkit-inner-spin-button {
   top: 1px;
 }
 
-#inventory .inner {
+.slot .inner {
   display: flex;
   flex-wrap: wrap;
 }
 
-#inventory .inner .item {
+.slot .inner .item {
   margin-left: 10px;
   background-color: lightgrey;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.33);
   border-left: 3px solid darkgrey;
 }
 
-#inventory .inner .item h3 {
+.slot .inner .item h3 {
   margin-top: 0;
   margin-bottom: 0;
   padding-top: 1px;
@@ -397,18 +386,18 @@ input::-webkit-inner-spin-button {
   background-color: darkgrey;
 }
 
-#inventory .inner .item input {
+.slot .inner .item input {
   background-color: rgba(0, 0, 0, 0);
   border: none;
   font-weight: bold;
   font-size: 15px;
 }
 
-#inventory .inner .item input[type="text"] {
+.slot .inner .item input[type="text"] {
   width: 60px;
 }
 
-#inventory .inner .item textarea {
+.slot .inner .item textarea {
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   width: 100%;
   resize: none;
@@ -419,12 +408,99 @@ input::-webkit-inner-spin-button {
   display: block;
 }
 
-#inventory .inner .item textarea:placeholder-shown {
+.slot .inner .item textarea:placeholder-shown {
   display: none;
 }
 
-#inventory .inner .item:focus textarea:placeholder-shown {
+.slot .inner .item input[type=button] {
+  cursor: pointer;
+}
+
+.slot .inner .item input[type=button]:hover {
+  background-color: darkgrey;
+}
+
+.slot .inner .item .weapon {
+  position: relative;
+}
+
+.slot .inner .item .weapon .label {
+  text-align: center;
+  width: 100%;
+  font-size: 10px;
+  font-weight: bold;
+  font-family: monospace;
+}
+
+.slot .inner .item .weapon input {
+  border: none;
+  border-bottom: 1px solid black;
+  margin-right: 0px;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.slot .inner .item .weapon td:not(.name) input {
+  width: 30px;
+  text-align: center;
+}
+
+.slot .inner .item .weapon td:not(.name) input.dice {
+  text-align: right;
+  width: 12px;
+}
+
+.slot .inner .item .weapon td:not(.name) input.type {
+  text-align: right;
+  width: 12px;
+  font-family: monospace;
+}
+
+.slot .inner .delete_button {
+  float: right;
+}
+
+.slot .inner .item:focus textarea:placeholder-shown {
   display: block;
+}
+
+.slot .inner {
+  min-width: 100px;
+  min-height: 50px;
+}
+
+#combat {
+  display: flex;
+}
+
+#combat #combat_stats > div {
+  border: 1px solid black;
+  padding: 2px;
+  margin: 2px;
+  font-size: 15px;
+}
+
+#combat #combat_stats > div input {
+  width: 50px;
+  border: none;
+  font-size: 15px;
+}
+
+#combat #combat_stats > div .label {
+  font-family: monospace;
+}
+
+#combat h3 {
+  margin: 0;
+}
+
+#combat .slot {
+  margin-left: 15px;
+  padding: 10px;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.33);
+}
+
+#combat #weapons {
+  display: flex;
 }
 
 #skills {

@@ -63,7 +63,6 @@ function recalculate() {
 
 	$('.weapon').each(function() {
 
-
 		$(this).find('.cost  .total').val(	I($(this).find('.cost  .base').val())	+ I($(this).find('.cost  .skill').val()));
 		$(this).find('.hit   .total').val(	I($(this).find('.hit   .base').val())	+ I($(this).find('.hit   .skill').val()) + V('MEL'));
 		$(this).find('.parry .total').val(	I($(this).find('.parry .base').val())	+ I($(this).find('.parry .skill').val()) + V('PAR'));
@@ -123,9 +122,9 @@ function recalculate() {
 
   $.fn.valS = function(num=undefined){
     this.each(function() {
-		var num = num;
 		if(num === undefined){
 			num = $(this).val();
+			console.log($(this).val());
 		}
 		num = parseInt(num);
 		if(isNaN(num)){
@@ -200,10 +199,18 @@ function dropItem(ev) {
 	resetItem(ev);
 }
 
+function collectSlot(slot) {
+	return {
+		id: $(slot).children('[name=id]').val(),
+		items: $(slot).children('.inner').children('.item').map((i, x) => collecItem(x)).toArray()
+	}
+}
+
 function collecItem(item) {
 	var dict = {
 		...$(item).children(':input').serializeObject(),
 		...$(item).children('span').children(':input').serializeObject(),
+		weaponinstance: $(item).find('.weapon :input').serializeObject(),
 	}
 	dict['content'] = $(item).children('.item').map((i, x) => collecItem($(x))).toArray();
 	return dict;
@@ -224,7 +231,7 @@ function post() {
 	let abilities = $('.ability:not(.fake)>.inner').map((i, x) => $(x).find(':input').serializeObject()).toArray();
 	let skills = $('.skill').map((i, x) => $(x).find(':input').serializeObject()).toArray();
 	let resistances = $('.resistance :input.base').serializeObject()
-	let items = $('#inventory .inner').children('.item').map((i, x) => collecItem(x)).toArray();
+	let slots = $('.slot').map((i, x) => collectSlot(x)).toArray();
 
 
 	$.post("/sheet/character/id/" + $('#key').val(), JSON.stringify({
@@ -235,7 +242,7 @@ function post() {
 		'abilities': abilities,
 		'resistances': resistances,
 		'skills': skills,
-		'items': items,
+		'slots': slots,
 	})).done(function(data){window.location.replace("/sheet/character/id/" + data)})
 }
 
@@ -326,27 +333,6 @@ function insertAbility(id, target) {
 	});
 }
 
-function insertWeapon() {
-	var weapon = {
-		base: {
-			name: "",
-			force: "",
-			parry: "",
-			cost: "",
-		},
-		skill: {
-			name: ""
-		}
-	}
-	{{ "sheet/weapon.html"|to_js_template }}
-	
-	var res = $(_r);
-	$(res).css('display', 'none');
-	$('#weapons').append(res);
-	$(res).fadeIn();
-
-}
-
 function insertSkill(id) {
 	$.get('/rulebook/api/search/skill/id=' + id).done(function(base) {
 		var skill = {
@@ -377,6 +363,26 @@ function calc_cum_cost(level, base, type) {
 	var sum = 0;
 	for(i = 1; i <= level; i++) sum += calc_cost(i, base, type);
 	return sum;
+}
+
+function makeWeapon(item) {
+	var weapon = {
+		base: {
+			name: "",
+			force: "",
+			parry: "",
+			cost: "",
+		},
+		skill: {
+			name: ""
+		}
+	}
+	{{ "sheet/weapon.html"|to_js_template }}
+	
+	var res = $(_r);
+	$(res).css('display', 'none');
+	$(item).find('textarea').after(res);
+	$(res).fadeIn();
 }
 
 function update_skill_cost() {
@@ -457,20 +463,9 @@ $( document ).ready(function() {
 <table id="main_attributes">
 {% for PRIME, SEC1, SEC2 in ATT %}{% include "sheet/att_box.html" %}{% endfor %}
 </table>
-<div id="secondary_attributes">
-		{% for a in TER %}
-		{% if not a == 'MEL' %}
-		{% comment %} <div class="atts TER">
-			<div id="{{a}}" onclick="$(this).find('input').select()"><span class="label">{{a}}</span><input class="mod" type="number" name="{{a}}_mod" onkeyup="recalculate()" placeholder="0" class="modifier att"><span class="sum"></span></div>
-		</div> {% endcomment %}
-		{% endif %}
-		{% endfor %}
-		
-</div>
 
 <div class="fm">
 <div class="f" style="flex-grow: 3; width: 70%;">
-
 <div class="senses">
 	<h2>Senses</h2>
 	<div class="inner">
@@ -506,61 +501,7 @@ $( document ).ready(function() {
 	</div>
 </div>
 
-<h2>Weapons</h2>
-<div id="actions">
-	<table id="weapons">
-	
-	<tr class="atts">
-		<td style="border: none">
-		<td style="border: none">
-		<td>
-			<div id="RAN" onclick="selectInput">
-				<p><span class="label">RAN</span>
-				<p><input type="number" name="RAN_mod" value="{{character.RAN_mod}}" onkeyup="recalculate()" placeholder="0" class="modifier att">
-				<p><span class="sum"></span>
-			</div>
-		
-		<td style="border: none">
-		<td style="border: none">
-		<td style="border: none">
-	</tr>
-	<tr class="atts">
-		<td style="border: none">
-		<td style="border: none">
-		<td>
-			<div id="MEL" onclick="selectInput">
-				<p><span class="label">MEL</span>
-				<p><input type="number" name="MEL_mod" value="{{character.MEL_mod}}" onkeyup="recalculate()" placeholder="0" class="modifier att">
-				<p><span class="sum"></span>
-			</div>
-		<td>
-			<div id="FOR" onclick="selectInput">
-				<p><span class="label">FOR</span>
-				<p><input type="number" name="FOR_mod" value="{{character.FOR_mod}}" onkeyup="recalculate()" placeholder="0" class="modifier att">
-				<p><span class="sum"></span>
-			</div>
-		<td>
-			<div id="PAR" onclick="selectInput">
-				<p><span class="label">PAR</span>
-				<p><input type="number" name="PAR_mod" value="{{character.PAR_mod}}" onkeyup="recalculate()" placeholder="0" class="modifier att">
-				<p><span class="sum"></span>
-			</div>
-		<td style="border: none">
-	</tr>
-	<tr>
-		<th>Name</th>
-		<th>Cost</th>
-		<th>Hit</th>
-		<th>FOR</th>
-		<th>PAR</th>
-		<th>Damage</th>
-	</tr>
-	{% for weapon in character.waepons.all %}
-	{% include "sheet/weapon.html" %}
-	{% endfor %}
-	</table>
-	<input type="button" value="+" onclick="insertWeapon()">
-</div>
+
 
 </div>
 
@@ -594,6 +535,56 @@ $( document ).ready(function() {
 
 </div>
 </div>
+
+<div>
+	<h2>Combat</h2>
+	<div id="combat">
+		<div id="combat_stats">
+			<div id="INI" onclick="selectInput">
+				<span class="label">INI</span>
+				<input type="text" name="INI_mod" value="{{character.INI_mod}}" onkeyup="recalculate()" placeholder="0" class="modifier att signed">
+				<span class="sum"></span>
+			</div>
+			<div id="MEL" onclick="selectInput">
+				<span class="label">MEL</span>
+				<input type="text" name="MEL_mod" value="{{character.MEL_mod}}" onkeyup="recalculate()" placeholder="0" class="modifier att signed">
+				<span class="sum"></span>
+			</div>
+			<div id="RAN" onclick="selectInput">
+				<span class="label">RAN</span>
+				<input type="text" name="RAN_mod" value="{{character.RAN_mod}}" onkeyup="recalculate()" placeholder="0" class="modifier att signed">
+				<span class="sum"></span>
+			</div>
+			<div id="FOR" onclick="selectInput">
+				<span class="label">FOR</span>
+				<input type="text" name="FOR_mod" value="{{character.FOR_mod}}" onkeyup="recalculate()" placeholder="0" class="modifier att signed">
+				<span class="sum"></span>
+			</div>
+			<div id="PAR" onclick="selectInput">
+				<span class="label">PAR</span>
+				<input type="text" name="PAR_mod" value="{{character.PAR_mod}}" onkeyup="recalculate()" placeholder="0" class="modifier att signed">
+				<span class="sum"></span>
+			</div>
+			<div id="DDG" onclick="selectInput">
+				<span class="label">DDG</span>
+				<input type="text" name="DDG_mod" value="{{character.DDG_mod}}" onkeyup="recalculate()" placeholder="0" class="modifier att signed">
+				<span class="sum"></span>
+			</div>
+			<div id="CAR" onclick="selectInput">
+				<span class="label">CAR</span>
+				<input type="text" name="CAR_mod" value="{{character.CAR_mod}}" onkeyup="recalculate()" placeholder="0" class="modifier att signed">
+				<span class="sum"></span>
+			</div>
+		</div>
+		<div id="weapons">
+		{% for slot in slots.hands %}
+			{% include "sheet/slot.html" %}
+		{% endfor %}
+		</div>
+	</div>
+</div>
+
+<div>
 <div id="abilities">
 <h2>Abilties</h2>
 {% for ability in active %}
@@ -609,16 +600,14 @@ $( document ).ready(function() {
 <input type="button" value="+" onclick="addAbility($('#ability_select').val());">
 </div>
 </div>
+</div>
 
 
 <div id="inventory">
 <h2>Inventory</h2>
-<input type="button" value="+" onclick="addItem($(this).parent().find('.inner'))">
-<div class="inner item_target" ondrop="dropItem(event)" ondragover="allowDrop(event)">
-{% for item in character.inventory.all %}
-{% if not item.container %}{% include "sheet/item.html" %}{% endif %}
+{% for slot in slots.other %}
+	{% include "sheet/slot.html" %}
 {% endfor %}
-</div>
 </div>
 
 <div>

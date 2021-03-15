@@ -1,0 +1,12 @@
+<div class="slot" slot_type="{{slot.type}}">
+<input type="hidden" name="id" value="{{slot.id}}">
+<h3>{{slot.name}}</h3>
+{% if slot.type == "M" %}
+<input type="button" value="+" onclick="addItem($(this).closest('.slot').find('.inner'))">
+{% endif %}
+<div class="inner item_target" ondrop="dropItem(event)" ondragover="allowDrop(event)">
+{% for item in slot.items.all %}
+{% include "sheet/item.html" %}
+{% endfor %}
+</div>
+</div>

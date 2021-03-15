@@ -70,11 +70,22 @@ class SkillInstance(Model):
 	def __str__(self):
 		return self.name + " " + str(self.pk)
 
-class InventoryItem(Model):
-	base = ForeignKey('rulebook.Item', blank=True, null=True, on_delete=CASCADE)
-	name = CharField(max_length=255)
-	text = CharField(max_length=2000, blank=True)
+class InventorySlot(Model):
 	owner = ForeignKey(Character, blank=True, null=True, on_delete=SET_NULL, related_name='inventory')
+	name = CharField(max_length=255)
+	type = CharField(max_length=1, choices=[("S", "Single"), ("M", "Multi")])
+
+	def __str__(self):
+		return f"{self.owner} - {self.name} ({self.type})"
+
+
+class InventoryItem(Model):
+	name = CharField(max_length=255)
+	slot = ForeignKey(InventorySlot, related_name='items', blank=True, null=True, on_delete=SET_NULL)
+	owner = ForeignKey(Character, blank=True, null=True, on_delete=SET_NULL, related_name='items')
+
+	base = ForeignKey('rulebook.Item', blank=True, null=True, on_delete=CASCADE)
+	text = CharField(max_length=2000, blank=True)
 	container = ForeignKey('self', blank=True, null=True, on_delete=CASCADE, related_name='content')
 	weight = IntegerField(default=0)
 	amount = IntegerField(default=1)
@@ -82,15 +93,23 @@ class InventoryItem(Model):
 	def __str__(self):
 		return self.name + " " + str(self.pk)
 
-class WeaponInstance(Model):
-	base = ForeignKey('rulebook.Weapon', blank=True, null=True, on_delete=CASCADE)
+class WeaponInstance(InventoryItem):
+
+	base_weapon = ForeignKey('rulebook.Weapon', blank=True, null=True, on_delete=CASCADE)
 	skill = ForeignKey('rulebook.Skill', blank=True, null=True, on_delete=CASCADE)
-	name = CharField(max_length=255, blank=True)
-	owner = ForeignKey(Character, related_name="weapons", null=True, on_delete=CASCADE)
-	# cost_mod = IntegerField(default=0)
-	# hit_mod = IntegerField(default=0)
-	# force_mod = IntegerField(default=0)
-	# parry_mod = IntegerField(default=0)
+
+	hit = CharField(default="", blank=True, max_length=2)
+	force = CharField(default="", blank=True, max_length=2)
+	parry = CharField(default="", blank=True, max_length=2)
+	cost = CharField(default="", blank=True, max_length=2)
+
+	flat_damage = CharField(default="", blank=True, max_length=2)
+	dice_damage = CharField(default="", blank=True, max_length=2)
+	damage_type = CharField(default="", blank=True, max_length=1)
+
+
+	isRanged = BooleanField(default=False)
+	range = CharField(default="", blank=True, max_length=2)
 
 
 class Resistance(Model):

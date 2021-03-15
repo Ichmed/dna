@@ -1,45 +1,55 @@
-<tr class="weapon">
+<table class="weapon">
+<tr>
+<td>
+<td><div class="label">Cost</div>
+<td><div class="label">HIT</div>
+<td><div class="label">FOR</div>
+<td><div class="label">PAR</div>
+<td><div class="label">Damage</div>
+
+<tr>
 	<td class="name">
-		<p><input class="base modifier" type="text" name="name" onkeyup="event => {
+		<p><input class="base modifier" type="text" onkeyup="event => {
 			console.log(event.key);
 			if(event.key ==='Enter') {
 				$.get('/rulebook/api/search/weapon/name=' + this.val()).done(function(data) {
 				});
 			}
 		}" value="{{weapon.base.name}}">
-		<p><input class="weapon_skill modifier" type="text" name="name" value="{{weapon.skill.name}}">
-		<p><input class="total" type="text" name="name">
+		<p><input class="weapon_skill modifier" type="text"  value="{{weapon.skill.name}}">
+		<p><input class="weapon_skill modifier" type="hidden" name="id" value="{{weapon.id}}">
+		<p><input class="weapon_skill modifier" type="hidden" name="skill_id" value="{{weapon.skill.id}}">
+		<p><input class="weapon_skill modifier" type="hidden" name="base_id" value="{{weapon.base.id}}">
+		<p class="modifier">Sum
 	</td>
 	<td class="cost">
-		<p><input class="base modifier" type="text" name="cost" value="{{weapon.base.cost}}">
-		<p><input class="weapon_skill modifier" type="text" name="cost">
-		<p><input class="total" type="text" name="cost">
+		<p><input class="base modifier" type="text" name="cost" value="{{weapon.cost}}">
+		<p><input class="weapon_skill modifier" type="text">
+		<p><input class="total" type="text">
 	</td>
 	<td class="hit">
-		<p><input class="base modifier" type="text" name="hit">
-		<p><input class="weapon_skill modifier" type="text" name="hit">
-		<p><input class="total" type="text" name="hit">
+		<p><input class="base modifier" name="hit" type="text" value="{{weapon.hit}}">
+		<p><input class="weapon_skill modifier" type="text">
+		<p><input class="total" type="text">
 	</td>
 	<td class="force">
-		<p><input class="base modifier" type="text" name="force" value="{{weapon.base.force}}">
-		<p><input class="weapon_skill modifier" type="text" name="force">
-		<p><input class="total" type="text" name="force">
+		<p><input class="base modifier" type="text" name="force" value="{{weapon.force}}">
+		<p><input class="weapon_skill modifier" type="text">
+		<p><input class="total" type="text">
 	</td>
 	<td class="parry">
-		<p><input class="base modifier" type="text" name="parry" value="{{weapon.base.parry}}">
-		<p><input class="weapon_skill modifier" type="text" name="parry">
-		<p><input class="total" type="text" name="parry">
+		<p><input class="base modifier" type="text" name="parry" value="{{weapon.parry}}">
+		<p><input class="weapon_skill modifier" type="text">
+		<p><input class="total" type="text">
 	</td>
 	<td class="damage">
-		<p class="modifier"><input class="base modifier dice" type="text" name="damage_dice">d6<input class="base modifier flat" type="text" name="damage_base">(<input class="base modifier type" type="text" name="damage_type">)
-
-		<p class="modifier"><input class="weapon_skill modifier dice" type="text" name="damage_dice" disabled>d6<input class="weapon_skill modifier flat" type="text" name="damage_base" disabled>(<input class="weapon_skill modifier type" type="text" name="damage_base" disabled>)
-
-		<p><input class="total dice" type="text" name="damage_dice">d6<input class="total flat" type="text" name="damage_type">(<input class="total type" type="text" name="damage_type">)
+		<p class="modifier"><input class="base modifier dice" type="text" name="dice_damage" value="{{weapon.dice_damage}}">d6<input class="base modifier flat signed" type="text" name="flat_damage" value="{{weapon.flat_damage}}">(<input class="base modifier type" type="text" name="damage_type" value="{{weapon.damage_type}}">)</p>
+		<p class="modifier">---------------</p>
+		<p><input class="total dice" type="text" >d6<input class="total flat signed" type="text" >(<input class="total type" type="text">)</p>
 	</td>
 	<td>
-		{% include "sheet/delete_button.html" %}	
+		{% comment %} {% include "sheet/delete_button.html" %}	 {% endcomment %}
 	</td>
 
 </tr>
-<div class="enchantments">
+</table>
