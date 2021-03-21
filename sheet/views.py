@@ -117,11 +117,13 @@ def update_inventory(data, slot_id=None, container=None, drop=False):
 	w = data['weaponinstance']
 	if "id" in w:
 		print(w)
-		id = w.pop("id")
-		if id == "":
-			id = None
+		kwargs = {"id": w.pop("id")}
+		if kwargs['id'] == "" or kwargs['id'] == "undefined":
+			kwargs.pop("id")
 
-		data['weaponinstance'] = WeaponInstance.objects.update_or_create(w, id=id)[0]
+		print(kwargs, w)
+
+		data['weaponinstance'] = WeaponInstance.objects.update_or_create(w, **kwargs)[0]
 	else: 
 		data['weaponinstance'] = None
 
@@ -154,6 +156,7 @@ def store_or_update_character(request, id):
 	
 	InventorySlot.objects.update_or_create(owner_id=id, name="Left Hand", type="S")
 	InventorySlot.objects.update_or_create(owner_id=id, name="Right Hand", type="S")
+	InventorySlot.objects.update_or_create(owner_id=id, name="Clothing", type="M")
 	
 
 	for resistance, value in data.get('resistances', {}).items():
