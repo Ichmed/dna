@@ -32,7 +32,7 @@ function V(x)
 
 function recalculate() {
 
-	$('.signed').valS()
+	{% comment %} $('.signed').valS() {% endcomment %}
 
 	$('.secondary input').each(function()
 		{
@@ -69,7 +69,7 @@ function recalculate() {
 		$(this).find('.force .total').val(	I($(this).find('.force .base').val())	+ I($(this).find('.force .skill').val()) + V('FOR'));
 		
 		$(this).find('.damage .total.dice').val(I($(this).find('.damage .base.dice').val()));
-		$(this).find('.damage .total.flat').valS(I($(this).find('.damage .base.flat').val()));
+		$(this).find('.damage .total.flat').val(I($(this).find('.damage .base.flat').val()));
 		$(this).find('.damage .total.type').val($(this).find('.damage .base.type').val());
 
 	});
