@@ -355,7 +355,7 @@ function insertSkill(id) {
 function calc_cost(level, base, type) {
 	if (type === "Default") return parseInt(base);
 	else if (type === "Inc") return parseInt(level * base);
-	else if (type === "Exp") return parseInt(Math.pow(base, level));
+	else if (type === "Exp") return parseInt(base * Math.pow(2, level));
 	else return parseInt(base);
 }
 
@@ -368,14 +368,19 @@ function calc_cum_cost(level, base, type) {
 function makeWeapon(item) {
 	var weapon = {
 		base: {
-			name: "",
-			force: "",
-			parry: "",
-			cost: "",
+			name: ""
 		},
 		skill: {
 			name: ""
-		}
+		},
+		name: "",
+		force: "",
+		hit: "",
+		parry: "",
+		cost: "",
+		dice_damage: "",
+		flat_damage: "",
+		damage_type: "P",
 	}
 	{{ "sheet/weapon.html"|to_js_template }}
 	
