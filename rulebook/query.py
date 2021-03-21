@@ -58,7 +58,7 @@ def perform_query(table, query, page=-1):
 				# print(key, mode, value)
 
 				if key.lower() == "requires":
-					reqs = value.split(',')
+					reqs = [x for x in value.split(',') if x != '']
 					if mode == ":":
 						Qs.append(Q(requires__in=reqs) | Q(requires=None))
 						Qs.append(Q(parent=None))
