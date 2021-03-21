@@ -513,9 +513,9 @@ $( document ).ready(function() {
 </div>
 
 <div id="resistances">
-{% for d in damage_types %}
-<div class="resistance {{d}}">
-<input type="radio" {% if forloop.first %} checked="checked" {% endif %} name="damage_type" value="{{d}}"><span>{{d}}</span> <input type="number" class="base update" name="{{d.pk}}" value="{{character|get:'resistance_'|add:d}}"><input type="number" class="mul" disabled>
+{% for resistance in character.resistances.all %}
+<div class="resistance {{resistance.type.id}}">
+<input type="radio" {% if forloop.first %} checked="checked" {% endif %} name="damage_type" value="{{resistance.type.id}}"><span>{{resistance.type.name}}</span> <input type="number" class="base update" name="{{resistance.type.id}}" value="{{resistance.amount}}"><input type="number" class="mul" disabled>
 </div>
 {% endfor %}
 </div>
